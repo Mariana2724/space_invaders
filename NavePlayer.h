@@ -1,6 +1,6 @@
 #pragma once
+#include "Ship.h"
 
-
-class NavePlayer {
+class NavePlayer:public Ship {
 
 };
