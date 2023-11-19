@@ -128,7 +128,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="NavePlayer.cpp" />
+    <ClCompile Include="Ship.cpp" />
     <ClCompile Include="space invaders.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="NavePlayer.h" />
+    <ClInclude Include="Ship.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
