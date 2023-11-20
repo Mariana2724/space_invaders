@@ -1,16 +1,21 @@
 #include <stdio.h>
+#include<iostream>
 #include <curses.h>
+#include <exception>
+#include <stdexcept>
+using namespace std;
+#include "Game.h"
 #include "Naveplayer.h"
+
+void initGame();
 int main() {
-	initscr(); // Initialize the curses library
-	noecho(); // Don't echo user input to the screen
-	cbreak(); // Disable line buffering
-	keypad(stdscr, TRUE); // Enable special keys
-	NavePlayer n;
+	initGame();
+	 
 	int height = 10;
 	int width = 20;
 	int x = (COLS - width) / 2; // Center the object horizontally
 	int y = (LINES - height) / 2; // Center the object vertically
+	NavePlayer n(x, y);
 	int ch = 0; // To store user input
 	while (ch != 'q') {
 		clear(); // Clear the screen
@@ -36,3 +41,16 @@ int main() {
 	endwin(); // End the curses library
 	return 0;
 }
+/*
+void initGame() {
+	try {
+		initscr(); // Initialize the curses library
+		noecho(); // Don't echo user input to the screen
+		cbreak(); // Disable line buffering
+		keypad(stdscr, TRUE); // Enable special keys
+		throw runtime_error("Failed to initialize");
+	}
+	catch (runtime_error& e) {
+		cout << e.what();
+	}
+}*/
