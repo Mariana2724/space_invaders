@@ -9,6 +9,8 @@ class Ship {
 	int speed;
 public:
 	Ship();
+	Ship(int x, int y);
+	Ship(int x, int y, int speed);
 	void moveLeft();
 	void moveRight();
 	void moveDown();

@@ -2,7 +2,12 @@
 
 Ship::Ship(){
 }
+Ship::Ship(int x, int y): x(x),y(y){
 
+}
+Ship::Ship(int x, int y, int speed) : x(x), y(y), speed(speed) {
+
+}
 void Ship::moveLeft(){
 	x -= speed;
 	if (x < 0) { //para nao sair do ecra fica na mesma posição

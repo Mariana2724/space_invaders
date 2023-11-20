@@ -1,10 +1,12 @@
 #include <stdio.h>
 #include <curses.h>
+#include "Naveplayer.h"
 int main() {
 	initscr(); // Initialize the curses library
 	noecho(); // Don't echo user input to the screen
 	cbreak(); // Disable line buffering
 	keypad(stdscr, TRUE); // Enable special keys
+	NavePlayer n;
 	int height = 10;
 	int width = 20;
 	int x = (COLS - width) / 2; // Center the object horizontally
@@ -31,8 +33,6 @@ int main() {
 			break;
 		}
 	}
-	// changes shittttttttttttt
-	int a = 50;
 	endwin(); // End the curses library
 	return 0;
 }
