@@ -1,6 +1,12 @@
 #include "Ship.h"
+#include <iostream>
+#include <list>
+using namespace std;
 
 Ship::Ship(){
+	//Ship* s;
+	//this->
+
 }
 Ship::Ship(int x, int y): x(x),y(y){
 
@@ -36,3 +42,7 @@ bool Ship::checkCollisionBullet(){
 Coordenates Ship::position() const{
 	return {x,y};
 }
+
+void Ship::draw() {
+	cout << "SHIPDRAW"<<endl;
+ }

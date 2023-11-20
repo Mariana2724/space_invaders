@@ -7,4 +7,6 @@ public:
 	static int LivesP();
 	static int Score();
 
+
+
 };

@@ -1,6 +1,8 @@
 #include "NavePlayer.h"
-
+#include <iostream>
+using namespace std;
 NavePlayer::NavePlayer(): Ship(){
+   // ships.push_back(this);
 }
 NavePlayer::NavePlayer(int x, int y) : Ship(x, y) {
 }
@@ -13,4 +15,7 @@ void NavePlayer::movementPlayer(char direction){
     else if (direction == 'R') {
         moveRight(); // movimento para a direita
     }
+}
+void NavePlayer::draw() { //override??
+    cout << "NAVEDRAW" << endl;
 }
