@@ -32,6 +32,7 @@ int main() {
 		}
 	}
 	// changes shittttttttttttt
+	int a = 50;
 	endwin(); // End the curses library
 	return 0;
 }
