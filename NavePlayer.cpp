@@ -14,4 +14,3 @@ void NavePlayer::movementPlayer(char direction){
         moveRight(); // movimento para a direita
     }
 }
-/
