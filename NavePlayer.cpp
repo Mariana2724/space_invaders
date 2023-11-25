@@ -11,7 +11,6 @@ NavePlayer::NavePlayer(int x, int y) : Ship(x, y) {
 NavePlayer::NavePlayer(int x, int y, int speed) : Ship(x, y, speed) {
 }
 void NavePlayer::movementPlayer(int key) {
-
     switch (key) {
     case KEY_LEFT:
         moveLeft(); // movimento para a esquerda

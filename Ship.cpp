@@ -35,6 +35,13 @@ void Ship::moveDown(){
 	}
 }
 
+void Ship::moveUp(){
+	y--;
+	if (y < 0) {
+		y = 0;
+	}
+}
+
 bool Ship::checkCollisionBullet(){
 	return false;
 }

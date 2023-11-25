@@ -10,6 +10,7 @@ using namespace std;
 #include "Naveplayer.h"
 #include "Ship.h"
 #include "Enemies.h"
+#include "Bullets.h"
 
 void initGame();
 /*
@@ -25,15 +26,15 @@ void moveEnemyAutomatically(Enemies& enemyGroup) {
 int main() {
 	initGame();
 	Enemies enemyGroup;
-	enemyGroup.addEnemy(new Enemy_4(0, 5, 1));
+	enemyGroup.addEnemy(new Enemy_4(0, 2, 1));
 	//thread enemyThread(moveEnemyAutomatically, ref(enemyGroup));
 	//chrono::milliseconds delay = 100ms;
 	int height = 3;
 	int width = 5;
 	int x = (COLS - width) / 2; // Center the object horizontally
 	int y = (LINES - height) / 2; // Center the object vertically
-	NavePlayer nave(60, 25);
-	
+	NavePlayer nave(57, 25);
+	Bullets bullet(57, 25.3,2);
 
 
 	int ch = 0; // To store user input
@@ -41,9 +42,11 @@ int main() {
 	while (ch != 'q') {
 		clear(); // Clear the screen
 		//enemyGroup.moveAllEnemies();
-		this_thread::sleep_for(chrono::milliseconds(200));
+		this_thread::sleep_for(chrono::milliseconds(100));
+		enemyGroup.drawAllEnemies();	
 		enemyGroup.moveAllEnemies();
-		enemyGroup.drawAllEnemies();
+		bullet.moveBullet(ch);
+		bullet.draw();
 		nave.draw();
 		
 		refresh(); // Refresh the screen

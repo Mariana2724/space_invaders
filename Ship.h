@@ -20,6 +20,7 @@ public:
 	void moveLeft();
 	void moveRight();
 	void moveDown();
+	void moveUp();
 	bool checkCollisionBullet();
 	//Coordenates position() const;
 	int Getx();
