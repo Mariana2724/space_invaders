@@ -7,6 +7,6 @@ public:
 	NavePlayer();
 	NavePlayer(int x, int y);
 	NavePlayer(int x, int y, int speed);
-	void movementPlayer(char direction);
+	void movementPlayer(int key);
 	void draw ();
 };

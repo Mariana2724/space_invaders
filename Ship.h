@@ -1,11 +1,12 @@
 #pragma once
 #include <list>
+#include "Game.h"
 using namespace std; // também é preciso para a list
 struct Coordenates {
 	int x, y;
 };
  
-class Ship {
+class Ship :public Game{
 	int x, y;
 	int speed;
 //protected:
@@ -19,6 +20,7 @@ public:
 	void moveRight();
 	void moveDown();
 	bool checkCollisionBullet();
-	virtual void draw();
-	Coordenates position() const;
+	//Coordenates position() const;
+	int Getx();
+	int Gety();
 };
