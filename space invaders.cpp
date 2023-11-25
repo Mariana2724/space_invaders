@@ -12,6 +12,7 @@ using namespace std;
 #include "Enemies.h"
 
 void initGame();
+/*
 void moveEnemyAutomatically(Enemies& enemyGroup) {
 	while (true) {
 		this_thread::sleep_for(chrono::milliseconds(200)); // Ajuste o intervalo de tempo conforme necessário
@@ -19,13 +20,13 @@ void moveEnemyAutomatically(Enemies& enemyGroup) {
 		// Move o Enemy_4 automaticamente
 		enemyGroup.moveAllEnemies(); // Método para mover todos os inimigos
 	}
-}
+}*/
 
 int main() {
 	initGame();
 	Enemies enemyGroup;
 	enemyGroup.addEnemy(new Enemy_4(0, 5, 1));
-	thread enemyThread(moveEnemyAutomatically, ref(enemyGroup));
+	//thread enemyThread(moveEnemyAutomatically, ref(enemyGroup));
 	//chrono::milliseconds delay = 100ms;
 	int height = 3;
 	int width = 5;
@@ -39,8 +40,9 @@ int main() {
 	//this_thread::sleep_for(delay);
 	while (ch != 'q') {
 		clear(); // Clear the screen
-		this_thread::sleep_for(std::chrono::milliseconds(100));
 		//enemyGroup.moveAllEnemies();
+		this_thread::sleep_for(chrono::milliseconds(200));
+		enemyGroup.moveAllEnemies();
 		enemyGroup.drawAllEnemies();
 		nave.draw();
 		
@@ -49,7 +51,7 @@ int main() {
 		// Check user input and update object position
 		nave.movementPlayer(ch);
 	}
-	enemyThread.join();
+	//enemyThread.join();
 	endwin(); // End the curses library
 	return 0;
 }
