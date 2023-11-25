@@ -7,6 +7,7 @@ struct Coordenates {
 };
  
 class Ship :public Game{
+protected:
 	int x, y;
 	int speed;
 //protected:

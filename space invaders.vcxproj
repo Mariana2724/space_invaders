@@ -128,6 +128,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bullets.cpp" />
+    <ClCompile Include="Enemies.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="init.cpp" />
     <ClCompile Include="NavePlayer.cpp" />
@@ -135,6 +137,8 @@
     <ClCompile Include="space invaders.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bullets.h" />
+    <ClInclude Include="Enemies.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="NavePlayer.h" />
     <ClInclude Include="Ship.h" />

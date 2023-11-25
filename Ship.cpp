@@ -23,8 +23,8 @@ void Ship::moveLeft(){
 
 void Ship::moveRight(){
 	x++;
-	if (x > 100) { //para não sair do ecrã do lado direito
-		x = 100 ;
+	if (x > 115) { //para não sair do ecrã do lado direito
+		x = 115 ;
 	}
 }
 

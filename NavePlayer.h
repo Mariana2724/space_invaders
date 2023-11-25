@@ -1,4 +1,5 @@
-#pragma once
+#ifndef NAVEPLAYER_H
+#define NAVEPLAYER_H
 #include "Ship.h"
 using namespace std;
 
@@ -7,6 +8,8 @@ public:
 	NavePlayer();
 	NavePlayer(int x, int y);
 	NavePlayer(int x, int y, int speed);
-	void movementPlayer(int key);
-	void draw ();
+	void movementPlayer (int key);
+	void draw();
 };
+
+#endif
