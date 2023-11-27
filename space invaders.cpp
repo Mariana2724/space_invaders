@@ -34,26 +34,30 @@ int main() {
 	int x = (COLS - width) / 2; // Center the object horizontally
 	int y = (LINES - height) / 2; // Center the object vertically
 	NavePlayer nave(57, 25);
-	Bullets bullet(57, 25.3,2);
+	Bullets bullet(57, 25,2);
 
 
 	int ch = 0; // To store user input
 	//this_thread::sleep_for(delay);
-	while (ch != 'q') {
-		clear(); // Clear the screen
-		//enemyGroup.moveAllEnemies();
-		//this_thread::sleep_for(chrono::milliseconds(100));
-		enemyGroup.drawAllEnemies();	
-		enemyGroup.moveAllEnemies();
-		bullet.moveBullet(ch);
-		bullet.draw();
-		nave.draw();
-		
-		refresh(); // Refresh the screen
-		ch = getch(); // Get user input
-		// Check user input and update object position
-		nave.movementPlayer(ch);
+	while (true) {
+			bullet.moveBullet(ch);
+			bullet.draw();
+			//enemyGroup.drawAllEnemies();	
+			//enemyGroup.moveAllEnemies();
+		if (ch != 'q') {
+			clear(); // Clear the screen
+			//enemyGroup.moveAllEnemies();
+			//this_thread::sleep_for(chrono::milliseconds(100));
+			
+			
+			nave.draw();
+			refresh(); // Refresh the screen
+			ch = getch(); // Get user input
+			// Check user input and update object position
+			nave.movementPlayer(ch);
+		}
 	}
+	
 	//enemyThread.join();
 	endwin(); // End the curses library
 	return 0;
