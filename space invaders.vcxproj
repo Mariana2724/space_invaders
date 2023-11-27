@@ -131,7 +131,6 @@
     <ClCompile Include="Bullets.cpp" />
     <ClCompile Include="Enemies.cpp" />
     <ClCompile Include="Game.cpp" />
-    <ClCompile Include="init.cpp" />
     <ClCompile Include="NavePlayer.cpp" />
     <ClCompile Include="Ship.cpp" />
     <ClCompile Include="space invaders.cpp" />

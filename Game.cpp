@@ -16,7 +16,6 @@ void Game::run(void) {
 	noecho(); // Don't echo user input to the screen
 	cbreak(); // Disable line buffering
 	keypad(stdscr, TRUE); // Enable special keys
-	//timeout(100);
 	int ch = 0;
 	NavePlayer nave(57, 25);
 	list<Enemy_4*> enemyGroup;
@@ -28,10 +27,15 @@ void Game::run(void) {
 		for (auto it : enemyGroup) {
 			it->draw();
 		}
-		ch = getch();//n acrescentar timeout; ver se retorna algo
-		for (auto it : enemyGroup) {
-			it->movement();
+		if (ch==ERR) {
+			for (auto it : enemyGroup) {
+				it->movement();
+			}
 		}
+		ch = getch();//n acrescentar timeout; ver se retorna algo
+		
+		noecho();
+		
 		//enemyGroup.moveAllEnemies();
 		nave.movementPlayer(ch);
 		refresh();
