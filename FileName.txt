@@ -5,7 +5,7 @@ Game-> tem list<Inimigos>
 	tem funções startGame e runGame
 
 	void run(void){
-		while(run_game){
+		while(run_game){ //flag
 		ch=getkey();
 		Player::update_position(ch);
 		Inimigo::update_position();
