@@ -5,7 +5,7 @@ using namespace std;
 class Bullets {
 	private:
 		float xbullet, ybullet, speed;
-		list <Bullets*> bullet;
+		list <Bullets*> bullet; // fazer de inimigos e player
 	public:
 		Bullets(float xbullet, float ybullet, int speed);
 		int getX();

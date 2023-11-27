@@ -6,6 +6,8 @@ class Game {
 public:
 	static int LivesP();
 	static int Score();
-	virtual void draw() = 0;
+	virtual void draw() {};
 	virtual void movement() {};
+	//startGame()
+	//runGame()
 };
