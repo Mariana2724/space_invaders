@@ -4,7 +4,8 @@
 Enemy_1::Enemy_1(int x, int y, int speed) : Ship(x, y, speed) {}
 Enemy_2::Enemy_2(int x, int y, int speed) : Ship(x, y, speed) {}
 Enemy_3::Enemy_3(int x, int y, int speed) : Ship(x, y, speed) {}
-Enemy_4::Enemy_4(int x, int y, int speed) : Ship(x, y, speed),movingRight(true) {}
+Enemy_4::Enemy_4(int x, int y, int speed) : Ship(x, y, speed){}
+
 void Enemy_1::draw() {
     mvprintw(Gety(), Getx(), "  ");
     mvprintw(Gety(), Getx(), " \\ __ / "); 
@@ -31,13 +32,13 @@ void Enemy_4::draw() {
 }
 
 void Enemy_4::movement() {
-    if (movingRight) {
+   // if (movingRight) {
         moveRight();
         if (x >= COLS - 10) { // Chegou ao lado direito
             x = 0; // Ajusta a posição para não sair do limite
-            movingRight = true; // Começa a mover para a esquerda
+          //  movingRight = true; // Começa a mover para a esquerda
         }
-    }
+  //  }
 }
 
 void Enemies::addEnemy(Ship* newEnemy) {

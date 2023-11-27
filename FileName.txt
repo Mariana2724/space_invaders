@@ -1,0 +1,23 @@
+player-> update position
+o player tem shot - shot tem list<shot> e moveShot
+PLAYERUI tem draw
+Game-> tem list<Inimigos>
+	tem funções startGame e runGame
+
+	void run(void){
+		while(run_game){
+		ch=getkey();
+		Player::update_position(ch);
+		Inimigo::update_position();
+		sleep(50ms);//velocidade do jogo-> influencia na velocidade em q mexo no jogo
+		}
+	}
+	TEMPOS DIFERENTES PARA DIFERENTES OBJETOS:
+		contador para verificar a multiplicidade com 50 ms
+		verificar o tempo que já passou desde a ultima vez 
+		start_time=get_time();
+		current_time=get_time();
+
+		if(current_time-start_time >=update_time){
+			Inimigo::update_position();
+		}

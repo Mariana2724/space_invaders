@@ -42,7 +42,7 @@ int main() {
 	while (ch != 'q') {
 		clear(); // Clear the screen
 		//enemyGroup.moveAllEnemies();
-		this_thread::sleep_for(chrono::milliseconds(100));
+		//this_thread::sleep_for(chrono::milliseconds(100));
 		enemyGroup.drawAllEnemies();	
 		enemyGroup.moveAllEnemies();
 		bullet.moveBullet(ch);

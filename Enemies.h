@@ -23,8 +23,6 @@ class Enemy_4 :public Ship { //acima de todos os Enemies, passa pelo ecrã
 		Enemy_4(int x, int y, int speed);
 		void draw();
 		void movement();
-private:
-	bool movingRight;
 };
 
 
