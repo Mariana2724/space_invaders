@@ -3,10 +3,15 @@
 class Game {
 	static int GameScore;
 	static int LivesPlayer;
-public:
+	bool run_Game;
+public: 
+	Game();
 	static int LivesP();
 	static int Score();
-	virtual void draw() =0;
+	void run(void);
+
+
+	virtual void draw() {};
 	virtual void movement() {};
 	//startGame()
 	//runGame()
