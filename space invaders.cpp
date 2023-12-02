@@ -51,6 +51,8 @@ int main() {
 		nave.movementPlayer(ch);
 	}
 	//enemyThread.join();
-	endwin(); // End the curses library
+	endwin(); // End the curses library*/
+	Game myGame;
+	myGame.run();
 	return 0;
 }

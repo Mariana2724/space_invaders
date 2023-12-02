@@ -31,13 +31,10 @@ void Enemy_4::draw() {
 }
 
 void Enemy_4::movement() {
-        moveRight();
         if (x >= COLS - 10) { // Chegou ao lado direito
             x = 0; // Ajusta a posição para não sair do limite
-            movingRight = true; // Começa a mover para a esquerda
         }
     }
-}
 
 void Enemies::addEnemy(Ship* newEnemy) {
     enemy.push_back(newEnemy);
