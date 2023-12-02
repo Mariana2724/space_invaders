@@ -17,7 +17,7 @@ void Game::run(void) {
 	cbreak(); // Disable line buffering
 	keypad(stdscr, TRUE); // Enable special keys
 	int ch = 0;
-	NavePlayer nave(57, 25);
+	NavePlayerUI nave(57, 25,2);
 	list<Enemy_4*> enemyGroup;
 	enemyGroup.push_back(new Enemy_4(0, 2, 1));
 	

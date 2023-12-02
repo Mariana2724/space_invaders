@@ -21,7 +21,10 @@ void NavePlayer::movementPlayer(int key) {
         // Adiciona mais casos conforme necessário para outras teclas
     }
 }
-void NavePlayer::draw()  { //override??
+NavePlayerUI::NavePlayerUI(int x, int y, int speed) :NavePlayer(x, y, speed) {
+
+}
+void NavePlayerUI::draw()  { //override??
     // Limpa a posição anterior
     mvprintw(Gety(), Getx(), "     "); // Apaga o que está na posição atual
 

@@ -9,6 +9,11 @@ public:
 	NavePlayer(int x, int y);
 	NavePlayer(int x, int y, int speed);
 	void movementPlayer (int key);
+};
+
+class NavePlayerUI :public NavePlayer {
+public:
+	NavePlayerUI(int x, int y, int speed);
 	void draw();
 };
 

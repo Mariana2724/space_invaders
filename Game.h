@@ -13,6 +13,5 @@ public:
 
 	virtual void draw() {};
 	virtual void movement() {};
-	//startGame()
-	//runGame()
+
 };
