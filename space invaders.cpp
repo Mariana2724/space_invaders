@@ -12,7 +12,6 @@ using namespace std;
 #include "Enemies.h"
 #include "Bullets.h"
 
-void initGame();
 /*
 void moveEnemyAutomatically(Enemies& enemyGroup) {
 	while (true) {
@@ -29,11 +28,7 @@ int main() {
 	-----enemyGroup.addEnemy(new Enemy_4(0, 2, 1));
 	//thread enemyThread(moveEnemyAutomatically, ref(enemyGroup));
 
-	int height = 3;
-	int width = 5;
-	int x = (COLS - width) / 2; // Center the object horizontally
-	int y = (LINES - height) / 2; // Center the object vertically
-
+	
 	---------NavePlayer nave(57, 25);
 	Bullets bullet(57, 25.3,2);
 

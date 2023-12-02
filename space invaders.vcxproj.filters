@@ -27,9 +27,6 @@
     <ClCompile Include="Game.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="init.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
     <ClCompile Include="Enemies.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>

@@ -21,3 +21,10 @@ Game-> tem list<Inimigos>
 		if(current_time-start_time >=update_time){
 			Inimigo::update_position();
 		}
+
+		O QUE ESTAVA NA MAIN
+
+	int height = 3;
+	int width = 5;
+	int x = (COLS - width) / 2; // Center the object horizontally
+	int y = (LINES - height) / 2; // Center the object vertically
