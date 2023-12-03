@@ -23,36 +23,9 @@ void moveEnemyAutomatically(Enemies& enemyGroup) {
 }*/
 
 int main() {
-	/*initGame();
-	-----Enemies enemyGroup;
-	-----enemyGroup.addEnemy(new Enemy_4(0, 2, 1));
-	//thread enemyThread(moveEnemyAutomatically, ref(enemyGroup));
 
-	
-	---------NavePlayer nave(57, 25);
-	Bullets bullet(57, 25.3,2);
-
-
-	int ch = 0; // To store user input
-	//this_thread::sleep_for(delay);
-	while (ch != 'q') {
-		clear(); // Clear the screen
-		//enemyGroup.moveAllEnemies();
-		//this_thread::sleep_for(chrono::milliseconds(100));
-		enemyGroup.drawAllEnemies();	
-		enemyGroup.moveAllEnemies();
-		bullet.moveBullet(ch);
-		bullet.draw();
-		nave.draw();
-		
-		refresh(); // Refresh the screen
-		ch = getch(); // Get user input
-		// Check user input and update object position
-		nave.movementPlayer(ch);
-	}
-	//enemyThread.join();
-	endwin(); // End the curses library*/
 	Game myGame;
-	myGame.run();
+	myGame.start();
+
 	return 0;
 }

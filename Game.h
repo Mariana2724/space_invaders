@@ -9,7 +9,7 @@ public:
 	static int LivesP();
 	static int Score();
 	void run(void);
-
+	void start(void);
 
 	virtual void draw() {};
 	virtual void movement() {};
