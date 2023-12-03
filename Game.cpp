@@ -33,15 +33,21 @@ void Game::start(void){
 	wrefresh(menu_win);
 	keypad(menu_win, true);
 	
-	string UserChoice[2] = {"PLAY", "EXIT"};
+	string UserChoice[3] = {"PLAY", "CHOOSE SPACESHIP","EXIT"};
 	int choice;
 	int highlight = 0;
 	while (1) {
-		for (int i = 0; i < 2; i++) {
+		for (int i = 0; i < 3; i++) {
 			if (i == highlight) {
 				wattron(menu_win, A_REVERSE);
 			}
-			mvwprintw(menu_win, i + 2, 13, UserChoice[i].c_str());
+			if (i == 1) {
+				mvwprintw(menu_win, i + 2, 7, UserChoice[i].c_str());
+			}
+			else {
+				mvwprintw(menu_win, i + 2, 13, UserChoice[i].c_str());
+			}
+			
 			wattroff(menu_win, A_REVERSE);
 		}
 		choice = wgetch(menu_win);
@@ -54,8 +60,8 @@ void Game::start(void){
 			break;
 		case KEY_DOWN:
 			highlight++;
-			if (highlight == 2) {
-				highlight = 1;
+			if (highlight == 3) {
+				highlight = 2;
 			}
 			break;
 		default:
@@ -64,7 +70,28 @@ void Game::start(void){
 		}
 		if (choice == 10) {
 			if (highlight == 0) {
+				refresh();
+				wrefresh(menu_win);
+				wclear(menu_win);
+				delwin(menu_win);
+				//endwin();
+				
 				run();
+				break;
+			}else if(highlight==1){
+				WINDOW* space = newwin(yMax / 4, xMax / 4, yMax / 2+6, xMax / 2+20);
+				box(space, 0, 0);
+				refresh();
+				wrefresh(space);
+				keypad(space, true);
+				int ch = wgetch(space);
+				if (ch == 'q') {
+					wborder(space, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '); // Erase frame around the window
+					endwin();
+					refresh();
+					wrefresh(space);
+				}
+				//break;
 			}
 			else {
 				break;
@@ -72,9 +99,10 @@ void Game::start(void){
 			
 		}
 	}
+	endwin();
 }
 void Game::run(void) {
-	/*initscr(); // Initialize the curses library
+/*	initscr(); // Initialize the curses library
 	noecho(); // Don't echo user input to the screen
 	cbreak(); // Disable line buffering*/
 
@@ -103,6 +131,9 @@ void Game::run(void) {
 		nave.movementPlayer(ch);
 		refresh();
 	}
+	clear();
+	//cout << "saiu";
+	endwin();
 
 }
 

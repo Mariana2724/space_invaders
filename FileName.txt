@@ -37,7 +37,7 @@ Game-> tem list<Inimigos>
 	o carater  \  então tive que substituir esse por \\ e depois já leu direito
 	-> centrar a caixa da window e centrar o texto dentro: ver funções
 	-> verificar que o selecionado não desaparece ao andar com as setas
-
+	-> IMPORTANTE: sequência da execução por causa de chamar run()
 
 	CÓDIGO INICIAL DA MAIN:
 
