@@ -79,17 +79,22 @@ void Game::start(void){
 				run();
 				break;
 			}else if(highlight==1){
-				WINDOW* space = newwin(yMax / 4, xMax / 4, yMax / 2+6, xMax / 2+20);
-				box(space, 0, 0);
-				refresh();
-				wrefresh(space);
-				keypad(space, true);
-				int ch = wgetch(space);
-				if (ch == 'q') {
-					wborder(space, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '); // Erase frame around the window
-					endwin();
+				bool newW = true;
+				while (newW) {
+					WINDOW* space = newwin(yMax / 4, xMax / 4, yMax / 2 + 6, xMax / 2 + 20);
+					box(space, 0, 0);
 					refresh();
 					wrefresh(space);
+					keypad(space, true);
+					int ch = wgetch(space);
+					if (ch == 'q') {
+						wborder(space, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '); // Erase frame around the window
+						newW = false;
+						endwin();
+						refresh();
+						wrefresh(space);
+
+					}
 				}
 				//break;
 			}
