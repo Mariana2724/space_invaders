@@ -1,0 +1,9 @@
+	MENU:
+	Problemas ao fazer:
+	-> colocar o nome do jogo: fui a um site buscar a combinação de carateres para fazer o nome do jogo, mas a consola não lê
+	o carater  \  então tive que substituir esse por \\ e depois já leu direito
+	-> centrar a caixa da window e centrar o texto dentro: ver funções
+	-> verificar que o selecionado não desaparece ao andar com as setas
+	-> IMPORTANTE: sequência da execução por causa de chamar run()
+
+	
