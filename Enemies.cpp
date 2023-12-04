@@ -1,34 +1,36 @@
 #include "Enemies.h"
 #include <curses.h> 
 
-Enemy_1::Enemy_1(int x, int y, int speed) : Ship(x, y, speed) {}
-Enemy_2::Enemy_2(int x, int y, int speed) : Ship(x, y, speed) {}
-Enemy_3::Enemy_3(int x, int y, int speed) : Ship(x, y, speed) {}
-Enemy_4::Enemy_4(int x, int y, int speed) : Ship(x, y, speed) {}
-void Enemy_1::draw() {
-    mvprintw(Gety(), Getx(), "  ");
-    mvprintw(Gety(), Getx(), " \\ __ / "); 
-    
-    refresh(); // Atualiza o ecrã
-}
-void Enemy_2::draw() {
-    mvprintw(Gety(), Getx(), "  ");
-    mvprintw(Gety(), Getx(), " /__\\");
+Enemies::Enemies(int x, int y, int speed, int enemyType):Ship(x,y,speed),enemyType(enemyType){}
 
-    refresh(); // Atualiza o ecrã
+EnemiesUI::EnemiesUI(int x, int y, int speed, int enemyType):Enemies(x,y,speed,enemyType){
 }
-void Enemy_3::draw() {
-    mvprintw(Gety(), Getx(), "  ");
-    mvprintw(Gety(), Getx(), "-__- ");
 
-    refresh(); // Atualiza o ecrã
+void EnemiesUI::draw(){
+        switch (enemyType){
+            case 1:
+              mvprintw(Gety(), Getx(), "  ");
+              mvprintw(Gety(), Getx(), " \\ __ / ");
+              break;
+            case 2:
+              mvprintw(Gety(), Getx(), "  ");
+              mvprintw(Gety(), Getx(), " /__\\");
+              break;
+            case 3:
+              mvprintw(Gety(), Getx(), "  ");
+              mvprintw(Gety(), Getx(), "-__- ");
+              break;
+            case 4:
+              mvprintw(Gety(), Getx(), "  ");
+              mvprintw(Gety(), Getx(), " @ __ @ ");
+              break;
+            default:
+                break;
+        }
+    refresh();
 }
-void Enemy_4::draw() {
-    mvprintw(Gety(), Getx(), "  ");
-    mvprintw(Gety(), Getx(), " @ __ @ ");
 
-    refresh(); // Atualiza o ecrã
-}
+/*
 
 void Enemy_4::movement() {
         if (x >= COLS - 10) { // Chegou ao lado direito
@@ -50,40 +52,8 @@ void Enemies::drawAllEnemies() {
     }
     refresh();
 }
+*/
 
-
-
-/*
-Enemies::Enemies(int x, int y, int speed, int enemyType){
-    switch (enemyType) {
-    case 1:
-        enemy.push_back(new Enemy_1(x, y, speed));
-        for (const auto& enemies : enemy) {
-            enemies->draw(); 
-        }
-        break;
-    case 2:
-        enemy.push_back(new Enemy_2(x, y, speed));
-        for (const auto& enemies : enemy) {
-            enemies->draw();
-        }
-        break;
-    case 3:
-        enemy.push_back(new Enemy_3(x, y, speed));
-        for (const auto& enemies : enemy) {
-            enemies->draw();
-        }
-        break;
-    case 4:
-        enemy.push_back(new Enemy_4(x, y, speed));
-        for (const auto& enemies : enemy) {
-            enemies->draw();
-            enemies->movement();
-        }
-
-        break;
-    }
-}*/
 /*
 void Enemies::movementEnemies(int key){
     switch (key) {
@@ -100,7 +70,5 @@ void Enemies::movementEnemies(int key){
     }
 }
 
-void Enemies::draw()
-{
-}
 */
+

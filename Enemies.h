@@ -2,6 +2,21 @@
 #include "Ship.h"
 #include <list>
 
+class Enemies : public Ship {
+protected:
+	int enemyType;
+public:
+	Enemies(int x, int y, int speed, int enemyType);
+	//void movementEnemies(int key);
+};
+
+class EnemiesUI : public Enemies {
+public:
+	EnemiesUI(int x,int y,int speed, int enemyType);
+	//void addEnemy(const EnemiesUI& enemy);
+	void draw();
+};
+/*
 //Enemy 1,2,3 movem-se em conjunto
 class Enemy_1 :public Ship { //o que está mais perto do jogador
 	public:
@@ -37,3 +52,4 @@ public:
 private:
 	list <Ship*> enemy;
 };
+*/

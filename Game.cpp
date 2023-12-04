@@ -114,19 +114,17 @@ void Game::run(void) {
 	keypad(stdscr, TRUE); // Enable special keys
 	int ch = 0;
 	NavePlayerUI nave(57, 25,2);
-	list<Enemy_4*> enemyGroup;
-	enemyGroup.push_back(new Enemy_4(0, 2, 1));
+	list<EnemiesUI*> enemies;
 	
 	while (run_Game && ch!='q') { //flag
 		clear();
 		nave.draw();
-		for (auto it : enemyGroup) {
-			it->draw();
+		for (int i = 0; i < 5; ++i) {
+			enemies.emplace_back(new EnemiesUI(i*5, 3, 5, 2));
+			enemies.emplace_back(new EnemiesUI(i * 7, 5, 5, 1));
 		}
-		if (ch==ERR) {
-			for (auto it : enemyGroup) {
-				it->movement();
-			}
+		for (auto it : enemies) {
+			it->draw();
 		}
 		ch = getch();//n acrescentar timeout; ver se retorna algo
 		
@@ -148,3 +146,15 @@ int Game::LivesP() {
 int Game::Score() {
 	return GameScore;
 }
+/*EnemiesUI enemiesUI;
+
+    // Adicionando 5 inimigos do tipo 1 e 3 inimigos do tipo 2
+    for (int i = 0; i < 5; ++i) {
+        enemiesUI.AddEnemy(i * 5, 5, 1, 1); // Tipo 1
+    }
+
+    for (int i = 0; i < 3; ++i) {
+        enemiesUI.AddEnemy(i * 8, 10, 1, 2); // Tipo 2
+    }
+
+    enemiesUI.DrawEnemies();*/
