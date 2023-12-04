@@ -19,16 +19,25 @@ void Game::start(void){
 	cbreak(); // Disable line buffering
 	int xMax, yMax;
 	getmaxyx(stdscr, yMax, xMax);
+	start_color();
+
+	init_pair(1, COLOR_WHITE, COLOR_RED);
+	init_pair(2, COLOR_BLACK, COLOR_GREEN);
+	// COLOCAR  attron(COLOR_PAIR(1)); NO INICIO E attroff(COLOR_PAIR(1)); NO FIM
+	// PARA USAR A COR 1 NESSE INTERVALO
+	
+	attron(COLOR_PAIR(1));
 	mvprintw(5, 15, "  _________                           .___                         .___                   ");
 	mvprintw(6, 15, " /   _____/__________    ____  ____   |   | _______  _______     __| _/___________  ______");
 	mvprintw(7, 15, " \\_____  \\____ \\__  \\ _/ ___\\/ __ \\   |   |/    \\  \\/ /\\__  \\   / __ |/ __ \\_  __ \\/  ___/");
 	mvprintw(8, 15, " /        \\  |_> > __ \\\\  \\__\\  ___/  |   |   |  \\   /  / __ \\_/ /_/ \\  ___/|  | \\/\\___ \\ ");
 	mvprintw(9, 15, "/_______  /   __(____  /\\___  >___  > |___|___|  /\\_/  (____  /\\____ |\\___  >__|  /____  >");
 	mvprintw(10, 15, "        \\/|__|       \\/     \\/    \\/           \\/           \\/      \\/    \\/           \\/ ");
-
+	attroff(COLOR_PAIR(1));
 	//WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x);
+	
 	WINDOW* menu_win = newwin(yMax/4, xMax/4, yMax/2,xMax/2-15 );
-	box(menu_win, 0, 0);
+	box(menu_win, 4, 0);
 	refresh();
 	wrefresh(menu_win);
 	keypad(menu_win, true);
@@ -82,10 +91,18 @@ void Game::start(void){
 				bool newW = true;
 				while (newW) {
 					WINDOW* space = newwin(yMax / 4, xMax / 4, yMax / 2 + 6, xMax / 2 + 20);
+					
 					box(space, 0, 0);
+					//wattron(menu_win, A_REVERSE);
+					//mvprintw(yMax / 2 + 8, xMax / 2 + 21, "  (1) ");
+					//mvwprintw(space, yMax / 2 + 8, xMax / 2 + 21, UserChoice[1].c_str());
 					refresh();
 					wrefresh(space);
 					keypad(space, true);
+					
+					//mvprintw(yMax / 2 + 6, xMax / 2 + 20, "  /\\  "); // Exemplo de desenho da nave (podemos ajustar isto)
+					//mvprintw(yMax / 2 +1, xMax / 2 + 20, " |==| ");
+					//mvprintw(yMax / 2 + 2, xMax / 2 + 20, "  \\/  ");
 					int ch = wgetch(space);
 					if (ch == 'q') {
 						wborder(space, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '); // Erase frame around the window

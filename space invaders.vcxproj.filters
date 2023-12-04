@@ -52,6 +52,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="FileName.txt" />
+    <Text Include="Dificuldades.txt" />
+    <Text Include="CodigoExtra.txt" />
   </ItemGroup>
 </Project>
