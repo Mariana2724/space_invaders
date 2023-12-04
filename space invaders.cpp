@@ -12,16 +12,6 @@ using namespace std;
 #include "Enemies.h"
 #include "Bullets.h"
 
-/*
-void moveEnemyAutomatically(Enemies& enemyGroup) {
-	while (true) {
-		this_thread::sleep_for(chrono::milliseconds(200)); // Ajuste o intervalo de tempo conforme necessário
-
-		// Move o Enemy_4 automaticamente
-		enemyGroup.moveAllEnemies(); // Método para mover todos os inimigos
-	}
-}*/
-
 int main() {
 
 	Game myGame;
