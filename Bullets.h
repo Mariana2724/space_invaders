@@ -14,7 +14,9 @@ class Bullets {
 		bool checkCollisionEnemies();
 		bool checkCollisionBarriers();
 		bool checkCollisionBullets();
-		void moveBullet(int key);
-		void draw();
+		void moveBullet(int key); 
 
+};
+class BulletsUI :public Bullets {
+	void draw();
 };

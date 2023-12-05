@@ -3,6 +3,7 @@
 #include <curses.h>
 #include "NavePlayer.h"
 #include "Enemies.h"
+#include "Bullets.h"
 #include <list>
 #include<string>
 using namespace std;
@@ -132,22 +133,27 @@ void Game::run(void) {
 	int ch = 0;
 	NavePlayerUI nave(57, 25,2);
 	list<EnemiesUI*> enemies;
+	list<BulletsUI*> bullets;
 	
 	while (run_Game && ch!='q') { //flag
 		clear();
 		nave.draw();
 		for (int i = 0; i < 5; ++i) {
-			enemies.emplace_back(new EnemiesUI(i*5, 3, 5, 2));
 			enemies.emplace_back(new EnemiesUI(i * 7, 5, 5, 1));
 		}
+		for (int i = 0; i < 7; i++) {
+			enemies.emplace_back(new EnemiesUI(i * 5, 3, 5, 2));
+		}
+		for (int i = 0; i < 7; i++) {
+			enemies.emplace_back(new EnemiesUI(i * 5, 7, 5, 3));
+		}
+		enemies.emplace_back(new EnemiesUI(1,15,2,4));
 		for (auto it : enemies) {
 			it->draw();
+			it->movement();
 		}
 		ch = getch();//n acrescentar timeout; ver se retorna algo
-		
 		noecho();
-		
-
 		nave.movementPlayer(ch);
 		refresh();
 	}
@@ -163,15 +169,3 @@ int Game::LivesP() {
 int Game::Score() {
 	return GameScore;
 }
-/*EnemiesUI enemiesUI;
-
-    // Adicionando 5 inimigos do tipo 1 e 3 inimigos do tipo 2
-    for (int i = 0; i < 5; ++i) {
-        enemiesUI.AddEnemy(i * 5, 5, 1, 1); // Tipo 1
-    }
-
-    for (int i = 0; i < 3; ++i) {
-        enemiesUI.AddEnemy(i * 8, 10, 1, 2); // Tipo 2
-    }
-
-    enemiesUI.DrawEnemies();*/

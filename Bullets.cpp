@@ -7,14 +7,6 @@ void Bullets::moveBullet(int key){
 		ybullet--;
 	}
 }
-
-void Bullets::draw(){
-	mvprintw(getY(), getX(), "  ");
-	mvprintw(getY(), getX(), " | ");
-
-	refresh(); // Atualiza o ecrã
-}
-
 Bullets::Bullets(float xbullet, float ybullet, int speed) :xbullet(xbullet), ybullet(ybullet),speed(speed) {}
 
 int Bullets::getX(){
@@ -23,4 +15,10 @@ int Bullets::getX(){
 
 int Bullets::getY(){
 	return ybullet;
+}
+void BulletsUI::draw(){
+	mvprintw(getY(), getX(), "  ");
+	mvprintw(getY(), getX(), " | ");
+
+	refresh(); // Atualiza o ecrã
 }
