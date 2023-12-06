@@ -6,6 +6,8 @@
 #include "Bullets.h"
 #include <list>
 #include<string>
+#include <chrono>
+#include<thread>
 using namespace std;
 int Game::GameScore = 0;
 int Game::LivesPlayer = 10;
@@ -155,10 +157,11 @@ void Game::run(void) {
 		ch = getch();//n acrescentar timeout; ver se retorna algo
 		noecho();
 		nave.movementPlayer(ch);
+	
 		refresh();
+			this_thread::sleep_for(chrono::milliseconds(20));
 	}
 	clear();
-	//cout << "saiu";
 	endwin();
 
 }
