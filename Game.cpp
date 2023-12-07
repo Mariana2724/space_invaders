@@ -20,6 +20,9 @@ void Game::start(void){
 	initscr(); // Initialize the curses library
 	noecho(); // Don't echo user input to the screen
 	cbreak(); // Disable line buffering
+	menu();
+}
+void Game::menu(void) {
 	int xMax, yMax;
 	getmaxyx(stdscr, yMax, xMax);
 	start_color();
@@ -28,7 +31,7 @@ void Game::start(void){
 	init_pair(2, COLOR_BLACK, COLOR_GREEN);
 	// COLOCAR  attron(COLOR_PAIR(1)); NO INICIO E attroff(COLOR_PAIR(1)); NO FIM
 	// PARA USAR A COR 1 NESSE INTERVALO
-	
+
 	attron(COLOR_PAIR(1));
 	mvprintw(5, 15, "  _________                           .___                         .___                   ");
 	mvprintw(6, 15, " /   _____/__________    ____  ____   |   | _______  _______     __| _/___________  ______");
@@ -38,14 +41,14 @@ void Game::start(void){
 	mvprintw(10, 15, "        \\/|__|       \\/     \\/    \\/           \\/           \\/      \\/    \\/           \\/ ");
 	attroff(COLOR_PAIR(1));
 	//WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x);
-	
-	WINDOW* menu_win = newwin(yMax/4, xMax/4, yMax/2,xMax/2-15 );
+
+	WINDOW* menu_win = newwin(yMax / 4, xMax / 4, yMax / 2, xMax / 2 - 15);
 	box(menu_win, 4, 0);
 	refresh();
 	wrefresh(menu_win);
 	keypad(menu_win, true);
-	
-	string UserChoice[3] = {"PLAY", "CHOOSE SPACESHIP","EXIT"};
+
+	string UserChoice[3] = { "PLAY", "CHOOSE SPACESHIP","EXIT" };
 	int choice;
 	int highlight = 0;
 	while (1) {
@@ -59,7 +62,7 @@ void Game::start(void){
 			else {
 				mvwprintw(menu_win, i + 2, 13, UserChoice[i].c_str());
 			}
-			
+
 			wattroff(menu_win, A_REVERSE);
 		}
 		choice = wgetch(menu_win);
@@ -87,44 +90,50 @@ void Game::start(void){
 				wclear(menu_win);
 				delwin(menu_win);
 				//endwin();
-				
+
 				run();
 				break;
-			}else if(highlight==1){
+			}//wattron(menu_win, A_REVERSE);
+					//mvprintw(yMax / 2 + 8, xMax / 2 + 21, "  (1) ");
+					//mvwprintw(space, yMax / 2 + 8, xMax / 2 + 21, UserChoice[1].c_str());
+			else if (highlight == 1) {
 				bool newW = true;
 				while (newW) {
 					WINDOW* space = newwin(yMax / 4, xMax / 4, yMax / 2 + 6, xMax / 2 + 20);
-					
 					box(space, 0, 0);
-					//wattron(menu_win, A_REVERSE);
-					//mvprintw(yMax / 2 + 8, xMax / 2 + 21, "  (1) ");
-					//mvwprintw(space, yMax / 2 + 8, xMax / 2 + 21, UserChoice[1].c_str());
-					refresh();
+
+					mvwprintw(space, 1, 1, "  /\\  "); // Exemplo de desenho da nave (podemos ajustar isto)
+					mvwprintw(space, 2, 1, " |==| ");
+					mvwprintw(space, 3, 1, "  \\/  ");
+					mvwprintw(space, 1, 11, "  \\/  "); 
+					mvwprintw(space, 2, 11, "  /\\ ");
+					mvwprintw(space, 3, 11, "  \\/  ");
+					mvwprintw(space, 1, 21, "  //\\\\  "); 
+					mvwprintw(space, 2, 21, "  ==== ");
+					mvwprintw(space, 3, 21, "  \\\\//  ");
+
 					wrefresh(space);
 					keypad(space, true);
-					
-					//mvprintw(yMax / 2 + 6, xMax / 2 + 20, "  /\\  "); // Exemplo de desenho da nave (podemos ajustar isto)
-					//mvprintw(yMax / 2 +1, xMax / 2 + 20, " |==| ");
-					//mvprintw(yMax / 2 + 2, xMax / 2 + 20, "  \\/  ");
+
 					int ch = wgetch(space);
 					if (ch == 'q') {
 						wborder(space, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '); // Erase frame around the window
 						newW = false;
-						endwin();
-						refresh();
+						werase(space);
 						wrefresh(space);
-
 					}
+					endwin();
 				}
 				//break;
 			}
 			else {
 				break;
 			}
-			
+
 		}
 	}
 	endwin();
+
 }
 void Game::run(void) {
 /*	initscr(); // Initialize the curses library
@@ -162,7 +171,7 @@ while (run_Game && ch!='q') { //flag
 		}
 		noecho();
 		refresh();
-		this_thread::sleep_for(chrono::milliseconds(45));
+		this_thread::sleep_for(chrono::milliseconds(20));
 	}
 	clear();
 	endwin();
