@@ -187,8 +187,7 @@ void Game::run(void) {
 while (run_Game && ch!='q') { //flag
 		clear();
 		nave.draw();
-		
-
+	
 		for (EnemiesUI* enemy : enemies) {
 			enemy->draw();
 			enemy->movement();
@@ -197,12 +196,20 @@ while (run_Game && ch!='q') { //flag
 			bullet->draw();
 			bullet->moveBullet();
 		}
+		for (auto it = bullets.begin(); it != bullets.end(); ) {
+			if ((*it)->checkCollisionEnemies(enemies)) {
+				it = bullets.erase(it);
+			}else {
+				++it;
+			}
+			enemies.erase(remove_if(enemies.begin(), enemies.end(), [](EnemiesUI* enemy) { return enemy->collided; }), enemies.end());
+		}
 		int key = getch();
 		if (key != ERR) {
 			ch = key;
 			nave.movementPlayer(ch);
 			if (ch == 32) {
-				bullets.emplace_back(new BulletsUI(nave.Getx(), nave.Gety(), 2)); // Criar uma nova bala na posição da nave
+				bullets.emplace_back(new BulletsUI(nave.Getx()+1, nave.Gety(), 2)); // Criar uma nova bala na posição da nave
 			}
 		}
 		noecho();

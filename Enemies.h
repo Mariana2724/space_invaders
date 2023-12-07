@@ -16,4 +16,5 @@ public:
 	EnemiesUI(int x,int y,int speed, int enemyType);
 	void movement();
 	void draw();
+	bool collided = false;
 };
