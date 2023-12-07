@@ -46,16 +46,11 @@ bool Ship::checkCollisionBullet(){
 	return false;
 }
 
-int Ship::Getx()
-{
+int Ship::Getx(){
 	return x;
 }
 
-int Ship::Gety()
-{
+int Ship::Gety(){
 	return y;
 }
 
-/*Coordenates Ship::position() const {
-	return {x,y};
-}*/

@@ -19,8 +19,8 @@ void EnemiesUI::movement(){
             else if (direction == 1) { // Movimento para baixo
                 moveDown();
                 direction = 2;
-                if (y >= LINES - 10) { // Verifica se chegou ao limite inferior
-                    y = LINES - 10; // Ajusta para o limite inferior
+                if (y >= LINES - 12) { // Verifica se chegou ao limite inferior
+                    y = LINES - 12; // Ajusta para o limite inferior
                     direction = 2; // Muda a direção para a esquerda
                 }
             }
@@ -44,8 +44,8 @@ void EnemiesUI::movement(){
             else if (direction == 1) { // Movimento para baixo
                 moveDown();
                 direction = 2;
-                if (y >= LINES - 10) { // Verifica se chegou ao limite inferior
-                    y = LINES - 10; // Ajusta para o limite inferior
+                if (y >= LINES - 12) { // Verifica se chegou ao limite inferior
+                    y = LINES - 12; // Ajusta para o limite inferior
                     direction = 2; // Muda a direção para a esquerda
                 }
             }
@@ -69,8 +69,8 @@ void EnemiesUI::movement(){
             else if (direction == 1) { // Movimento para baixo
                 moveDown();
                 direction = 2;
-                if (y >= LINES - 10) { // Verifica se chegou ao limite inferior
-                    y = LINES - 10; // Ajusta para o limite inferior
+                if (y >= LINES - 12) { // Verifica se chegou ao limite inferior
+                    y = LINES - 12; // Ajusta para o limite inferior
                     direction = 2; // Muda a direção para a esquerda
                 }
             }
