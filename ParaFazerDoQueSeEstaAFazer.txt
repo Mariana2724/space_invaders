@@ -1,7 +1,28 @@
-Menu:
+Menu/inicio:
 
 tirar o if ch==10 da janela que abre para dentro do switch
 
-pause
+pause/resume
 
-resume
+Pontuação/vidas: quando morre, PLAYAGAIN- abre uma janela pergunta PLAYAGAIN(GameState: 1), MENU ou EXIT
+
+[Rules]
+___________//________________
+
+
+Bullets para os inimigos
+
+Colisão Bala/Inimigo
+Colisão Bala(inimigos)/Nave
+Colisão Bala/Bala(inimigos)
+
+Pontuação Barreiras
+
+Pontuaçã/Vida do jogo- mostrar no ecrã- em baixo canto dir ou canto esq- um à frente do outro
+
+Níveis
+
+Tentar ver speeds diferentes
+
+[Melhores bonequinhos- prucurar no yt a ver se dá]
+
