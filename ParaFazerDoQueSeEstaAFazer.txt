@@ -9,6 +9,7 @@ Pontuação/vidas: quando morre, PLAYAGAIN- abre uma janela pergunta PLAYAGAIN(Gam
 [Rules]
 ___________//________________
 
+inimigos mexer em bloco
 
 Bullets para os inimigos
 
