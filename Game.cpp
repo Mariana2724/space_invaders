@@ -114,8 +114,36 @@ void Game::menu(void) {
 
 					wrefresh(space);
 					keypad(space, true);
+					string ChooseSpaceShip[3] = { "(1)", "(2)", "(3)" };
+					int ch;
+					int SpaceHighlight = 0;
+					int a = 1;
+					for (int i = 0; i < 3; i++) {
+						if (i == SpaceHighlight) {
+							wattron(space, A_REVERSE);
+						}
+						mvwprintw(space, 5, a, ChooseSpaceShip[i].c_str());
+						a += 10;
+						wattroff(space, A_REVERSE);
+					}
+					ch = wgetch(space);
+					switch (ch) {
+					case KEY_LEFT:
+						SpaceHighlight--;
+						if (SpaceHighlight == -1) {
+							SpaceHighlight = 0;
+						}
+						break;
+					case KEY_RIGHT:
+						SpaceHighlight++;
+						if (SpaceHighlight == 3) {
+							SpaceHighlight = 2;
+						}
+						break;
+					default:
+						break;
+					}
 
-					int ch = wgetch(space);
 					wrefresh(space);
 					if (ch == 'q') {
 						wborder(space, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '); // Erase frame around the window
@@ -125,7 +153,6 @@ void Game::menu(void) {
 					}
 					endwin();
 				}
-				//break;
 			}
 			else {
 				break;
