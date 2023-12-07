@@ -188,7 +188,6 @@ void Game::run(void) {
 	for (int i = 0; i < 4; i++) {
 		barriers.emplace_back(new BarrierUI(10+i*30,21));
 	}
-	BarrierUI barrier1(15, 21);
 	for (int i = 0; i < 5; ++i) {
 		enemies.emplace_back(new EnemiesUI(i * 7, 7, 5, 1));
 	}

@@ -15,7 +15,7 @@ class Bullets :public Game {
 		int getY();
 		bool checkCollisionNave();
 		bool checkCollisionEnemies(list<EnemiesUI*> enemies);
-		bool checkCollisionBarrier();
+		bool checkCollisionBarriers();
 		bool checkCollisionBullets();
 		void moveBullet(); 
 
