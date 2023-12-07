@@ -161,14 +161,22 @@ while (run_Game && ch!='q') { //flag
 		clear();
 		nave.draw();
 		
-		for (auto it : enemies) {
-			it->draw();
-			it->movement();
+
+		for (EnemiesUI* enemy : enemies) {
+			enemy->draw();
+			enemy->movement();
+		}
+		for (BulletsUI* bullet : bullets) {
+			bullet->draw();
+			bullet->moveBullet();
 		}
 		int key = getch();
 		if (key != ERR) {
 			ch = key;
 			nave.movementPlayer(ch);
+			if (ch == 32) {
+				bullets.emplace_back(new BulletsUI(nave.Getx(), nave.Gety(), 2)); // Criar uma nova bala na posição da nave
+			}
 		}
 		noecho();
 		refresh();

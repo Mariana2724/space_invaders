@@ -1,8 +1,9 @@
 #pragma once
 #include<list>
+#include "Game.h"
 using namespace std;
 
-class Bullets {
+class Bullets :public Game {
 	private:
 		float xbullet, ybullet, speed;
 		list <Bullets*> bullet; // fazer de inimigos e player
@@ -14,9 +15,11 @@ class Bullets {
 		bool checkCollisionEnemies();
 		bool checkCollisionBarriers();
 		bool checkCollisionBullets();
-		void moveBullet(int key); 
+		void moveBullet(); 
 
 };
 class BulletsUI :public Bullets {
+public:
+	BulletsUI(float xbullet, float ybullet, int speed);
 	void draw();
 };

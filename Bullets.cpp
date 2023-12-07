@@ -2,10 +2,8 @@
 #include <curses.h>
 #include <list>
 
-void Bullets::moveBullet(int key){
-	if (key == 32) {
-		ybullet--;
-	}
+void Bullets::moveBullet(){
+	ybullet--;
 }
 Bullets::Bullets(float xbullet, float ybullet, int speed) :xbullet(xbullet), ybullet(ybullet),speed(speed) {}
 
@@ -15,6 +13,8 @@ int Bullets::getX(){
 
 int Bullets::getY(){
 	return ybullet;
+}
+BulletsUI::BulletsUI(float xbullet, float ybullet, int speed): Bullets(xbullet,ybullet,speed){
 }
 void BulletsUI::draw(){
 	mvprintw(getY(), getX(), "  ");
