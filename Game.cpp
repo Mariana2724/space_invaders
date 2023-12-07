@@ -9,9 +9,11 @@
 #include <chrono>
 #include<thread>
 using namespace std;
+
 int Game::GameScore = 0;
 int Game::LivesPlayer = 10;
 int Game::SpaceShip = 0;
+int Game::GameState = 0;
 
 Game::Game() {
 	run_Game = true;
@@ -21,9 +23,24 @@ void Game::start(void){
 	initscr(); // Initialize the curses library
 	noecho(); // Don't echo user input to the screen
 	cbreak(); // Disable line buffering
-	menu();
+	bool isRunning = true;
+	while (isRunning) {
+		switch (GameState) {
+		case 0:
+			menu();
+			break;
+		case 1:
+			run();
+			break;
+		default:
+			isRunning = false;
+			break;
+		}
+	}
+	endwin();
 }
-void Game::menu(void) {
+
+int Game::menu(void) {
 	int xMax, yMax;
 	getmaxyx(stdscr, yMax, xMax);
 	start_color();
@@ -43,6 +60,7 @@ void Game::menu(void) {
 	mvprintw(9, 15, "/_______  /   __(____  /\\___  >___  > |___|___|  /\\_/  (____  /\\____ |\\___  >__|  /____  >");
 	mvprintw(10, 15, "        \\/|__|       \\/     \\/    \\/           \\/           \\/      \\/    \\/           \\/ ");
 	attroff(COLOR_PAIR(1));
+
 	//WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x);
 
 	WINDOW* menu_win = newwin(yMax / 4, xMax / 4, yMax / 2, xMax / 2 - 15);
@@ -54,7 +72,8 @@ void Game::menu(void) {
 	string UserChoice[3] = { "PLAY", "CHOOSE SPACESHIP","EXIT" };
 	int choice;
 	int highlight = 0;
-	while (1) {
+//Para as opções do menu
+	while (run_Game) {
 		for (int i = 0; i < 3; i++) {
 			if (i == highlight) {
 				wattron(menu_win, A_REVERSE);
@@ -65,60 +84,55 @@ void Game::menu(void) {
 			else {
 				mvwprintw(menu_win, i + 2, 13, UserChoice[i].c_str());
 			}
-
 			wattroff(menu_win, A_REVERSE);
 		}
+		
 		choice = wgetch(menu_win);
+
 		switch (choice) {
 		case KEY_UP:
 			highlight--;
-			if (highlight == -1) {
+			if (highlight == -1)
 				highlight = 0;
-			}
 			break;
 		case KEY_DOWN:
 			highlight++;
-			if (highlight == 3) {
+			if (highlight == 3)
 				highlight = 2;
-			}
 			break;
-		default:
-			break;
-
-		}
-		if (choice == 10) {
+		case 10:
 			if (highlight == 0) {
 				refresh();
 				wrefresh(menu_win);
 				wclear(menu_win);
 				delwin(menu_win);
-				//endwin();
-
-				run();
-				break;
+				GameState = 1;
+				return 0;
 			}
 			else if (highlight == 1) {
 				bool newW = true;
 				while (newW) {
 					WINDOW* space = newwin(yMax / 4, xMax / 4, yMax / 2 + 6, xMax / 2 + 20);
 					box(space, 0, 0);
-					
+
 					mvwprintw(space, 1, 1, "  /\\  "); // Exemplo de desenho da nave (podemos ajustar isto)
 					mvwprintw(space, 2, 1, " |==| ");
 					mvwprintw(space, 3, 1, "  \\/  ");
-					mvwprintw(space, 1, 11, "  \\/  "); 
+					mvwprintw(space, 1, 11, "  \\/  ");
 					mvwprintw(space, 2, 11, "  /\\ ");
 					mvwprintw(space, 3, 11, "  \\/  ");
-					mvwprintw(space, 1, 21, "  \\|/  "); 
+					mvwprintw(space, 1, 21, "  \\|/  ");
 					mvwprintw(space, 2, 21, "  ||| ");
 					mvwprintw(space, 3, 21, "  /|\\  ");
-				
+
 					wrefresh(space);
 					keypad(space, true);
+
 					string ChooseSpaceShip[3] = { "(1)", "(2)", "(3)" };
 					int ch;
 					int SpaceHighlight = 0;
 					int a = 1;
+
 					while (true) {
 						for (int i = 0; i < 3; i++) {
 							if (i == SpaceHighlight) {
@@ -160,23 +174,25 @@ void Game::menu(void) {
 							break;
 						}
 					}
-					
-					//endwin();
+
 				}
-					
+
 			}
 			else {
+				run_Game = false;
+				GameState = -1;
+				return 0;
+				//endwin();
 				break;
 			}
-
+		default:
+			break;
 		}
 	}
+	run_Game = true;
 	endwin();
 }
-void Game::run(void) {
-/*	initscr(); // Initialize the curses library
-	noecho(); // Don't echo user input to the screen
-	cbreak(); // Disable line buffering*/
+int Game::run(void) {
 	nodelay(stdscr, true);    // Configurar o terminal para o modo sem espera por entrada
 	keypad(stdscr, TRUE); // Enable special keys
 	int ch = 0;
@@ -226,9 +242,11 @@ while (run_Game && ch!='q') { //flag
 		refresh();
 		this_thread::sleep_for(chrono::milliseconds(20));
 	}
+	GameState = 0;
 	clear();
 	endwin();
 
+	return 0;
 }
 
 int Game::LivesP() {

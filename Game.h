@@ -3,7 +3,7 @@
 class Game {
 	static int GameScore;
 	static int LivesPlayer;
-	
+	static int GameState;
 	bool run_Game;
 protected:
 	static int SpaceShip;
@@ -11,8 +11,8 @@ public:
 	Game();
 	static int LivesP();
 	static int Score();
-	void run(void);
-	void menu(void);
+	int run(void);
+	int menu(void);
 	void start(void);
 	virtual void draw() {};
 	virtual void movement() {};

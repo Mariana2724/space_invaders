@@ -1,0 +1,7 @@
+Menu:
+
+tirar o if ch==10 da janela que abre para dentro do switch
+
+pause
+
+resume

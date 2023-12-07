@@ -54,5 +54,6 @@
   <ItemGroup>
     <Text Include="Dificuldades.txt" />
     <Text Include="CodigoExtra.txt" />
+    <Text Include="ParaFazerDoQueSeEstaAFazer.txt" />
   </ItemGroup>
 </Project>

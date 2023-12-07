@@ -145,6 +145,7 @@
   <ItemGroup>
     <Text Include="CodigoExtra.txt" />
     <Text Include="Dificuldades.txt" />
+    <Text Include="ParaFazerDoQueSeEstaAFazer.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
