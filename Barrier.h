@@ -6,6 +6,8 @@ class Barrier:public Game {
 	int x, y;
 public:
 	Barrier(int x, int y);
+	int getx();
+	int gety();
 };
 
 class BarrierUI:public Barrier {

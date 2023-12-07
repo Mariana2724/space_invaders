@@ -4,6 +4,7 @@
 #include "NavePlayer.h"
 #include "Enemies.h"
 #include "Bullets.h"
+#include "Barrier.h"
 #include <list>
 #include<string>
 #include <chrono>
@@ -183,6 +184,11 @@ void Game::run(void) {
 	NavePlayerUI nave(57, 25,2);
 	list<EnemiesUI*> enemies;
 	list<BulletsUI*> bullets;
+	list<BarrierUI*> barriers;
+	for (int i = 0; i < 4; i++) {
+		barriers.emplace_back(new BarrierUI(10+i*30,21));
+	}
+	BarrierUI barrier1(15, 21);
 	for (int i = 0; i < 5; ++i) {
 		enemies.emplace_back(new EnemiesUI(i * 7, 7, 5, 1));
 	}
@@ -197,7 +203,9 @@ void Game::run(void) {
 while (run_Game && ch!='q') { //flag
 		clear();
 		nave.draw();
-	
+		for (BarrierUI* barrier : barriers) {
+			barrier->draw();
+		}
 		for (EnemiesUI* enemy : enemies) {
 			enemy->draw();
 			enemy->movement();
