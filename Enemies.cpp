@@ -3,30 +3,88 @@
 
 Enemies::Enemies(int x, int y, int speed, int enemyType):Ship(x,y,speed),enemyType(enemyType){}
 
-EnemiesUI::EnemiesUI(int x, int y, int speed, int enemyType):Enemies(x,y,speed,enemyType){
+EnemiesUI::EnemiesUI(int x, int y, int speed, int enemyType):Enemies(x,y,speed,enemyType), direction(0) {
 }
 
 void EnemiesUI::movement(){
     switch (enemyType) {
         case 1:
-           /* if () {
-                moveLeft();
+            if (direction == 0) { // Movimento para a direita
+                x++;
+                if (x >= COLS - 10) { // Verifica se chegou ao limite direito
+                    x = COLS - 10;
+                    direction = 1; // Muda a direção para baixo
+                }
             }
-            else {
-                if (x > 115) {
+            else if (direction == 1) { // Movimento para baixo
+                moveDown();
+                direction = 2;
+                if (y >= LINES - 10) { // Verifica se chegou ao limite inferior
+                    y = LINES - 10; // Ajusta para o limite inferior
+                    direction = 2; // Muda a direção para a esquerda
+                }
+            }
+            else if (direction == 2) { // Movimento para a esquerda
+                moveLeft();
+                if (x <= 0) { // Verifica se chegou ao limite esquerdo
+                    x = 0;
                     moveDown();
+                    direction = 0; // Muda a direção para a direita
                 }
-                else {
-                    if()
-                }
-            }*/
+            }
             break;
         case 2:
+            if (direction == 0) { // Movimento para a direita
+                x++;
+                if (x >= COLS - 10) { // Verifica se chegou ao limite direito
+                    x = COLS - 10;
+                    direction = 1; // Muda a direção para baixo
+                }
+            }
+            else if (direction == 1) { // Movimento para baixo
+                moveDown();
+                direction = 2;
+                if (y >= LINES - 10) { // Verifica se chegou ao limite inferior
+                    y = LINES - 10; // Ajusta para o limite inferior
+                    direction = 2; // Muda a direção para a esquerda
+                }
+            }
+            else if (direction == 2) { // Movimento para a esquerda
+                moveLeft();
+                if (x <= 0) { // Verifica se chegou ao limite esquerdo
+                    x = 0;
+                    moveDown();
+                    direction = 0; // Muda a direção para a direita
+                }
+            }
             break;
         case 3:
+            if (direction == 0) { // Movimento para a direita
+                x++;
+                if (x >= COLS - 10) { // Verifica se chegou ao limite direito
+                    x = COLS - 10;
+                    direction = 1; // Muda a direção para baixo
+                }
+            }
+            else if (direction == 1) { // Movimento para baixo
+                moveDown();
+                direction = 2;
+                if (y >= LINES - 10) { // Verifica se chegou ao limite inferior
+                    y = LINES - 10; // Ajusta para o limite inferior
+                    direction = 2; // Muda a direção para a esquerda
+                }
+            }
+            else if (direction == 2) { // Movimento para a esquerda
+                moveLeft();
+                if (x <= 0) { // Verifica se chegou ao limite esquerdo
+                    x = 0;
+                    moveDown();
+                    direction = 0; // Muda a direção para a direita
+                }
+            }
             break;
         case 4:
-            x++;
+            moveRight();
             if (x >= COLS - 10) { // Chegou ao lado direito
                 x = 0; // Ajusta a posição para não sair do limite
             }

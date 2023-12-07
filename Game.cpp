@@ -130,7 +130,7 @@ void Game::run(void) {
 /*	initscr(); // Initialize the curses library
 	noecho(); // Don't echo user input to the screen
 	cbreak(); // Disable line buffering*/
-	nodelay(stdscr, true);
+	nodelay(stdscr, true);    // Configurar o terminal para o modo sem espera por entrada
 	keypad(stdscr, TRUE); // Enable special keys
 	int ch = 0;
 	NavePlayerUI nave(57, 25,2);

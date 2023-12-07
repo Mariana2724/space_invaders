@@ -11,6 +11,7 @@ public:
 };
 
 class EnemiesUI : public Enemies {
+	int direction;
 public:
 	EnemiesUI(int x,int y,int speed, int enemyType);
 	void movement();
