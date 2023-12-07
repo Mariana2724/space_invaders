@@ -4,8 +4,10 @@
 
 class Barrier:public Game {
 	int x, y;
+protected:
+	int score;
 public:
-	Barrier(int x, int y);
+	Barrier(int x, int y, int score);
 	int getx();
 	int gety();
 };
