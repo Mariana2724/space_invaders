@@ -130,36 +130,39 @@ void Game::run(void) {
 /*	initscr(); // Initialize the curses library
 	noecho(); // Don't echo user input to the screen
 	cbreak(); // Disable line buffering*/
-
+	nodelay(stdscr, true);
 	keypad(stdscr, TRUE); // Enable special keys
 	int ch = 0;
 	NavePlayerUI nave(57, 25,2);
 	list<EnemiesUI*> enemies;
 	list<BulletsUI*> bullets;
+	for (int i = 0; i < 5; ++i) {
+		enemies.emplace_back(new EnemiesUI(i * 7, 5, 5, 1));
+	}
+	for (int i = 0; i < 7; i++) {
+		enemies.emplace_back(new EnemiesUI(i * 5, 3, 5, 2));
+	}
+	for (int i = 0; i < 7; i++) {
+		enemies.emplace_back(new EnemiesUI(i * 5, 7, 5, 3));
+	}
+	enemies.emplace_back(new EnemiesUI(1, 15, 2, 4));
 	
-	while (run_Game && ch!='q') { //flag
+while (run_Game && ch!='q') { //flag
 		clear();
 		nave.draw();
-		for (int i = 0; i < 5; ++i) {
-			enemies.emplace_back(new EnemiesUI(i * 7, 5, 5, 1));
-		}
-		for (int i = 0; i < 7; i++) {
-			enemies.emplace_back(new EnemiesUI(i * 5, 3, 5, 2));
-		}
-		for (int i = 0; i < 7; i++) {
-			enemies.emplace_back(new EnemiesUI(i * 5, 7, 5, 3));
-		}
-		enemies.emplace_back(new EnemiesUI(1,15,2,4));
+		
 		for (auto it : enemies) {
 			it->draw();
 			it->movement();
 		}
-		ch = getch();//n acrescentar timeout; ver se retorna algo
+		int key = getch();
+		if (key != ERR) {
+			ch = key;
+			nave.movementPlayer(ch);
+		}
 		noecho();
-		nave.movementPlayer(ch);
-	
 		refresh();
-			this_thread::sleep_for(chrono::milliseconds(20));
+		this_thread::sleep_for(chrono::milliseconds(45));
 	}
 	clear();
 	endwin();

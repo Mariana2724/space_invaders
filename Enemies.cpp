@@ -26,10 +26,11 @@ void EnemiesUI::movement(){
         case 3:
             break;
         case 4:
-            moveRight();
+            x++;
             if (x >= COLS - 10) { // Chegou ao lado direito
                 x = 0; // Ajusta a posição para não sair do limite
             }
+          //  timeout(10); fica mais lento -> podemos usar para mudar velocidades emtre movimentos
             break;
         default:
             break;
