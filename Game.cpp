@@ -11,6 +11,7 @@
 using namespace std;
 int Game::GameScore = 0;
 int Game::LivesPlayer = 10;
+int Game::SpaceShip = 0;
 
 Game::Game() {
 	run_Game = true;
@@ -28,7 +29,9 @@ void Game::menu(void) {
 	start_color();
 
 	init_pair(1, COLOR_WHITE, COLOR_RED);
-	init_pair(2, COLOR_BLACK, COLOR_GREEN);
+	init_pair(2, COLOR_YELLOW, COLOR_BLACK);
+	
+
 	// COLOCAR  attron(COLOR_PAIR(1)); NO INICIO E attroff(COLOR_PAIR(1)); NO FIM
 	// PARA USAR A COR 1 NESSE INTERVALO
 
@@ -93,25 +96,23 @@ void Game::menu(void) {
 
 				run();
 				break;
-			}//wattron(menu_win, A_REVERSE);
-					//mvprintw(yMax / 2 + 8, xMax / 2 + 21, "  (1) ");
-					//mvwprintw(space, yMax / 2 + 8, xMax / 2 + 21, UserChoice[1].c_str());
+			}
 			else if (highlight == 1) {
 				bool newW = true;
 				while (newW) {
 					WINDOW* space = newwin(yMax / 4, xMax / 4, yMax / 2 + 6, xMax / 2 + 20);
 					box(space, 0, 0);
-
+					
 					mvwprintw(space, 1, 1, "  /\\  "); // Exemplo de desenho da nave (podemos ajustar isto)
 					mvwprintw(space, 2, 1, " |==| ");
 					mvwprintw(space, 3, 1, "  \\/  ");
 					mvwprintw(space, 1, 11, "  \\/  "); 
 					mvwprintw(space, 2, 11, "  /\\ ");
 					mvwprintw(space, 3, 11, "  \\/  ");
-					mvwprintw(space, 1, 21, "  //\\\\  "); 
-					mvwprintw(space, 2, 21, "  ==== ");
-					mvwprintw(space, 3, 21, "  \\\\//  ");
-
+					mvwprintw(space, 1, 21, "  \\|/  "); 
+					mvwprintw(space, 2, 21, "  ||| ");
+					mvwprintw(space, 3, 21, "  /|\\  ");
+				
 					wrefresh(space);
 					keypad(space, true);
 					string ChooseSpaceShip[3] = { "(1)", "(2)", "(3)" };
@@ -146,16 +147,23 @@ void Game::menu(void) {
 							break;
 						}
 						a = 1;
-					}				
-					wrefresh(space);
-					if (ch == 'q') {
-						wborder(space, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '); // Erase frame around the window
-						newW = false;
-						werase(space);
+
 						wrefresh(space);
+						if (ch == 10) {
+							SpaceShip = SpaceHighlight;
+							wborder(space, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '); // Erase frame around the window
+							newW = false;
+							werase(space);
+							wrefresh(space);
+							delwin(space);
+							endwin();
+							break;
+						}
 					}
-					endwin();
+					
+					//endwin();
 				}
+					
 			}
 			else {
 				break;

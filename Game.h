@@ -3,7 +3,10 @@
 class Game {
 	static int GameScore;
 	static int LivesPlayer;
+	
 	bool run_Game;
+protected:
+	static int SpaceShip;
 public: 
 	Game();
 	static int LivesP();
