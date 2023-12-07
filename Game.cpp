@@ -176,15 +176,15 @@ void Game::run(void) {
 	list<EnemiesUI*> enemies;
 	list<BulletsUI*> bullets;
 	for (int i = 0; i < 5; ++i) {
-		enemies.emplace_back(new EnemiesUI(i * 7, 5, 5, 1));
+		enemies.emplace_back(new EnemiesUI(i * 7, 7, 5, 1));
 	}
 	for (int i = 0; i < 7; i++) {
-		enemies.emplace_back(new EnemiesUI(i * 5, 3, 5, 2));
+		enemies.emplace_back(new EnemiesUI(i * 5, 5, 5, 2));
 	}
 	for (int i = 0; i < 7; i++) {
-		enemies.emplace_back(new EnemiesUI(i * 5, 7, 5, 3));
+		enemies.emplace_back(new EnemiesUI(i * 5, 9, 5, 3));
 	}
-	enemies.emplace_back(new EnemiesUI(1, 15, 2, 4));
+	enemies.emplace_back(new EnemiesUI(1, 1, 2, 4));
 	
 while (run_Game && ch!='q') { //flag
 		clear();
