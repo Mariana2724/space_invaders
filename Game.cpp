@@ -116,6 +116,7 @@ void Game::menu(void) {
 					keypad(space, true);
 
 					int ch = wgetch(space);
+					wrefresh(space);
 					if (ch == 'q') {
 						wborder(space, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '); // Erase frame around the window
 						newW = false;
