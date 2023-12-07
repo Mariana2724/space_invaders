@@ -232,7 +232,8 @@ while (run_Game && ch!='q') { //flag
 		for (auto it = bullets.begin(); it != bullets.end(); ) {
 			if ((*it)->checkCollisionEnemies(enemies)) {
 				it = bullets.erase(it);
-			}else {
+			}
+			else {
 				++it;
 			}
 			enemies.erase(remove_if(enemies.begin(), enemies.end(), [](EnemiesUI* enemy) { return enemy->collided; }), enemies.end());
