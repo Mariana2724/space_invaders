@@ -193,6 +193,7 @@ int Game::menu(void) {
 	run_Game = true;
 	endwin();
 }
+
 int Game::run(void) {
 	nodelay(stdscr, true);    // Configurar o terminal para o modo sem espera por entrada
 	keypad(stdscr, TRUE); // Enable special keys
