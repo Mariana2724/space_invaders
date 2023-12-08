@@ -24,10 +24,11 @@ void BarrierUI::draw() {
     //string a = to_string(score);
     attron(COLOR_PAIR(1));
     mvprintw(gety(), getx(), "  ______  ");
-
-    //mvprintw(gety()+1, getx()+1, to_string(score).c_str());
-    mvprintw(gety() + 1, getx() + 1, "|______|");
-    mvprintw(gety() + 2, getx(), " |      | ");
+    mvprintw(gety() + 1, getx() + 1, "|      |");
+    attroff(COLOR_PAIR(1));
+    mvprintw(gety() + 1, getx() + 4, to_string(score).c_str());
+    attron(COLOR_PAIR(1));
+    mvprintw(gety() + 2, getx(), " \\______/ ");
     attroff(COLOR_PAIR(1));
 }
 

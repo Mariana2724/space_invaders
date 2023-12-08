@@ -216,7 +216,7 @@ int Game::run(void) {
 		enemies.emplace_back(new EnemiesUI(i * 5, 9, 5, 3));
 	}
 	enemies.emplace_back(new EnemiesUI(1, 1, 2, 4));
-	
+	ch = getch();
 while (run_Game && ch!='q') { //flag
 		clear();
 		nave.draw();
@@ -240,17 +240,18 @@ while (run_Game && ch!='q') { //flag
 			}
 			enemies.erase(remove_if(enemies.begin(), enemies.end(), [](EnemiesUI* enemy) { return enemy->collided; }), enemies.end());
 		}
-		int key = getch();
-		if (key != ERR) {
-			ch = key;
+		ch = getch();
+		if (ch != ERR) {
 			nave.movementPlayer(ch);
 			if (ch == 32) {
 				bullets.emplace_back(new BulletsUI(nave.Getx()+1, nave.Gety(), 2)); // Criar uma nova bala na posição da nave
 			}
 		}
+
 		noecho();
 		refresh();
 		this_thread::sleep_for(chrono::milliseconds(20));
+		
 	}
 	GameState = 0;
 	clear();

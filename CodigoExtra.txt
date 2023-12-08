@@ -128,3 +128,18 @@ Game-> tem list<Inimigos>
 	endwin();
 
 }
+___________________________
+colors que há
+COLOR_BLACK
+COLOR_RED
+COLOR_GREEN
+COLOR_YELLOW
+COLOR_BLUE
+COLOR_MAGENTA
+COLOR_CYAN
+COLOR_WHITE
+if (key == 'p') {
+			/*WINDOW* space = newwin(yMax / 4, xMax / 4, yMax / 2 + 6, xMax / 2 + 20);
+			box(space, 0, 0);
+			if(key==)*/
+		}
