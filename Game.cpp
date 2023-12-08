@@ -107,6 +107,7 @@ int Game::menu(void) {
 				wrefresh(menu_win);
 				wclear(menu_win);
 				delwin(menu_win);
+			//run_Game=false;
 				GameState = 1;
 				return 0;
 			}

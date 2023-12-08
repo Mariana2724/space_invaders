@@ -19,11 +19,11 @@ Colisão Bala/Bala(inimigos)
 
 Pontuação Barreiras
 
-Pontuaçã/Vida do jogo- mostrar no ecrã- em baixo canto dir ou canto esq- um à frente do outro
+Pontuaçã/Vida do jogo- mostrar no ecrã- em cima canto dir ou canto esq- um à frente do outro
 
 Níveis
 
 Tentar ver speeds diferentes
 
-[Melhores bonequinhos- prucurar no yt a ver se dá]
+[Melhores bonequinhos- procurar no yt a ver se dá]
 
