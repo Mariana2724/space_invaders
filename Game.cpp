@@ -36,9 +36,6 @@ void Game::start(void){
 		case 2:
 			run();
 			break;
-		case 3:
-			GameIsPaused();
-			break;
 		default:
 			isRunning = false;
 			break;
@@ -186,9 +183,12 @@ while (run_Game && ch!='q') { //flag
 			}
 		}
 		if (ch == 'p') {
-			GameState = 3;
-			return 0;
-
+			if (!GameIsPaused()) {// se for 1
+				continue;
+			}
+			else {
+				break;
+			}
 		}
 		noecho();
 		refresh();
@@ -336,6 +336,7 @@ int Game::GameIsPaused() {
 					wrefresh(pause);
 					delwin(pause);
 					endwin();
+					return 0;
 					break;
 				}
 				else if (PauseHighlight == 1) {
@@ -347,14 +348,12 @@ int Game::GameIsPaused() {
 					wrefresh(pause);
 					delwin(pause);
 					endwin();
-					break;
+					return 1;
 				}
 				
 			}
 		}
 
 	}
-	
-	
-	return 0;
+
 }
