@@ -330,11 +330,19 @@ int Game::GameIsPaused() {
 			if (ch == 10) {
 				if (PauseHighlight == 0) {
 					GameState = 2;
-				}
-				else if (PauseHighlight == 1) {
-					GameState = -1;
 					wborder(pause, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '); // Erase frame around the window
 					newW = false;
+					werase(pause);
+					wrefresh(pause);
+					delwin(pause);
+					endwin();
+					break;
+				}
+				else if (PauseHighlight == 1) {
+					GameState = 0;
+					wborder(pause, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '); // Erase frame around the window
+					newW = false;
+					clear();
 					werase(pause);
 					wrefresh(pause);
 					delwin(pause);
