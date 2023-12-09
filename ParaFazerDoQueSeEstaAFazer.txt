@@ -10,6 +10,7 @@ Pontuação/vidas: quando morre, PLAYAGAIN- abre uma janela pergunta PLAYAGAIN(Gam
 ___________//________________
 
 inimigos mexer em bloco
+e voltar a mover para cima quando atinge o limite em baixo
 
 Bullets para os inimigos
 
