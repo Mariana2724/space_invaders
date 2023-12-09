@@ -31,6 +31,9 @@ void Game::start(void){
 			menu();
 			break;
 		case 1:
+			ChooseSpaceship();
+			break;
+		case 2:
 			run();
 			break;
 		default:
@@ -107,84 +110,16 @@ int Game::menu(void) {
 				wrefresh(menu_win);
 				wclear(menu_win);
 				delwin(menu_win);
-				GameState = 1;
-				return 0;
+				GameState = 2;
+				run_Game = false;
 			}
 			else if (highlight == 1) {
-				bool newW = true;
-				while (newW) {
-					WINDOW* space = newwin(yMax / 4, xMax / 4, yMax / 2 + 6, xMax / 2 + 20);
-					box(space, 0, 0);
-
-					mvwprintw(space, 1, 1, "  /\\  "); // Exemplo de desenho da nave (podemos ajustar isto)
-					mvwprintw(space, 2, 1, " |==| ");
-					mvwprintw(space, 3, 1, "  \\/  ");
-					mvwprintw(space, 1, 11, "  \\/  ");
-					mvwprintw(space, 2, 11, "  /\\ ");
-					mvwprintw(space, 3, 11, "  \\/  ");
-					mvwprintw(space, 1, 21, "  \\|/  ");
-					mvwprintw(space, 2, 21, "  ||| ");
-					mvwprintw(space, 3, 21, "  /|\\  ");
-
-					wrefresh(space);
-					keypad(space, true);
-
-					string ChooseSpaceShip[3] = { "(1)", "(2)", "(3)" };
-					int ch;
-					int SpaceHighlight = 0;
-					int a = 1;
-
-					while (true) {
-						for (int i = 0; i < 3; i++) {
-							if (i == SpaceHighlight) {
-								wattron(space, A_REVERSE);
-							}
-							mvwprintw(space, 5, a, ChooseSpaceShip[i].c_str());
-							a += 10;
-							wattroff(space, A_REVERSE);
-						}
-
-						ch = wgetch(space);
-						switch (ch) {
-						case KEY_LEFT:
-							SpaceHighlight--;
-							if (SpaceHighlight == -1) {
-								SpaceHighlight = 0;
-							}
-							break;
-						case KEY_RIGHT:
-							SpaceHighlight++;
-							if (SpaceHighlight == 3) {
-								SpaceHighlight = 2;
-							}
-							break;
-						default:
-							break;
-						}
-						a = 1;
-
-						wrefresh(space);
-						if (ch == 10) {
-							SpaceShip = SpaceHighlight;
-							wborder(space, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '); // Erase frame around the window
-							newW = false;
-							werase(space);
-							wrefresh(space);
-							delwin(space);
-							endwin();
-							break;
-						}
-					}
-
-				}
-
+				GameState = 1;
+				run_Game = false;
 			}
 			else {
 				run_Game = false;
 				GameState = -1;
-				return 0;
-				//endwin();
-				break;
 			}
 		default:
 			break;
@@ -192,7 +127,9 @@ int Game::menu(void) {
 	}
 	run_Game = true;
 	endwin();
+	return 0;
 }
+
 int Game::run(void) {
 	nodelay(stdscr, true);    // Configurar o terminal para o modo sem espera por entrada
 	keypad(stdscr, TRUE); // Enable special keys
@@ -214,7 +151,7 @@ int Game::run(void) {
 		enemies.emplace_back(new EnemiesUI(i * 5, 9, 5, 3));
 	}
 	enemies.emplace_back(new EnemiesUI(1, 1, 2, 4));
-	
+	ch = getch();
 while (run_Game && ch!='q') { //flag
 		clear();
 		nave.draw();
@@ -238,17 +175,25 @@ while (run_Game && ch!='q') { //flag
 			}
 			enemies.erase(remove_if(enemies.begin(), enemies.end(), [](EnemiesUI* enemy) { return enemy->collided; }), enemies.end());
 		}
-		int key = getch();
-		if (key != ERR) {
-			ch = key;
+		ch = getch();
+		if (ch != ERR) {
 			nave.movementPlayer(ch);
 			if (ch == 32) {
 				bullets.emplace_back(new BulletsUI(nave.Getx()+1, nave.Gety(), 2)); // Criar uma nova bala na posição da nave
 			}
 		}
+		if (ch == 'p') {
+			if (!GameIsPaused()) {// se for 1
+				continue;
+			}
+			else {
+				break;
+			}
+		}
 		noecho();
 		refresh();
 		this_thread::sleep_for(chrono::milliseconds(20));
+		
 	}
 	GameState = 0;
 	clear();
@@ -262,4 +207,153 @@ int Game::LivesP() {
 }
 int Game::Score() {
 	return GameScore;
+}
+int Game::ChooseSpaceship() {
+	int xMax, yMax;
+	getmaxyx(stdscr, yMax, xMax);
+	bool newW = true;
+	while (newW) {
+		WINDOW* space = newwin(yMax / 4, xMax / 4, yMax / 2 + 6, xMax / 2 + 20);
+		box(space, 0, 0);
+
+		mvwprintw(space, 1, 1, "  /\\  "); // Exemplo de desenho da nave (podemos ajustar isto)
+		mvwprintw(space, 2, 1, " |==| ");
+		mvwprintw(space, 3, 1, "  \\/  ");
+		mvwprintw(space, 1, 11, "  \\/  ");
+		mvwprintw(space, 2, 11, "  /\\ ");
+		mvwprintw(space, 3, 11, "  \\/  ");
+		mvwprintw(space, 1, 21, "  \\|/  ");
+		mvwprintw(space, 2, 21, "  ||| ");
+		mvwprintw(space, 3, 21, "  /|\\  ");
+
+		wrefresh(space);
+		keypad(space, true);
+
+		string ChooseSpaceShip[3] = { "(1)", "(2)", "(3)" };
+		int ch;
+		int SpaceHighlight = 0;
+		int a = 1;
+
+		while (true) {
+			for (int i = 0; i < 3; i++) {
+				if (i == SpaceHighlight) {
+					wattron(space, A_REVERSE);
+				}
+				mvwprintw(space, 5, a, ChooseSpaceShip[i].c_str());
+				a += 10;
+				wattroff(space, A_REVERSE);
+			}
+
+			ch = wgetch(space);
+			switch (ch) {
+			case KEY_LEFT:
+				SpaceHighlight--;
+				if (SpaceHighlight == -1) {
+					SpaceHighlight = 0;
+				}
+				break;
+			case KEY_RIGHT:
+				SpaceHighlight++;
+				if (SpaceHighlight == 3) {
+					SpaceHighlight = 2;
+				}
+				break;
+			default:
+				break;
+			}
+			a = 1;
+
+			wrefresh(space);
+			if (ch == 10) {
+				SpaceShip = SpaceHighlight;
+				wborder(space, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '); // Erase frame around the window
+				newW = false;
+				werase(space);
+				wrefresh(space);
+				delwin(space);
+				endwin();
+				break;
+			}
+		}
+
+	}
+
+	GameState = 0;
+	return 0;
+}
+int Game::GameIsPaused() {
+	int xMax, yMax;
+	getmaxyx(stdscr, yMax, xMax);
+	bool newW = true;
+	int PauseHighlight = 0;
+	while (newW) {
+		WINDOW* pause = newwin(yMax / 4-2, xMax / 4-3, yMax / 2-15 , xMax / 2-13 );
+		box(pause, 0, 0);
+		
+		wrefresh(pause);
+		keypad(pause, true);
+
+		string OptionPause[2] = { "RESUME", " QUIT " };
+		int ch;
+		
+
+		mvwprintw(pause, 1, 7, "GAME IS PAUSED");
+
+		while (true) {
+			for (int i = 0; i < 2; i++) {
+				if (i == PauseHighlight) {
+					wattron(pause, A_REVERSE);
+				}
+				mvwprintw(pause, i+2, 10, OptionPause[i].c_str());
+				wattroff(pause, A_REVERSE);
+			}
+
+			ch = wgetch(pause);
+			switch (ch) {
+			case KEY_UP:
+				PauseHighlight--;
+				if (PauseHighlight == -1) {
+					PauseHighlight = 0;
+				}
+				break;
+			case KEY_DOWN:
+				PauseHighlight++;
+				if (PauseHighlight == 2) {
+					PauseHighlight = 1;
+				}
+				break;
+			default:
+				break;
+			}
+
+			wrefresh(pause);
+			if (ch == 10) {
+				if (PauseHighlight == 0) {
+					GameState = 2;
+					wborder(pause, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '); // Erase frame around the window
+					newW = false;
+					werase(pause);
+					wrefresh(pause);
+					delwin(pause);
+					endwin();
+					return 0;
+					break;
+				}
+				else if (PauseHighlight == 1) {
+					GameState = 0;
+					wborder(pause, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '); // Erase frame around the window
+					newW = false;
+					clear();
+					werase(pause);
+					wrefresh(pause);
+					delwin(pause);
+					endwin();
+					return 1;
+				}
+				
+			}
+		}
+
+	}
+
 }
