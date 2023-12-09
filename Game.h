@@ -13,6 +13,8 @@ public:
 	static int Score();
 	int run(void);
 	int menu(void);
+	int ChooseSpaceship(void);
+	int GameIsPaused(void);
 	void start(void);
 	virtual void draw() {};
 	virtual void movement() {};
