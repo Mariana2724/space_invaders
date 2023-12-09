@@ -192,7 +192,7 @@ while (run_Game && ch!='q') { //flag
 		}
 		noecho();
 		refresh();
-		this_thread::sleep_for(chrono::milliseconds(20));
+		this_thread::sleep_for(chrono::milliseconds(40));
 		
 	}
 	GameState = 0;
