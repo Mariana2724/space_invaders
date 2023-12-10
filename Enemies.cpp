@@ -2,7 +2,6 @@
 #include <curses.h> 
 
 int EnemiesUI::Reached = 0;
-int EnemiesUI::direction = 0;
 int Enemies::numberOfEnemies = 0;
 Enemies::Enemies(int x, int y, int speed, int enemyType):Ship(x,y,speed),enemyType(enemyType){
     numberOfEnemies++;
@@ -55,23 +54,29 @@ void EnemiesUI::movement(){
                 x++;
                 if (x >= COLS - 10) { // Verifica se chegou ao limite direito
                     x = COLS - 10;
-                    direction = 1; // Muda a direção para baixo
+                    direction = 1;
+                    flagmudança = 1;// Muda a direção para baixo
                 }
             }
             else if (direction == 1) { // Movimento para baixo
                 moveDown();
-                direction = 2;
+                if (x == 0){
+                    direction = 0;
+                }
+                else if(x==COLS-10) {
+                    direction = 2;
+                }
+                flagmudança = 1;
                 if (y >= LINES - 12) { // Verifica se chegou ao limite inferior
                     y = LINES - 12; // Ajusta para o limite inferior
-                    direction = 2; // Muda a direção para a esquerda
                 }
             }
             else if (direction == 2) { // Movimento para a esquerda
                 moveLeft();
                 if (x <= 0) { // Verifica se chegou ao limite esquerdo
                     x = 0;
-                    moveDown();
-                    direction = 0; // Muda a direção para a direita
+                    direction = 1; // Muda a direção para a direita
+                    flagmudança = 1;
                 }
             }
             break;
@@ -116,4 +121,11 @@ Enemies::~Enemies() {
 }
 EnemiesUI::~EnemiesUI() {
 
+}
+int EnemiesUI::getdirection() {
+    return direction;
+}
+
+void EnemiesUI::setdirection(int direcion) {
+    direction = direcion;
 }

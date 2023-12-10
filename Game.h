@@ -7,6 +7,7 @@ class Game {
 	bool run_Game;
 protected:
 	static int SpaceShip;
+	static int flagmudança;
 public: 
 	Game();
 	static int LivesP();

@@ -13,11 +13,13 @@ public:
 };
 
 class EnemiesUI : public Enemies {
-	static int direction;
+	int direction=0;
 	static int Reached;
 	int a;
 public:
 	EnemiesUI(int x,int y,int speed, int enemyType);
+	int getdirection();
+	void setdirection(int direcion);
 	void movement();
 	void draw();
 	bool collided=false;

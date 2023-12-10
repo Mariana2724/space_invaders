@@ -15,6 +15,7 @@ int Game::GameScore = 0;
 int Game::LivesPlayer = 10;
 int Game::SpaceShip = 0;
 int Game::GameState = 0;
+int Game::flagmudança = 0;
 
 Game::Game() {
 	run_Game = true;
@@ -161,6 +162,12 @@ while (run_Game && ch!='q') { //flag
 		for (EnemiesUI* enemy : enemies) {
 			enemy->draw();
 			enemy->movement();
+			if (flagmudança == 1) {
+				for (EnemiesUI* enemy1 : enemies) {
+					enemy1->setdirection(enemy->getdirection());
+				}
+				flagmudança = 0;
+			}
 		}
 		for (BulletsUI* bullet : bullets) {
 			bullet->draw();
