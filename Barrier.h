@@ -10,10 +10,12 @@ public:
 	Barrier(int x, int y, int score);
 	int getx();
 	int gety();
+	void wasShot();
 };
 
 class BarrierUI:public Barrier {
 public:
 	BarrierUI(int x, int y);
+	bool collidedB = false;
 	void draw();
 };

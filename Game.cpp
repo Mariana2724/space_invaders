@@ -142,7 +142,7 @@ int Game::run(void) {
 	for (int i = 0; i < 4; i++) {
 		barriers.emplace_back(new BarrierUI(10+i*30,21));
 	}
-	
+
 	for (int i = 0; i < 5; i++) {
 		enemies.emplace_back(new EnemiesUI(i * 7, 5, 5, 2));
 	}
@@ -183,6 +183,25 @@ while (run_Game && ch!='q') { //flag
 			}
 			enemies.erase(remove_if(enemies.begin(), enemies.end(), [](EnemiesUI* enemy) { return enemy->collided; }), enemies.end());
 		}
+		for (auto it = bullets.begin(); it != bullets.end(); ) {
+			if ((*it)->checkCollisionEnemies(enemies)) {
+				it = bullets.erase(it);
+			}
+			else {
+				++it;
+			}
+			enemies.erase(remove_if(enemies.begin(), enemies.end(), [](EnemiesUI* enemy) { return enemy->collided; }), enemies.end());
+		}
+		for (auto it = bullets.begin(); it != bullets.end(); ) {
+			if ((*it)->checkCollisionBarriers(barriers)) {
+				it = bullets.erase(it);
+			}
+			else {
+				++it;
+			}
+			//++it;
+			//barriers.erase(remove_if(barriers.begin(), barriers.end(), [](BarrierUI* barrier) { return barrier->collidedB; }), barriers.end());
+		}	
 		ch = getch();
 		if (ch != ERR) {
 			nave.movementPlayer(ch);

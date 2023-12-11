@@ -14,6 +14,9 @@ int Barrier::getx(){
 int Barrier::gety(){
     return y;
 }
+void Barrier::wasShot() {
+    score--;
+}
 
 BarrierUI::BarrierUI(int x, int y):Barrier(x,y){
 }
@@ -33,3 +36,4 @@ void BarrierUI::draw() {
 }
 
 //static_cast<string>(score)
+

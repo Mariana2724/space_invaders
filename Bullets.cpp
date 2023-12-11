@@ -23,10 +23,14 @@ bool Bullets::checkCollisionEnemies(list<EnemiesUI*> enemies) {
     }
     return false;
 }
-bool Bullets::checkCollisionBarriers(list<Barrier*> barrier){
-
-
-
+bool Bullets::checkCollisionBarriers(list<BarrierUI*> barriers){
+    for (BarrierUI* barrier : barriers) {
+        if (!barrier->collidedB && xbullet <= barrier->getx() + 7 && xbullet >= barrier->getx()  && ybullet >= barrier->gety() && ybullet <= barrier->gety()) {
+            barrier->collidedB = true;
+            barrier->wasShot();
+            return true;
+        }
+    }
     return false;
 }
 BulletsUI::BulletsUI(float xbullet, float ybullet, int speed): Bullets(xbullet,ybullet,speed){

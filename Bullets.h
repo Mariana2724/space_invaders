@@ -16,10 +16,10 @@ class Bullets :public Game {
 		int getY();
 		bool checkCollisionNave();
 		bool checkCollisionEnemies(list<EnemiesUI*> enemies);
-		bool checkCollisionBarriers(list<Barrier*> barrier);
+		bool checkCollisionBarriers(list<BarrierUI*> barrier);
 		bool checkCollisionBullets();
 		void moveBullet(); 
-
+		
 };
 class BulletsUI :public Bullets {
 public:
