@@ -144,14 +144,15 @@ int Game::run(void) {
 	for (int i = 0; i < 4; i++) {
 		barriers.emplace_back(new BarrierUI(10+i*30,21));
 	}
+	
+	for (int i = 0; i < 5; i++) {
+		enemies.emplace_back(new EnemiesUI(i * 7, 5, 5, 2));
+	}
 	for (int i = 0; i < 5; ++i) {
 		enemies.emplace_back(new EnemiesUI(i * 7, 7, 5, 1));
 	}
-	for (int i = 0; i < 7; i++) {
-		enemies.emplace_back(new EnemiesUI(i * 5, 5, 5, 2));
-	}
-	for (int i = 0; i < 7; i++) {
-		enemies.emplace_back(new EnemiesUI(i * 5, 9, 5, 3));
+	for (int i = 0; i < 5; i++) {
+		enemies.emplace_back(new EnemiesUI(i * 7, 9, 5, 3));
 	}
 	enemies.emplace_back(new EnemiesUI(1, 1, 2, 4));
 	ch = getch();

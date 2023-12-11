@@ -2,6 +2,7 @@
 #include<list>
 #include "Game.h"
 #include "Enemies.h"
+#include "Barrier.h"
 using namespace std;
 
 //bulletType 1 = bala da Nave
@@ -19,7 +20,7 @@ class Bullets :public Game {
 		int getY();
 		bool checkCollisionNave();
 		bool checkCollisionEnemies(list<EnemiesUI*> enemies);
-		bool checkCollisionBarriers();
+		bool checkCollisionBarriers(list<Barrier*> barrier);
 		bool checkCollisionBullets();
 		void moveBullet(); 
 
