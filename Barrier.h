@@ -10,7 +10,7 @@ public:
 	Barrier(int x, int y, int score);
 	int getx();
 	int gety();
-	void wasShot();
+	int wasShot();
 };
 
 class BarrierUI:public Barrier {

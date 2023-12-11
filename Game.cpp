@@ -137,6 +137,11 @@ int Game::run(void) {
 	keypad(stdscr, TRUE); // Enable special keys
 	int ch = 0;
 	int enemyActive = 0;
+	int keep = 0;
+	start_color();
+	init_pair(1, COLOR_RED, COLOR_BLACK);
+	
+
 	NavePlayerUI nave(57, 25,2);
 	list<EnemiesUI*> enemies;
 	list<BulletsUI*> bulletsNave;
@@ -172,8 +177,11 @@ while (run_Game && ch!='q') { //flag
 				}
 				flagmudança = 0;
 			}
-			if (rand() % 300 < 0.3) {
+			if (rand() % 300 < 0.5) {
+				attron(COLOR_PAIR(1));
+				
 				bulletsEnemy.emplace_back(new BulletsUI(enemy->Getx(), enemy->Gety(),2,2));
+				attroff(COLOR_PAIR(1));
 			}
 
 		}
@@ -205,15 +213,29 @@ while (run_Game && ch!='q') { //flag
 			enemies.erase(remove_if(enemies.begin(), enemies.end(), [](EnemiesUI* enemy) { return enemy->collided; }), enemies.end());
 		}
 		for (auto it = bulletsNave.begin(); it != bulletsNave.end(); ) {
-			if ((*it)->checkCollisionBarriers(barriers)) {
+			keep = (*it)->checkCollisionBarriers(barriers);
+			if (keep==1) {
 				it = bulletsNave.erase(it);
 			}
-			else {
+			else if(keep==2) {
 				++it;
 			}
-			//++it;
-			//barriers.erase(remove_if(barriers.begin(), barriers.end(), [](BarrierUI* barrier) { return barrier->collidedB; }), barriers.end());
+			else if (keep == 0) {
+				barriers.erase(remove_if(barriers.begin(), barriers.end(), [](BarrierUI* barrier) { return barrier->collidedB; }), barriers.end());
+			}
 		}	
+		for (auto it = bulletsEnemy.begin(); it != bulletsEnemy.end(); ) {
+			keep = (*it)->checkCollisionBarriers(barriers);
+			if (keep == 1) {
+				it = bulletsEnemy.erase(it);
+			}
+			else if (keep == 2) {
+				++it;
+			}
+			else if (keep == 0) {
+				barriers.erase(remove_if(barriers.begin(), barriers.end(), [](BarrierUI* barrier) { return barrier->collidedB; }), barriers.end());
+			}
+		}
 		ch = getch();
 		if (ch != ERR) {
 			nave.movementPlayer(ch);
