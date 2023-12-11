@@ -3,9 +3,16 @@
 #include <list>
 
 void Bullets::moveBullet(){
-	ybullet--;
+    switch (bulletType) {
+    case 1:
+        ybullet--;
+        break;
+    case 2:
+        ybullet++;
+        break;
+    }
 }
-Bullets::Bullets(float xbullet, float ybullet, int speed) :xbullet(xbullet), ybullet(ybullet),speed(speed) {}
+Bullets::Bullets(float xbullet, float ybullet, int speed, int bulletType) :xbullet(xbullet), ybullet(ybullet),speed(speed), bulletType(bulletType) {}
 
 int Bullets::getX(){
 	return xbullet;
@@ -33,7 +40,7 @@ bool Bullets::checkCollisionBarriers(list<BarrierUI*> barriers){
     }
     return false;
 }
-BulletsUI::BulletsUI(float xbullet, float ybullet, int speed): Bullets(xbullet,ybullet,speed){
+BulletsUI::BulletsUI(float xbullet, float ybullet, int speed,int bulletType): Bullets(xbullet,ybullet,speed,bulletType){
 }
 void BulletsUI::draw(){
 	mvprintw(getY(), getX(), "  ");

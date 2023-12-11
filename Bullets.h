@@ -5,13 +5,17 @@
 #include "Barrier.h"
 using namespace std;
 
+//bulletType 1 = bala da Nave
+//bulletType 2 = bala do Enemy
+
 class Bullets :public Game {
 	private:
 		float xbullet, ybullet, speed;
+		int bulletType;
 		list <EnemiesUI*> enemies;
-		list <Bullets*> bullet; // fazer de inimigos e player
+		list <Bullets*> bulletNave; // fazer de inimigos e player
 	public:
-		Bullets(float xbullet, float ybullet, int speed);
+		Bullets(float xbullet, float ybullet, int speed, int bulletType);
 		int getX();
 		int getY();
 		bool checkCollisionNave();
@@ -23,6 +27,6 @@ class Bullets :public Game {
 };
 class BulletsUI :public Bullets {
 public:
-	BulletsUI(float xbullet, float ybullet, int speed);
+	BulletsUI(float xbullet, float ybullet, int speed,int bulletType);
 	void draw();
 };
