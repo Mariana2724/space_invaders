@@ -81,7 +81,7 @@ void EnemiesUI::draw(){
 
 
 Enemies::~Enemies() {
-    numberOfEnemies--;
+
 }
 EnemiesUI::~EnemiesUI() {
 
