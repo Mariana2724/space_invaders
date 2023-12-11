@@ -5,7 +5,6 @@
 class Enemies : public Ship {
 protected:
 	int enemyType;
-	static int numberOfEnemies;
 public:
 	Enemies(int x, int y, int speed, int enemyType);
 	//void movementEnemies(int key);
@@ -13,9 +12,7 @@ public:
 };
 
 class EnemiesUI : public Enemies {
-	int direction=0;
-	static int Reached;
-	int a;
+	int direction;
 public:
 	EnemiesUI(int x,int y,int speed, int enemyType);
 	int getdirection();

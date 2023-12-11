@@ -1,14 +1,12 @@
 #include "Enemies.h"
 #include <curses.h> 
 
-int EnemiesUI::Reached = 0;
-int Enemies::numberOfEnemies = 0;
+
 Enemies::Enemies(int x, int y, int speed, int enemyType):Ship(x,y,speed),enemyType(enemyType){
     numberOfEnemies++;
 }
 
-EnemiesUI::EnemiesUI(int x, int y, int speed, int enemyType):Enemies(x,y,speed,enemyType) {
-    a = 0;
+EnemiesUI::EnemiesUI(int x, int y, int speed, int enemyType):Enemies(x,y,speed,enemyType), direction(0) {
 }
 
 void EnemiesUI::movement(){

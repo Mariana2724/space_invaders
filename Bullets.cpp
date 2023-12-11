@@ -25,7 +25,9 @@ bool Bullets::checkCollisionEnemies(list<EnemiesUI*> enemies) {
 }
 bool Bullets::checkCollisionBarriers(){
 
-  
+
+
+    return false;
 }
 BulletsUI::BulletsUI(float xbullet, float ybullet, int speed): Bullets(xbullet,ybullet,speed){
 }
