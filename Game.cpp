@@ -135,9 +135,11 @@ int Game::run(void) {
 	nodelay(stdscr, true);    // Configurar o terminal para o modo sem espera por entrada
 	keypad(stdscr, TRUE); // Enable special keys
 	int ch = 0;
+	int enemyActive = 0;
 	NavePlayerUI nave(57, 25,2);
 	list<EnemiesUI*> enemies;
-	list<BulletsUI*> bullets;
+	list<BulletsUI*> bulletsNave;
+	list<BulletsUI*> bulletsEnemy;
 	list<BarrierUI*> barriers;
 	for (int i = 0; i < 4; i++) {
 		barriers.emplace_back(new BarrierUI(10+i*30,21));
@@ -168,14 +170,24 @@ while (run_Game && ch!='q') { //flag
 				}
 				flagmudança = 0;
 			}
+			if (rand() % 100 < 5 && enemyActive==0) {
+				bulletsEnemy.emplace_back(new BulletsUI(enemy->Getx(), enemy->Gety(),2,2));
+				enemyActive = 1;
+			}
+
 		}
-		for (BulletsUI* bullet : bullets) {
-			bullet->draw();
-			bullet->moveBullet();
+		for (BulletsUI* bulletNave : bulletsNave) {
+			bulletNave->draw();
+			bulletNave->moveBullet();
 		}
-		for (auto it = bullets.begin(); it != bullets.end(); ) {
+		for (BulletsUI* bulletEnemy : bulletsEnemy) {
+			bulletEnemy->draw();
+			bulletEnemy->moveBullet();
+		}
+		
+		for (auto it = bulletsNave.begin(); it != bulletsNave.end(); ) {
 			if ((*it)->checkCollisionEnemies(enemies)) {
-				it = bullets.erase(it);
+				it = bulletsNave.erase(it);
 			}
 			else {
 				++it;
@@ -186,7 +198,7 @@ while (run_Game && ch!='q') { //flag
 		if (ch != ERR) {
 			nave.movementPlayer(ch);
 			if (ch == 32) {
-				bullets.emplace_back(new BulletsUI(nave.Getx()+1, nave.Gety(), 2)); // Criar uma nova bala na posição da nave
+				bulletsNave.emplace_back(new BulletsUI(nave.Getx()+1, nave.Gety(), 2,1)); // Criar uma nova bala na posição da nave
 			}
 		}
 		if (ch == 'p') {
@@ -200,8 +212,8 @@ while (run_Game && ch!='q') { //flag
 		noecho();
 		refresh();
 		this_thread::sleep_for(chrono::milliseconds(40));
-		
 	}
+	enemyActive == 0;
 	GameState = 0;
 	clear();
 	endwin();
