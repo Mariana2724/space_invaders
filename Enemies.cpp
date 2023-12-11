@@ -17,39 +17,6 @@ void EnemiesUI::movement(){
         case 1:
         case 2:
         case 3:
-           /* if (direction == 0) { // Movimento para a direita
-                x++;
-                if (x >= COLS - 10) { // Verifica se chegou ao limite direito
-                    x = COLS - 10;
-                    direction = 1; // Muda a direção para baixo
-                }
-            }
-            else if (direction == 1) { // Movimento para baixo
-                moveDown();
-                a++;
-                if (a == 2) {
-                    direction = 2;
-                    a = 0;
-                }
-                if (y >= LINES - 12) { // Verifica se chegou ao limite inferior
-                    y = LINES - 12; // Ajusta para o limite inferior
-                    direction = 2; // Muda a direção para a esquerda
-                }
-            }
-            else if (direction == 2) { // Movimento para a esquerda
-                moveLeft();
-                if (x <= 0) { // Verifica se chegou ao limite esquerdo
-                    x = 0;
-                    moveDown();
-                    a++;
-                    if (a == 1) {
-                        direction = 0; // Muda a direção para a direita
-                        a = 0;
-                }
-                    
-                }
-            }
-            break;*/
             if (direction == 0) { // Movimento para a direita
                 x++;
                 if (x >= COLS - 10) { // Verifica se chegou ao limite direito
