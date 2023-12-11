@@ -9,7 +9,7 @@
 #include<string>
 #include <chrono>
 #include<thread>
-#include<vector>
+
 using namespace std;
 
 int Game::GameScore = 0;
@@ -141,7 +141,6 @@ int Game::run(void) {
 	list<EnemiesUI*> enemies;
 	list<BulletsUI*> bulletsNave;
 	list<BulletsUI*> bulletsEnemy;
-	vector<int> enemyShotTimers(enemies.size(), 0);
 	list<BarrierUI*> barriers;
 	for (int i = 0; i < 4; i++) {
 		barriers.emplace_back(new BarrierUI(10+i*30,21));
