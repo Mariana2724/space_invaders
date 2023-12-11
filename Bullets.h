@@ -2,6 +2,7 @@
 #include<list>
 #include "Game.h"
 #include "Enemies.h"
+#include "Barrier.h"
 using namespace std;
 
 class Bullets :public Game {
@@ -15,7 +16,7 @@ class Bullets :public Game {
 		int getY();
 		bool checkCollisionNave();
 		bool checkCollisionEnemies(list<EnemiesUI*> enemies);
-		bool checkCollisionBarriers();
+		bool checkCollisionBarriers(list<Barrier*> barrier);
 		bool checkCollisionBullets();
 		void moveBullet(); 
 

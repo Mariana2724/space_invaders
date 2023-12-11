@@ -23,7 +23,7 @@ bool Bullets::checkCollisionEnemies(list<EnemiesUI*> enemies) {
     }
     return false;
 }
-bool Bullets::checkCollisionBarriers(){
+bool Bullets::checkCollisionBarriers(list<Barrier*> barrier){
 
 
 
