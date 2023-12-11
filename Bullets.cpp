@@ -16,7 +16,7 @@ int Bullets::getY(){
 }
 bool Bullets::checkCollisionEnemies(list<EnemiesUI*> enemies) {
     for (EnemiesUI* enemy : enemies) {
-        if (!enemy->collided && xbullet >= enemy->Getx() && ybullet >= enemy->Gety() && ybullet <= enemy->Gety()) {
+        if (!enemy->collided && xbullet <= enemy->Getx()+3 &&xbullet>= enemy->Getx() - 3 && ybullet >= enemy->Gety() && ybullet <= enemy->Gety()) {
             enemy->collided = true;
             return true;
         }
