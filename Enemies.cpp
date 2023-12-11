@@ -62,11 +62,11 @@ void EnemiesUI::draw(){
             break;
          case 2:
             mvprintw(Gety(), Getx(), "  ");
-            mvprintw(Gety(), Getx(), "\\ __ / ");
+            mvprintw(Gety(), Getx(), "  /__\\ ");
             break;
          case 3:
             mvprintw(Gety(), Getx(), "  ");
-            mvprintw(Gety(), Getx(), "\\ __ / ");
+            mvprintw(Gety(), Getx(), "   -__-  ");
             break;
          case 4:
             mvprintw(Gety(), Getx(), "  ");
