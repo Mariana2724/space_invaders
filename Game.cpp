@@ -9,6 +9,7 @@
 #include<string>
 #include <chrono>
 #include<thread>
+#include<vector>
 using namespace std;
 
 int Game::GameScore = 0;
@@ -140,6 +141,7 @@ int Game::run(void) {
 	list<EnemiesUI*> enemies;
 	list<BulletsUI*> bulletsNave;
 	list<BulletsUI*> bulletsEnemy;
+	vector<int> enemyShotTimers(enemies.size(), 0);
 	list<BarrierUI*> barriers;
 	for (int i = 0; i < 4; i++) {
 		barriers.emplace_back(new BarrierUI(10+i*30,21));
@@ -171,9 +173,8 @@ while (run_Game && ch!='q') { //flag
 				}
 				flagmudança = 0;
 			}
-			if (rand() % 100 < 5 && enemyActive==0) {
+			if (rand() % 300 < 0.3) {
 				bulletsEnemy.emplace_back(new BulletsUI(enemy->Getx(), enemy->Gety(),2,2));
-				enemyActive = 1;
 			}
 
 		}
@@ -195,6 +196,7 @@ while (run_Game && ch!='q') { //flag
 			}
 			enemies.erase(remove_if(enemies.begin(), enemies.end(), [](EnemiesUI* enemy) { return enemy->collided; }), enemies.end());
 		}
+
 		ch = getch();
 		if (ch != ERR) {
 			nave.movementPlayer(ch);
