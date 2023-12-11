@@ -195,18 +195,18 @@ while (run_Game && ch!='q') { //flag
 			}
 			enemies.erase(remove_if(enemies.begin(), enemies.end(), [](EnemiesUI* enemy) { return enemy->collided; }), enemies.end());
 		}
-		for (auto it = bullets.begin(); it != bullets.end(); ) {
+		for (auto it = bulletsNave.begin(); it != bulletsNave.end(); ) {
 			if ((*it)->checkCollisionEnemies(enemies)) {
-				it = bullets.erase(it);
+				it = bulletsNave.erase(it);
 			}
 			else {
 				++it;
 			}
 			enemies.erase(remove_if(enemies.begin(), enemies.end(), [](EnemiesUI* enemy) { return enemy->collided; }), enemies.end());
 		}
-		for (auto it = bullets.begin(); it != bullets.end(); ) {
+		for (auto it = bulletsNave.begin(); it != bulletsNave.end(); ) {
 			if ((*it)->checkCollisionBarriers(barriers)) {
-				it = bullets.erase(it);
+				it = bulletsNave.erase(it);
 			}
 			else {
 				++it;

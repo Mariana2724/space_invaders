@@ -32,7 +32,7 @@ bool Bullets::checkCollisionEnemies(list<EnemiesUI*> enemies) {
 }
 bool Bullets::checkCollisionBarriers(list<BarrierUI*> barriers){
     for (BarrierUI* barrier : barriers) {
-        if (!barrier->collidedB && xbullet <= barrier->getx() + 7 && xbullet >= barrier->getx()  && ybullet >= barrier->gety() && ybullet <= barrier->gety()) {
+        if (xbullet <= barrier->getx() + 7 && xbullet >= barrier->getx()  && ybullet >= barrier->gety() && ybullet <= barrier->gety()) {
             barrier->collidedB = true;
             barrier->wasShot();
             return true;

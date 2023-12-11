@@ -15,7 +15,10 @@ int Barrier::gety(){
     return y;
 }
 void Barrier::wasShot() {
-    score--;
+    --score;
+    if (score== 0) {
+
+    }
 }
 
 BarrierUI::BarrierUI(int x, int y):Barrier(x,y){
