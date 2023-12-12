@@ -1,13 +1,18 @@
 #include "Enemies.h"
 #include <curses.h> 
+#include <chrono>
+#include<thread>
+using namespace std;
 
-
+int EnemiesUI::direction = 0;
 Enemies::Enemies(int x, int y, int speed, int enemyType):Ship(x,y,speed),enemyType(enemyType){
 }
-
-EnemiesUI::EnemiesUI(int x, int y, int speed, int enemyType):Enemies(x,y,speed,enemyType), direction(0) {
+int Enemies::getEnemyType() {
+    return enemyType;
 }
-
+EnemiesUI::EnemiesUI(int x, int y, int speed, int enemyType):Enemies(x,y,speed,enemyType) {
+}
+int a = 0;
 void EnemiesUI::movement(){
     
     switch (enemyType) {
@@ -15,7 +20,7 @@ void EnemiesUI::movement(){
         case 2:
         case 3:
             if (direction == 0) { // Movimento para a direita
-                x++;
+                moveRight();
                 if (x >= COLS - 10) { // Verifica se chegou ao limite direito
                     x = COLS - 10;
                     direction = 1;
@@ -45,10 +50,20 @@ void EnemiesUI::movement(){
             }
             break;
         case 4:
-            moveRight();
-            if (x >= COLS - 10) { // Chegou ao lado direito
-                x = 0; // Ajusta a posição para não sair do limite
+            if(a==0){
+                moveRight();
+                if (x >= COLS - 10) { // Chegou ao lado direito
+                    x = COLS - 10; // Ajusta a posição para não sair do limite
+                    a = 1;
+                }
             }
+            else {
+                moveLeft();
+                if (x == 0) {
+                    a = 0;
+                }
+            }
+            //this_thread::sleep_for(chrono::milliseconds(10));
         default:
             break;
         }
@@ -62,11 +77,11 @@ void EnemiesUI::draw(){
             break;
          case 2:
             mvprintw(Gety(), Getx(), "  ");
-            mvprintw(Gety(), Getx(), "  /__\\ ");
+            mvprintw(Gety(), Getx(), "/__\\  ");
             break;
          case 3:
             mvprintw(Gety(), Getx(), "  ");
-            mvprintw(Gety(), Getx(), "   -__-  ");
+            mvprintw(Gety(), Getx(), "-__-");
             break;
          case 4:
             mvprintw(Gety(), Getx(), "  ");

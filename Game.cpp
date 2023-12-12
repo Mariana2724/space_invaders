@@ -141,7 +141,6 @@ int Game::run(void) {
 	start_color();
 	init_pair(1, COLOR_RED, COLOR_BLACK);
 	
-
 	NavePlayerUI nave(57, 25,2);
 	list<EnemiesUI*> enemies;
 	list<BulletsUI*> bulletsNave;
@@ -150,20 +149,27 @@ int Game::run(void) {
 	for (int i = 0; i < 4; i++) {
 		barriers.emplace_back(new BarrierUI(10+i*30,21));
 	}
-
 	for (int i = 0; i < 5; i++) {
 		enemies.emplace_back(new EnemiesUI(i * 7, 5, 5, 2));
 	}
 	for (int i = 0; i < 5; ++i) {
 		enemies.emplace_back(new EnemiesUI(i * 7, 7, 5, 1));
 	}
-	for (int i = 0; i < 5; i++) {
-		enemies.emplace_back(new EnemiesUI(i * 7, 9, 5, 3));
+	for (int i = 0; i < 6; i++) {
+		enemies.emplace_back(new EnemiesUI(i * 6, 9, 5, 3));
 	}
-	enemies.emplace_back(new EnemiesUI(1, 1, 2, 4));
+	enemies.emplace_back(new EnemiesUI(1, 3, 2, 4));
+
 	ch = getch();
+
 while (run_Game && ch!='q') { //flag
 		clear();
+		
+		mvprintw(1, 1, "GAMESCORE: ");
+		mvprintw(1, 12, to_string(GameScore).c_str());
+		mvprintw(1, 18, "LIVES: ");
+		mvprintw(1, 25, to_string(LivesPlayer).c_str());
+
 		nave.draw();
 		for (BarrierUI* barrier : barriers) {
 			barrier->draw();
@@ -171,12 +177,12 @@ while (run_Game && ch!='q') { //flag
 		for (EnemiesUI* enemy : enemies) {
 			enemy->draw();
 			enemy->movement();
-			if (flagmudança == 1) {
+			/*if (flagmudança == 1) {
 				for (EnemiesUI* enemy1 : enemies) {
 					enemy1->setdirection(enemy->getdirection());
 				}
 				flagmudança = 0;
-			}
+			}*/
 			//if(enemy->Getx()>=120)
 			if (rand() % 300 < 0.5) {			
 				bulletsEnemy.emplace_back(new BulletsUI(enemy->Getx(), enemy->Gety(),2,2));
@@ -236,7 +242,7 @@ while (run_Game && ch!='q') { //flag
 		}	
 		for (auto it = bulletsEnemy.begin(); it != bulletsEnemy.end(); ) {
 			keep = (*it)->checkCollisionBarriers(barriers);
-			if (keep == 1) {
+			if (keep == 1|| (*it)->checkCollisionNave(nave)) {
 				it = bulletsEnemy.erase(it);
 			}
 			else if (keep == 2) {
@@ -250,13 +256,8 @@ while (run_Game && ch!='q') { //flag
 						break;
 					}
 				}
-
-				//barriers.erase(remove_if(barriers.begin(), barriers.end(), [](BarrierUI* barrier) { if (barrier->collidedB) {
-				//	barrier->collidedB = false;  // Resetar collidedB para evitar remoção múltipla
-				//	return true;  // Remover apenas a primeira barreira com collidedB igual a zero
-				//}
-				//return false; }), barriers.end());
 			}
+
 		}
 		ch = getch();
 		if (ch != ERR) {

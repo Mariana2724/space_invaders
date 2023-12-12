@@ -1,4 +1,5 @@
 #include "Bullets.h"
+#include"Game.h"
 #include <curses.h>
 #include <list>
 
@@ -24,6 +25,23 @@ int Bullets::getY(){
 bool Bullets::checkCollisionEnemies(list<EnemiesUI*> enemies) {
     for (EnemiesUI* enemy : enemies) {
         if (!enemy->collided && xbullet <= enemy->Getx()+3 &&xbullet>= enemy->Getx() - 3 && ybullet >= enemy->Gety() && ybullet <= enemy->Gety()) {
+            switch (enemy->getEnemyType()) {
+            case 1:
+                GameScore += 50;
+                break;
+            case 2:
+                GameScore += 20;
+                break;
+            case 3:
+                GameScore += 10;
+                break;
+            case 4:
+                GameScore += 100;
+                break;
+            default:
+                GameScore += 10;
+                break;
+            }
             enemy->collided = true;
             return true;
         }
@@ -41,6 +59,14 @@ int Bullets::checkCollisionBarriers(list<BarrierUI*> barriers){
         }
     }
     return 2;
+}
+bool Bullets::checkCollisionNave(NavePlayerUI Nave) {
+    if (xbullet <= Nave.Getx() + 7 && xbullet >= Nave.Getx() && ybullet >= Nave.Gety() && ybullet <= Nave.Gety()) {
+        LivesPlayer--;
+        return true;
+    }
+    return false;
+
 }
 BulletsUI::BulletsUI(float xbullet, float ybullet, int speed,int bulletType): Bullets(xbullet,ybullet,speed,bulletType){
 }
