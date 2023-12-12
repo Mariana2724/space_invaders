@@ -28,3 +28,11 @@ Tentar ver speeds diferentes
 
 [Melhores bonequinhos- procurar no yt a ver se dá]
 
+___________________________________
+
+Problema com as barreiras: funciona se desativar uma das balas mas não funciona com as 2
+mov inimigos
+mudei a variavel direction para static e comentei o que o tiago fez na main
+mexem -se quando chegam ao lado esquerdo
+
+introduzir umkn delay no movimento de inimigos

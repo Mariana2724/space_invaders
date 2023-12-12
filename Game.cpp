@@ -38,6 +38,9 @@ void Game::start(void){
 		case 2:
 			run();
 			break;
+		case 3:
+			GameIsOver();
+			break;
 		default:
 			isRunning = false;
 			break;
@@ -51,9 +54,11 @@ int Game::menu(void) {
 	getmaxyx(stdscr, yMax, xMax);
 	start_color();
 
-	init_pair(1, COLOR_WHITE, COLOR_RED);
+	init_pair(1,COLOR_RED, COLOR_BLACK );
 	init_pair(2, COLOR_YELLOW, COLOR_BLACK);
-	
+//colocar isto porque senão quando as vida acabam elas não são repostas
+	GameScore = 0;
+	LivesPlayer = 10;
 
 	// COLOCAR  attron(COLOR_PAIR(1)); NO INICIO E attroff(COLOR_PAIR(1)); NO FIM
 	// PARA USAR A COR 1 NESSE INTERVALO
@@ -137,6 +142,10 @@ int Game::run(void) {
 	keypad(stdscr, TRUE); // Enable special keys
 	int ch = 0;
 	int enemyActive = 0;
+	int keep = 0;
+	start_color();
+	init_pair(1, COLOR_RED, COLOR_BLACK);
+	
 	NavePlayerUI nave(57, 25,2);
 	list<EnemiesUI*> enemies;
 	list<BulletsUI*> bulletsNave;
@@ -145,20 +154,32 @@ int Game::run(void) {
 	for (int i = 0; i < 4; i++) {
 		barriers.emplace_back(new BarrierUI(10+i*30,21));
 	}
-
 	for (int i = 0; i < 5; i++) {
 		enemies.emplace_back(new EnemiesUI(i * 7, 5, 5, 2));
 	}
 	for (int i = 0; i < 5; ++i) {
 		enemies.emplace_back(new EnemiesUI(i * 7, 7, 5, 1));
 	}
-	for (int i = 0; i < 5; i++) {
-		enemies.emplace_back(new EnemiesUI(i * 7, 9, 5, 3));
+	for (int i = 0; i < 6; i++) {
+		enemies.emplace_back(new EnemiesUI(i * 6, 9, 5, 3));
 	}
-	enemies.emplace_back(new EnemiesUI(1, 1, 2, 4));
+	enemies.emplace_back(new EnemiesUI(1, 3, 2, 4));
+
 	ch = getch();
+
 while (run_Game && ch!='q') { //flag
 		clear();
+		
+		mvprintw(1, 1, "GAMESCORE: ");
+		mvprintw(1, 12, to_string(GameScore).c_str());
+		mvprintw(1, 18, "LIVES: ");
+		mvprintw(1, 25, to_string(LivesPlayer).c_str());
+		if (LivesPlayer == 9) {
+			GameState = 3;
+			clear();
+			endwin();
+			return 0;
+		}
 		nave.draw();
 		for (BarrierUI* barrier : barriers) {
 			barrier->draw();
@@ -166,13 +187,14 @@ while (run_Game && ch!='q') { //flag
 		for (EnemiesUI* enemy : enemies) {
 			enemy->draw();
 			enemy->movement();
-			if (flagmudança == 1) {
+			/*if (flagmudança == 1) {
 				for (EnemiesUI* enemy1 : enemies) {
 					enemy1->setdirection(enemy->getdirection());
 				}
 				flagmudança = 0;
-			}
-			if (rand() % 300 < 0.3) {
+			}*/
+			//if(enemy->Getx()>=120)
+			if (rand() % 300 < 0.5) {			
 				bulletsEnemy.emplace_back(new BulletsUI(enemy->Getx(), enemy->Gety(),2,2));
 			}
 
@@ -205,15 +227,48 @@ while (run_Game && ch!='q') { //flag
 			enemies.erase(remove_if(enemies.begin(), enemies.end(), [](EnemiesUI* enemy) { return enemy->collided; }), enemies.end());
 		}
 		for (auto it = bulletsNave.begin(); it != bulletsNave.end(); ) {
-			if ((*it)->checkCollisionBarriers(barriers)) {
+			keep = (*it)->checkCollisionBarriers(barriers);
+			if (keep==1) {
 				it = bulletsNave.erase(it);
 			}
-			else {
+			else if(keep==2) {
 				++it;
 			}
-			//++it;
-			//barriers.erase(remove_if(barriers.begin(), barriers.end(), [](BarrierUI* barrier) { return barrier->collidedB; }), barriers.end());
+			else if (keep == 0) {
+				for (auto it = barriers.begin(); it != barriers.end(); ++it) {
+					if ((*it)->collidedB) {
+						(*it)->collidedB = false;
+						barriers.erase(it);
+						break;
+					}
+				}
+
+				//barriers.erase(remove_if(barriers.begin(), barriers.end(), [](BarrierUI* barrier) {if (barrier->collidedB) {
+				//	barrier->collidedB = false;  // Resetar collidedB para evitar remoção múltipla
+				//	return true;  // Remover apenas a primeira barreira com collidedB igual a zero
+				//}
+				//return false; }), barriers.end());
+			}
 		}	
+		for (auto it = bulletsEnemy.begin(); it != bulletsEnemy.end(); ) {
+			keep = (*it)->checkCollisionBarriers(barriers);
+			if (keep == 1|| (*it)->checkCollisionNave(nave)) {
+				it = bulletsEnemy.erase(it);
+			}
+			else if (keep == 2) {
+				++it;
+			}
+			else if (keep == 0) {
+				for (auto it = barriers.begin(); it != barriers.end(); ++it) {
+					if ((*it)->collidedB) {
+						(*it)->collidedB = false;
+						barriers.erase(it);
+						break;
+					}
+				}
+			}
+
+		}
 		ch = getch();
 		if (ch != ERR) {
 			nave.movementPlayer(ch);
@@ -229,6 +284,7 @@ while (run_Game && ch!='q') { //flag
 				break;
 			}
 		}
+		
 		noecho();
 		refresh();
 		this_thread::sleep_for(chrono::milliseconds(40));
@@ -395,4 +451,80 @@ int Game::GameIsPaused() {
 
 	}
 
+}
+int Game::GameIsOver(void) {
+	int xMax, yMax;
+	getmaxyx(stdscr, yMax, xMax);
+	bool newW = true;
+	int PauseHighlight = 0;
+	while (newW) {
+		WINDOW* pause = newwin(yMax / 4 - 2, xMax / 4 - 3, yMax / 2 -5, xMax / 2 - 13);
+		box(pause, 0, 0);
+
+		wrefresh(pause);
+		keypad(pause, true);
+
+		string OptionPause[2] = { "  MENU  ", "EXIT GAME" };
+		int ch;
+
+
+		mvwprintw(pause, 1, 7, "YOU HAVE DIED !!!");
+
+		while (true) {
+			for (int i = 0; i < 2; i++) {
+				if (i == PauseHighlight) {
+					wattron(pause, A_REVERSE);
+				}
+				mvwprintw(pause, i + 2, 10-i, OptionPause[i].c_str());
+				wattroff(pause, A_REVERSE);
+			}
+
+			ch = wgetch(pause);
+			switch (ch) {
+			case KEY_UP:
+				PauseHighlight--;
+				if (PauseHighlight == -1) {
+					PauseHighlight = 0;
+				}
+				break;
+			case KEY_DOWN:
+				PauseHighlight++;
+				if (PauseHighlight == 2) {
+					PauseHighlight = 1;
+				}
+				break;
+			default:
+				break;
+			}
+
+			wrefresh(pause);
+			if (ch == 10) {
+				if (PauseHighlight == 0) {
+					GameState = 0;
+					wborder(pause, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '); // Erase frame around the window
+					newW = false;
+					clear();
+					werase(pause);
+					wrefresh(pause);
+					delwin(pause);
+					endwin();
+					return 0;
+					break;
+				}
+				else if (PauseHighlight == 1) {
+					GameState = -1;
+					wborder(pause, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '); // Erase frame around the window
+					newW = false;
+					clear();
+					werase(pause);
+					wrefresh(pause);
+					delwin(pause);
+					endwin();
+					return 0;
+				}
+
+			}
+		}
+
+	}
 }
