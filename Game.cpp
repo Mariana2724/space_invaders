@@ -464,7 +464,7 @@ int Game::GameIsOver(void) {
 		wrefresh(pause);
 		keypad(pause, true);
 
-		string OptionPause[2] = { "MENU", " EXIT GAME " };
+		string OptionPause[2] = { "  MENU  ", "EXIT GAME" };
 		int ch;
 
 
@@ -475,7 +475,7 @@ int Game::GameIsOver(void) {
 				if (i == PauseHighlight) {
 					wattron(pause, A_REVERSE);
 				}
-				mvwprintw(pause, i + 2, 10, OptionPause[i].c_str());
+				mvwprintw(pause, i + 2, 10-i, OptionPause[i].c_str());
 				wattroff(pause, A_REVERSE);
 			}
 
