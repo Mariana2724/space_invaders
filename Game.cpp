@@ -238,17 +238,14 @@ while (run_Game && ch!='q') { //flag
 				for (auto it = barriers.begin(); it != barriers.end(); ++it) {
 					if ((*it)->collidedB) {
 						(*it)->collidedB = false;
-						barriers.erase(it);
+						it=barriers.erase(it);
 						break;
 					}
 				}
-
-				//barriers.erase(remove_if(barriers.begin(), barriers.end(), [](BarrierUI* barrier) {if (barrier->collidedB) {
-				//	barrier->collidedB = false;  // Resetar collidedB para evitar remoção múltipla
-				//	return true;  // Remover apenas a primeira barreira com collidedB igual a zero
-				//}
-				//return false; }), barriers.end());
 			}
+		/*	if ((*it)->checkCollisionBullets(bulletsEnemy)) {
+				bulletsNave.erase(it);
+			}*/
 		}	
 		for (auto it = bulletsEnemy.begin(); it != bulletsEnemy.end(); ) {
 			keep = (*it)->checkCollisionBarriers(barriers);
@@ -262,7 +259,7 @@ while (run_Game && ch!='q') { //flag
 				for (auto it = barriers.begin(); it != barriers.end(); ++it) {
 					if ((*it)->collidedB) {
 						(*it)->collidedB = false;
-						barriers.erase(it);
+						it=barriers.erase(it);
 						break;
 					}
 				}

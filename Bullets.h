@@ -22,12 +22,13 @@ class Bullets :public Game {
 		bool checkCollisionNave(NavePlayerUI Nave);
 		bool checkCollisionEnemies(list<EnemiesUI*> enemies);
 		int checkCollisionBarriers(list<BarrierUI*> barrier);
-		bool checkCollisionBullets();
+		
 		void moveBullet(); 
 		
 };
 class BulletsUI :public Bullets {
 public:
+	bool checkCollisionBullets(list<BulletsUI*>bulletsO);
 	BulletsUI(float xbullet, float ybullet, int speed,int bulletType);
 	void draw();
 };

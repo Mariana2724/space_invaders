@@ -239,3 +239,25 @@ MOVIMNETO DOS INIMIGOS TIAGO
             if (x >= COLS - 10) { // Chegou ao lado direito
                 x = 0; // Ajusta a posição para não sair do limite
             }
+
+_______________________________
+bool Bullets::checkCollisionBullets(list<BulletsUI*>bulletsO) {
+    for (BulletsUI* bulletO : bulletsO) {
+        if (xbullet <= bulletO->getX() + 7 && xbullet >= bulletO->getX() && ybullet >= bulletO->getY() && ybullet <= bulletO->getY()) {
+          // bulletsO.erase(bulletO);
+            return true;
+        }
+    }
+    return false;
+}
+/*if ((*it)->checkCollisionBullets(bulletsEnemy)) {
+				bulletsNave.erase(it);
+			}*/
+
+
+
+			//barriers.erase(remove_if(barriers.begin(), barriers.end(), [](BarrierUI* barrier) {if (barrier->collidedB) {
+				//	barrier->collidedB = false;  // Resetar collidedB para evitar remoção múltipla
+				//	return true;  // Remover apenas a primeira barreira com collidedB igual a zero
+				//}
+				//return false; }), barriers.end());

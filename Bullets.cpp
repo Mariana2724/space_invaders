@@ -61,13 +61,22 @@ int Bullets::checkCollisionBarriers(list<BarrierUI*> barriers){
     return 2;
 }
 bool Bullets::checkCollisionNave(NavePlayerUI Nave) {
-    if (xbullet <= Nave.Getx() + 7 && xbullet >= Nave.Getx() && ybullet >= Nave.Gety() && ybullet <= Nave.Gety()) {
+    if (xbullet <= Nave.Getx() + 5 && xbullet >= Nave.Getx() && ybullet >= Nave.Gety() && ybullet <= Nave.Gety()) {
         LivesPlayer--;
         return true;
     }
     return false;
 
 }
+//bool BulletsUI::checkCollisionBullets(list<BulletsUI*>bulletsO) {
+//    for (BulletsUI* bulletO : bulletsO) {
+//        if (getX() <= bulletO->getX() && getX() >= bulletO->getX() && getY() >= bulletO->getY() && getY() <= bulletO->getY()) {
+//            // bulletsO.erase(bulletO);
+//            return true;
+//        }
+//    }
+//    return false;
+//}
 BulletsUI::BulletsUI(float xbullet, float ybullet, int speed,int bulletType): Bullets(xbullet,ybullet,speed,bulletType){
 }
 void BulletsUI::draw(){
