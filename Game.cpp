@@ -177,11 +177,9 @@ while (run_Game && ch!='q') { //flag
 				}
 				flagmudança = 0;
 			}
-			if (rand() % 300 < 0.5) {
-				attron(COLOR_PAIR(1));
-				
+			//if(enemy->Getx()>=120)
+			if (rand() % 300 < 0.5) {			
 				bulletsEnemy.emplace_back(new BulletsUI(enemy->Getx(), enemy->Gety(),2,2));
-				attroff(COLOR_PAIR(1));
 			}
 
 		}
@@ -221,7 +219,19 @@ while (run_Game && ch!='q') { //flag
 				++it;
 			}
 			else if (keep == 0) {
-				barriers.erase(remove_if(barriers.begin(), barriers.end(), [](BarrierUI* barrier) { return barrier->collidedB; }), barriers.end());
+				for (auto it = barriers.begin(); it != barriers.end(); ++it) {
+					if ((*it)->collidedB) {
+						(*it)->collidedB = false;
+						barriers.erase(it);
+						break;
+					}
+				}
+
+				//barriers.erase(remove_if(barriers.begin(), barriers.end(), [](BarrierUI* barrier) {if (barrier->collidedB) {
+				//	barrier->collidedB = false;  // Resetar collidedB para evitar remoção múltipla
+				//	return true;  // Remover apenas a primeira barreira com collidedB igual a zero
+				//}
+				//return false; }), barriers.end());
 			}
 		}	
 		for (auto it = bulletsEnemy.begin(); it != bulletsEnemy.end(); ) {
@@ -233,7 +243,19 @@ while (run_Game && ch!='q') { //flag
 				++it;
 			}
 			else if (keep == 0) {
-				barriers.erase(remove_if(barriers.begin(), barriers.end(), [](BarrierUI* barrier) { return barrier->collidedB; }), barriers.end());
+				for (auto it = barriers.begin(); it != barriers.end(); ++it) {
+					if ((*it)->collidedB) {
+						(*it)->collidedB = false;
+						barriers.erase(it);
+						break;
+					}
+				}
+
+				//barriers.erase(remove_if(barriers.begin(), barriers.end(), [](BarrierUI* barrier) { if (barrier->collidedB) {
+				//	barrier->collidedB = false;  // Resetar collidedB para evitar remoção múltipla
+				//	return true;  // Remover apenas a primeira barreira com collidedB igual a zero
+				//}
+				//return false; }), barriers.end());
 			}
 		}
 		ch = getch();

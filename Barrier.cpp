@@ -4,7 +4,7 @@
 #include <string>
 using namespace std;
 Barrier::Barrier(int x, int y, int score=30) :x(x), y(y){
-   this-> score = 30;
+   this-> score = 20;
 }
 
 int Barrier::getx(){
