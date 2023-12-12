@@ -17,6 +17,7 @@ public:
 	int menu(void);
 	int ChooseSpaceship(void);
 	int GameIsPaused(void);
+	int GameIsOver(void);
 	void start(void);
 	virtual void draw() {};
 	virtual void movement() {};

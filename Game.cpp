@@ -38,6 +38,9 @@ void Game::start(void){
 		case 2:
 			run();
 			break;
+		case 3:
+			GameIsOver();
+			break;
 		default:
 			isRunning = false;
 			break;
@@ -51,9 +54,11 @@ int Game::menu(void) {
 	getmaxyx(stdscr, yMax, xMax);
 	start_color();
 
-	init_pair(1, COLOR_WHITE, COLOR_RED);
+	init_pair(1,COLOR_RED, COLOR_BLACK );
 	init_pair(2, COLOR_YELLOW, COLOR_BLACK);
-	
+//colocar isto porque senão quando as vida acabam elas não são repostas
+	GameScore = 0;
+	LivesPlayer = 10;
 
 	// COLOCAR  attron(COLOR_PAIR(1)); NO INICIO E attroff(COLOR_PAIR(1)); NO FIM
 	// PARA USAR A COR 1 NESSE INTERVALO
@@ -169,7 +174,12 @@ while (run_Game && ch!='q') { //flag
 		mvprintw(1, 12, to_string(GameScore).c_str());
 		mvprintw(1, 18, "LIVES: ");
 		mvprintw(1, 25, to_string(LivesPlayer).c_str());
-
+		if (LivesPlayer == 9) {
+			GameState = 3;
+			clear();
+			endwin();
+			return 0;
+		}
 		nave.draw();
 		for (BarrierUI* barrier : barriers) {
 			barrier->draw();
@@ -274,6 +284,7 @@ while (run_Game && ch!='q') { //flag
 				break;
 			}
 		}
+		
 		noecho();
 		refresh();
 		this_thread::sleep_for(chrono::milliseconds(40));
@@ -440,4 +451,80 @@ int Game::GameIsPaused() {
 
 	}
 
+}
+int Game::GameIsOver(void) {
+	int xMax, yMax;
+	getmaxyx(stdscr, yMax, xMax);
+	bool newW = true;
+	int PauseHighlight = 0;
+	while (newW) {
+		WINDOW* pause = newwin(yMax / 4 - 2, xMax / 4 - 3, yMax / 2 -5, xMax / 2 - 13);
+		box(pause, 0, 0);
+
+		wrefresh(pause);
+		keypad(pause, true);
+
+		string OptionPause[2] = { "MENU", " EXIT GAME " };
+		int ch;
+
+
+		mvwprintw(pause, 1, 7, "YOU HAVE DIED !!!");
+
+		while (true) {
+			for (int i = 0; i < 2; i++) {
+				if (i == PauseHighlight) {
+					wattron(pause, A_REVERSE);
+				}
+				mvwprintw(pause, i + 2, 10, OptionPause[i].c_str());
+				wattroff(pause, A_REVERSE);
+			}
+
+			ch = wgetch(pause);
+			switch (ch) {
+			case KEY_UP:
+				PauseHighlight--;
+				if (PauseHighlight == -1) {
+					PauseHighlight = 0;
+				}
+				break;
+			case KEY_DOWN:
+				PauseHighlight++;
+				if (PauseHighlight == 2) {
+					PauseHighlight = 1;
+				}
+				break;
+			default:
+				break;
+			}
+
+			wrefresh(pause);
+			if (ch == 10) {
+				if (PauseHighlight == 0) {
+					GameState = 0;
+					wborder(pause, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '); // Erase frame around the window
+					newW = false;
+					clear();
+					werase(pause);
+					wrefresh(pause);
+					delwin(pause);
+					endwin();
+					return 0;
+					break;
+				}
+				else if (PauseHighlight == 1) {
+					GameState = -1;
+					wborder(pause, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '); // Erase frame around the window
+					newW = false;
+					clear();
+					werase(pause);
+					wrefresh(pause);
+					delwin(pause);
+					endwin();
+					return 0;
+				}
+
+			}
+		}
+
+	}
 }
