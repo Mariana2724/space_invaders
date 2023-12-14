@@ -229,8 +229,9 @@ while (run_Game && ch!='q') { //flag
 		mvprintw(1, 12, to_string(GameScore).c_str());
 		mvprintw(1, 18, "LIVES: ");
 		mvprintw(1, 25, to_string(LivesPlayer).c_str());
+		mvprintw(1, 30, "PLAYER: ");
 		for (int i = 0; i < 20; i++) {
-			mvprintw(1, 30+i, name[i].c_str());
+			mvprintw(1, 38+i, name[i].c_str());
 		}
 		//mvprintw(1, 30, "player: %c", name);
 		if (LivesPlayer == 9) {
