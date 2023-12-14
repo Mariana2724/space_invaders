@@ -1,6 +1,7 @@
 #include "Bullets.h"
 #include"Game.h"
 #include <curses.h>
+#include "NavePlayer.h"
 #include <list>
 
 void Bullets::moveBullet(){
@@ -60,6 +61,7 @@ int Bullets::checkCollisionBarriers(list<BarrierUI*> barriers){
     }
     return 2;
 }
+
 bool Bullets::checkCollisionNave(NavePlayerUI Nave) {
     if (xbullet <= Nave.Getx() + 7 && xbullet >= Nave.Getx() && ybullet >= Nave.Gety() && ybullet <= Nave.Gety()) {
         LivesPlayer--;

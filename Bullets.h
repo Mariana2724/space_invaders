@@ -15,6 +15,7 @@ class Bullets :public Game {
 		int bulletType;
 		list <EnemiesUI*> enemies;
 		list <Bullets*> bulletNave; // fazer de inimigos e player
+		list<Bullets*> bulletsEnemy;
 	public:
 		Bullets(float xbullet, float ybullet, int speed, int bulletType);
 		int getX();
