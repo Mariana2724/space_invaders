@@ -23,7 +23,7 @@ int Bullets::getX(){
 int Bullets::getY(){
 	return ybullet;
 }
-bool Bullets::checkCollisionEnemies(list<EnemiesUI*> enemies) {
+int Bullets::checkCollisionEnemies(list<EnemiesUI*> enemies) {
     for (EnemiesUI* enemy : enemies) {
         if (!enemy->collided && xbullet <= enemy->Getx()+3 &&xbullet>= enemy->Getx() - 3 && ybullet >= enemy->Gety() && ybullet <= enemy->Gety()) {
             switch (enemy->getEnemyType()) {
@@ -44,10 +44,10 @@ bool Bullets::checkCollisionEnemies(list<EnemiesUI*> enemies) {
                 break;
             }
             enemy->collided = true;
-            return true;
+            return 1;
         }
     }
-    return false;
+    return 0;
 }
 int Bullets::checkCollisionBarriers(list<BarrierUI*> barriers){
     for (BarrierUI* barrier : barriers) {
