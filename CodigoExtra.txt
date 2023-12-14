@@ -261,3 +261,9 @@ bool Bullets::checkCollisionBullets(list<BulletsUI*>bulletsO) {
 				//	return true;  // Remover apenas a primeira barreira com collidedB igual a zero
 				//}
 				//return false; }), barriers.end());
+_________________________________
+
+coidgo anterior para apagar 
+enemies.erase(remove_if(enemies.begin(), enemies.end(), [](EnemiesUI* enemy) { return enemy->collided; }), enemies.end());
+_____________________________________
+

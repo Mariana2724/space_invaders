@@ -269,23 +269,22 @@ while (run_Game && ch!='q') { //flag
 		}
 		
 		for (auto it = bulletsNave.begin(); it != bulletsNave.end(); ) {
-			if ((*it)->checkCollisionEnemies(enemies)) {
+			keep = (*it)->checkCollisionEnemies(enemies);
+			if (keep==1) {
 				it = bulletsNave.erase(it);
 			}
 			else {
 				++it;
 			}
-			enemies.erase(remove_if(enemies.begin(), enemies.end(), [](EnemiesUI* enemy) { return enemy->collided; }), enemies.end());
-		}
-		for (auto it = bulletsNave.begin(); it != bulletsNave.end(); ) {
-			if ((*it)->checkCollisionEnemies(enemies)) {
-				it = bulletsNave.erase(it);
+			for (auto it = enemies.begin(); it != enemies.end(); ++it) {
+				if ((*it)->collided) {
+					(*it)->collided = false;
+					it = enemies.erase(it);
+					break;
+				}
 			}
-			else {
-				++it;
-			}
-			enemies.erase(remove_if(enemies.begin(), enemies.end(), [](EnemiesUI* enemy) { return enemy->collided; }), enemies.end());
 		}
+		
 		for (auto it = bulletsNave.begin(); it != bulletsNave.end(); ) {
 			keep = (*it)->checkCollisionBarriers(barriers);
 			if (keep==1) {
@@ -295,6 +294,7 @@ while (run_Game && ch!='q') { //flag
 				++it;
 			}
 			else if (keep == 0) {
+				it = bulletsNave.erase(it);
 				for (auto it = barriers.begin(); it != barriers.end(); ++it) {
 					if ((*it)->collidedB) {
 						(*it)->collidedB = false;
