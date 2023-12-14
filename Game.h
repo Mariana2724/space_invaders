@@ -7,6 +7,7 @@ class Game {
 protected:
 	static int SpaceShip;
 	static int flagmudança;
+	//static string PlayerName[20];
 public: 
 	static int GameScore;
 	static int LivesPlayer;
@@ -18,6 +19,7 @@ public:
 	int ChooseSpaceship(void);
 	int GameIsPaused(void);
 	int GameIsOver(void);
+	int InsertName(void);
 	void start(void);
 	virtual void draw() {};
 	virtual void movement() {};

@@ -17,7 +17,7 @@ int Game::LivesPlayer = 10;
 int Game::SpaceShip = 0;
 int Game::GameState = 0;
 int Game::flagmudança = 0;
-
+string name[20]; // Buffer para armazenar o nome
 Game::Game() {
 	run_Game = true;
 }
@@ -41,6 +41,9 @@ void Game::start(void){
 		case 3:
 			GameIsOver();
 			break;
+		case 4:
+			InsertName();
+			break;
 		default:
 			isRunning = false;
 			break;
@@ -57,85 +60,137 @@ int Game::menu(void) {
 	init_pair(1,COLOR_RED, COLOR_BLACK );
 	init_pair(2, COLOR_YELLOW, COLOR_BLACK);
 //colocar isto porque senão quando as vida acabam elas não são repostas
-	GameScore = 0;
-	LivesPlayer = 10;
+GameScore = 0;
+LivesPlayer = 10;
 
-	// COLOCAR  attron(COLOR_PAIR(1)); NO INICIO E attroff(COLOR_PAIR(1)); NO FIM
-	// PARA USAR A COR 1 NESSE INTERVALO
+// COLOCAR  attron(COLOR_PAIR(1)); NO INICIO E attroff(COLOR_PAIR(1)); NO FIM
+// PARA USAR A COR 1 NESSE INTERVALO
 
-	attron(COLOR_PAIR(1));
-	mvprintw(5, 15, "  _________                           .___                         .___                   ");
-	mvprintw(6, 15, " /   _____/__________    ____  ____   |   | _______  _______     __| _/___________  ______");
-	mvprintw(7, 15, " \\_____  \\____ \\__  \\ _/ ___\\/ __ \\   |   |/    \\  \\/ /\\__  \\   / __ |/ __ \\_  __ \\/  ___/");
-	mvprintw(8, 15, " /        \\  |_> > __ \\\\  \\__\\  ___/  |   |   |  \\   /  / __ \\_/ /_/ \\  ___/|  | \\/\\___ \\ ");
-	mvprintw(9, 15, "/_______  /   __(____  /\\___  >___  > |___|___|  /\\_/  (____  /\\____ |\\___  >__|  /____  >");
-	mvprintw(10, 15, "        \\/|__|       \\/     \\/    \\/           \\/           \\/      \\/    \\/           \\/ ");
-	attroff(COLOR_PAIR(1));
+attron(COLOR_PAIR(1));
+mvprintw(5, 15, "  _________                           .___                         .___                   ");
+mvprintw(6, 15, " /   _____/__________    ____  ____   |   | _______  _______     __| _/___________  ______");
+mvprintw(7, 15, " \\_____  \\____ \\__  \\ _/ ___\\/ __ \\   |   |/    \\  \\/ /\\__  \\   / __ |/ __ \\_  __ \\/  ___/");
+mvprintw(8, 15, " /        \\  |_> > __ \\\\  \\__\\  ___/  |   |   |  \\   /  / __ \\_/ /_/ \\  ___/|  | \\/\\___ \\ ");
+mvprintw(9, 15, "/_______  /   __(____  /\\___  >___  > |___|___|  /\\_/  (____  /\\____ |\\___  >__|  /____  >");
+mvprintw(10, 15, "        \\/|__|       \\/     \\/    \\/           \\/           \\/      \\/    \\/           \\/ ");
+attroff(COLOR_PAIR(1));
 
-	//WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x);
+//WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x);
 
-	WINDOW* menu_win = newwin(yMax / 4, xMax / 4, yMax / 2, xMax / 2 - 15);
-	box(menu_win, 4, 0);
-	refresh();
-	wrefresh(menu_win);
-	keypad(menu_win, true);
+WINDOW* menu_win = newwin(yMax / 4, xMax / 4, yMax / 2, xMax / 2 - 15);
+box(menu_win, 4, 0);
+refresh();
+wrefresh(menu_win);
+keypad(menu_win, true);
 
-	string UserChoice[3] = { "PLAY", "CHOOSE SPACESHIP","EXIT" };
-	int choice;
-	int highlight = 0;
+string UserChoice[3] = { "PLAY", "CHOOSE SPACESHIP","EXIT" };
+int choice;
+int highlight = 0;
 //Para as opções do menu
-	while (run_Game) {
-		for (int i = 0; i < 3; i++) {
-			if (i == highlight) {
-				wattron(menu_win, A_REVERSE);
-			}
-			if (i == 1) {
-				mvwprintw(menu_win, i + 2, 7, UserChoice[i].c_str());
-			}
-			else {
-				mvwprintw(menu_win, i + 2, 13, UserChoice[i].c_str());
-			}
-			wattroff(menu_win, A_REVERSE);
+while (run_Game) {
+	for (int i = 0; i < 3; i++) {
+		if (i == highlight) {
+			wattron(menu_win, A_REVERSE);
 		}
-		
-		choice = wgetch(menu_win);
-
-		switch (choice) {
-		case KEY_UP:
-			highlight--;
-			if (highlight == -1)
-				highlight = 0;
-			break;
-		case KEY_DOWN:
-			highlight++;
-			if (highlight == 3)
-				highlight = 2;
-			break;
-		case 10:
-			if (highlight == 0) {
-				refresh();
-				wrefresh(menu_win);
-				wclear(menu_win);
-				delwin(menu_win);
-				GameState = 2;
-				run_Game = false;
-			}
-			else if (highlight == 1) {
-				GameState = 1;
-				run_Game = false;
-			}
-			else {
-				run_Game = false;
-				GameState = -1;
-			}
-		default:
-			break;
+		if (i == 1) {
+			mvwprintw(menu_win, i + 2, 7, UserChoice[i].c_str());
 		}
+		else {
+			mvwprintw(menu_win, i + 2, 13, UserChoice[i].c_str());
+		}
+		wattroff(menu_win, A_REVERSE);
 	}
-	run_Game = true;
-	endwin();
+
+	choice = wgetch(menu_win);
+
+	switch (choice) {
+	case KEY_UP:
+		highlight--;
+		if (highlight == -1)
+			highlight = 0;
+		break;
+	case KEY_DOWN:
+		highlight++;
+		if (highlight == 3)
+			highlight = 2;
+		break;
+	case 10:
+		if (highlight == 0) {
+			refresh();
+			wrefresh(menu_win);
+			wclear(menu_win);
+			delwin(menu_win);
+			GameState = 4;
+			run_Game = false;
+		}
+		else if (highlight == 1) {
+			GameState = 1;
+			run_Game = false;
+		}
+		else {
+			run_Game = false;
+			GameState = -1;
+		}
+	default:
+		break;
+	}
+}
+run_Game = true;
+endwin();
+return 0;
+}
+int Game::InsertName() {
+	int xMax, yMax;
+	getmaxyx(stdscr, yMax, xMax);
+	bool newW = true;
+
+	while (newW) {
+		WINDOW* insert = newwin(yMax / 4 - 2, xMax / 4 - 3, yMax / 2 - 5, xMax / 2 - 13);
+		mvwprintw(insert, 0, 0, "_________________________");
+		mvwprintw(insert, 4, 0, "_________________________");
+
+		wrefresh(insert);
+		keypad(insert, true);
+
+		int ch;
+	
+		mvwprintw(insert, 2, 7, "YOUR NAME: ");
+		mvwprintw(insert, 3, 3, "->");
+		
+		char a;
+		int x = 0;
+		while (true) {
+			ch = wgetch(insert);
+			if ((ch >= 65 && ch <= 122) || ch == 10||ch==8){
+				wattron(insert, A_REVERSE);
+				waddch(insert, ch);
+				name[x]=ch;
+				if (ch == 8) {
+					wdelch(insert);
+					x--;
+					name[x] = ' ';
+					x--;
+				}
+				
+				wattroff(insert, A_REVERSE);
+				if (ch == 10) {
+					break;
+				}
+				x++;
+			}
+        }
+		newW = false;
+		wrefresh(insert); // Atualiza a janela após o término do loop de entrada do nome
+		wclear(insert);
+		delwin(insert);
+		endwin();
+		GameState = 2;
+    }
+	
 	return 0;
 }
+
+
 
 int Game::run(void) {
 	nodelay(stdscr, true);    // Configurar o terminal para o modo sem espera por entrada
@@ -174,6 +229,10 @@ while (run_Game && ch!='q') { //flag
 		mvprintw(1, 12, to_string(GameScore).c_str());
 		mvprintw(1, 18, "LIVES: ");
 		mvprintw(1, 25, to_string(LivesPlayer).c_str());
+		for (int i = 0; i < 20; i++) {
+			mvprintw(1, 30+i, name[i].c_str());
+		}
+		//mvprintw(1, 30, "player: %c", name);
 		if (LivesPlayer == 9) {
 			GameState = 3;
 			clear();
