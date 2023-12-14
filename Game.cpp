@@ -212,7 +212,7 @@ int Game::run(void) {
 	for (int i = 0; i < 5; i++) {
 		enemies.emplace_back(new EnemiesUI(i * 7, 5, 5, 2));
 	}
-	for (int i = 0; i < 5; ++i) {
+	for (int i = 0; i < 5; i++) {
 		enemies.emplace_back(new EnemiesUI(i * 7, 7, 5, 1));
 	}
 	for (int i = 0; i < 6; i++) {
