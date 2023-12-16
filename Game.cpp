@@ -297,9 +297,6 @@ while (run_Game && ch!='q') { //flag
 					}
 				}
 			}
-		/*	if ((*it)->checkCollisionBullets(bulletsEnemy)) {
-				bulletsNave.erase(it);
-			}*/
 		}	
 		for (auto it = bulletsEnemy.begin(); it != bulletsEnemy.end(); ) {
 			keep = (*it)->checkCollisionBarriers(barriers);

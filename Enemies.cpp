@@ -22,7 +22,6 @@ void EnemiesUI::movement(){
                 if (x >= COLS - 10) { // Verifica se chegou ao limite direito
                     x = COLS - 10;
                     direction = 1;
-               //     flagmudança = 1;// Muda a direção para baixo
                 }
             }
             else if (direction == 1) { // Movimento para baixo
@@ -33,9 +32,9 @@ void EnemiesUI::movement(){
                 else if (x == COLS - 10) {
                     direction=2;
                 }
-               // flagmudança = 1;
-                if (y >= LINES - 12) { // Verifica se chegou ao limite inferior
-                    y = LINES - 12; // Ajusta para o limite inferior
+                if (y >= LINES - 10) { // Verifica se chegou ao limite inferior
+                    y = LINES - 10; // Ajusta para o limite inferior
+                        direction = 3;
                 }
             }
             else if (direction==2) { // Movimento para a esquerda
@@ -43,7 +42,26 @@ void EnemiesUI::movement(){
                 if (x <= 0) { // Verifica se chegou ao limite esquerdo
                     x = 0;
                     direction = 1; // Muda a direção para a direita
-                   // flagmudança = 1;
+                }
+            }
+            else if (direction == 3) {
+                moveUp();
+                if (x == 0) {
+                    direction = 0;
+                }
+                else if (x == COLS - 10) {
+                    direction = 4;
+                }
+                if (y <= 5) { // Verifica se chegou ao limite inferior
+                    y = 5; // Ajusta para o limite inferior
+                    direction = 1;
+                }
+            }
+            else if (direction == 4) {
+                moveLeft();
+                if (x <= 0) { // Verifica se chegou ao limite esquerdo
+                    x = 0;
+                    direction = 3; // Muda a direção para a direita
                 }
             }
             break;
@@ -61,7 +79,6 @@ void EnemiesUI::movement(){
                     a = 0;
                 }
             }
-            //this_thread::sleep_for(chrono::milliseconds(10));
         default:
             break;
         }
