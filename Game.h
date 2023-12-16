@@ -6,7 +6,6 @@ class Game:public GameStatusUI{
 	bool run_Game;
 protected:
 	static int SpaceShip;
-	static int flagmudança;
 	//static string PlayerName[20];
 public: 
 	/*static int GameScore;
@@ -22,7 +21,4 @@ public:
 	int GameIsOver(void);
 	int InsertName(void);
 	int run(void);
-	virtual void draw() {};
-	virtual void movement() {};
-
 };

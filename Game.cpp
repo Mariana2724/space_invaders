@@ -17,7 +17,6 @@ using namespace std;
 
 int Game::SpaceShip = 0;
 int Game::GameState = 0;
-int Game::flagmudança = 0;
 string name[20]; // Buffer para armazenar o nome
 Game::Game() {
 	run_Game = true;

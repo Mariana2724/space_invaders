@@ -15,6 +15,7 @@ class NavePlayerUI :public NavePlayer {
 public:
 	NavePlayerUI(int x, int y, int speed);
 	void draw();
+	
 };
 
 #endif
