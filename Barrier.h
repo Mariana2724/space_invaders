@@ -1,16 +1,19 @@
 #pragma once
-#include "Game.h"
+#include "Shapes.h"
 #include <iostream>
-
-class Barrier:public Game {
+struct CoordB {
 	int x, y;
+};
+class Barrier:public Shapes {
+	CoordB position;
 protected:
 	int score;
 public:
 	Barrier(int x, int y, int score);
-	int getx();
-	int gety();
+	int getX();
+	int getY();
 	int wasShot();
+	void movement() {};
 };
 
 class BarrierUI:public Barrier {

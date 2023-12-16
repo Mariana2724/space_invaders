@@ -5,9 +5,10 @@ class Game:public GameStatusUI{
 	static int GameState;
 	bool run_Game;
 protected:
-	static int SpaceShip;
+	
 	//static string PlayerName[20];
 public: 
+	static int SpaceShip;
 	/*static int GameScore;
 	static int LivesPlayer;*/
 	Game();

@@ -3,16 +3,18 @@
 #include <curses.h>
 #include <string>
 using namespace std;
-Barrier::Barrier(int x, int y, int score=30) :x(x), y(y){
+Barrier::Barrier(int x, int y, int score=20) {
    this-> score = 20;
+   this->position.x = x;
+   this->position.y = y;
 }
 
-int Barrier::getx(){
-    return x;
+int Barrier::getX(){
+    return position.x;
 }
 
-int Barrier::gety(){
-    return y;
+int Barrier::getY(){
+    return position.y;
 }
 int Barrier::wasShot() {
     --score;
@@ -32,12 +34,12 @@ void BarrierUI::draw() {
     init_pair(1, COLOR_RED, COLOR_BLACK);
     //string a = to_string(score);
     attron(COLOR_PAIR(1));
-    mvprintw(gety(), getx(), "  ______  ");
-    mvprintw(gety() + 1, getx() + 1, "|      |");
+    mvprintw(getY(), getX(), "  ______  ");
+    mvprintw(getY() + 1, getX() + 1, "|      |");
     attroff(COLOR_PAIR(1));
-    mvprintw(gety() + 1, getx() + 4, to_string(score).c_str());
+    mvprintw(getY() + 1, getX() + 4, to_string(score).c_str());
     attron(COLOR_PAIR(1));
-    mvprintw(gety() + 2, getx(), " \\______/ ");
+    mvprintw(getY() + 2, getX(), " \\______/ ");
     attroff(COLOR_PAIR(1));
 }
 
