@@ -6,9 +6,12 @@ public:
 	static int LivesPlayer;
 	static int xMax;
 	static int yMax;
+	static char name[];
 	//static string name;
 	static int LivesP();
 	static int Score();
+	void ScoreListInsert();
+	
 	
 };
 
@@ -17,4 +20,5 @@ public:
 	GameStatusUI();
 	void GameWindow();
 	void UpdateInfoScreen(); //vai escrever a informação no ecrã
+	void ScoreListShow();
 };

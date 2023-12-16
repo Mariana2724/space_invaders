@@ -7,6 +7,7 @@
 #include "Barrier.h"
 #include "GameStatus.h"
 
+#include <vector>
 #include <list>
 #include<string>
 #include <chrono>
@@ -17,7 +18,7 @@ using namespace std;
 
 int Game::SpaceShip = 0;
 int Game::GameState = 0;
-string name[20]; // Buffer para armazenar o nome
+
 Game::Game() {
 	run_Game = true;
 }
@@ -44,6 +45,9 @@ void Game::start(void){
 			break;
 		case 4:
 			InsertName();
+			break;
+		case 5:
+			ScoreListShow();
 			break;
 		default:
 			isRunning = false;
@@ -72,23 +76,26 @@ int Game::menu(void) {
 	LivesPlayer = 10;
 	GameName();
 	//WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x);
-	WINDOW* menu_win = newwin(yMax / 4, xMax / 4, yMax / 2, xMax / 2 - 15);
+	WINDOW* menu_win = newwin(yMax / 4+1, xMax / 4, yMax / 2, xMax / 2 - 15);
 	box(menu_win, 4, 0);
 	refresh();
 	wrefresh(menu_win);
 	keypad(menu_win, true);
 
-	string UserChoice[3] = { "PLAY", "CHOOSE SPACESHIP","EXIT" };
+	string UserChoice[4] = { "PLAY", "CHOOSE SPACESHIP","SCORETABLE","EXIT" };
 	int choice;
 	int highlight = 0;
 
 	while (run_Game) {
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 4; i++) {
 			if (i == highlight) {
 				wattron(menu_win, A_REVERSE);
 			}
 			if (i == 1) {
 				mvwprintw(menu_win, i + 2, 7, UserChoice[i].c_str());
+			}
+			else if(i==2){
+				mvwprintw(menu_win, i + 2, 10, UserChoice[i].c_str());
 			}
 			else {
 				mvwprintw(menu_win, i + 2, 13, UserChoice[i].c_str());
@@ -106,8 +113,8 @@ int Game::menu(void) {
 			break;
 		case KEY_DOWN:
 			highlight++;
-			if (highlight == 3)
-				highlight = 2;
+			if (highlight == 4)
+				highlight = 3;
 			break;
 		case 10:
 			if (highlight == 0) {
@@ -120,6 +127,10 @@ int Game::menu(void) {
 			}
 			else if (highlight == 1) {
 				GameState = 1;
+				run_Game = false;
+			}
+			else if (highlight==2) {
+				GameState = 5;
 				run_Game = false;
 			}
 			else {
@@ -146,13 +157,10 @@ int Game::InsertName() {
 		wrefresh(insert);
 		keypad(insert, true);
 
-		int ch;
+		int ch, x = 0;;
 	
 		mvwprintw(insert, 2, 7, "YOUR NAME: ");
 		mvwprintw(insert, 3, 3, "->");
-		
-		char a;
-		int x = 0;
 
 		for (int i = 0; i < 20; i++) {
 			name[i] = ' ';
@@ -179,7 +187,7 @@ int Game::InsertName() {
 			}
         }
 		newW = false;
-		wrefresh(insert); // Atualiza a janela após o término do loop de entrada do nome
+		wrefresh(insert); 
 		wclear(insert);
 		delwin(insert);
     }
@@ -192,8 +200,8 @@ int Game::InsertName() {
 
 
 int Game::run(void) {
-	nodelay(stdscr, true);    // Configurar o terminal para o modo sem espera por entrada
-	keypad(stdscr, TRUE); // Enable special keys
+	nodelay(stdscr, true); 
+	keypad(stdscr, TRUE); 
 	
 	start_color();
 	init_pair(1, COLOR_RED, COLOR_BLACK);
@@ -228,8 +236,10 @@ int Game::run(void) {
 while (run_Game ) { //flag
 		clear();
 		UpdateInfoScreen();
+		
 		for (int i = 0; i < 20; i++) {
-			mvprintw(1, 38+i, name[i].c_str());
+			if(name[i]!=' ')
+				mvprintw(1, 38+i,"%c", name[i]);
 		}
 		if (LivesPlayer == 9) {
 			GameState = 3;
@@ -339,6 +349,7 @@ while (run_Game ) { //flag
 		refresh();
 		this_thread::sleep_for(chrono::milliseconds(40));
 	}
+	ScoreListInsert();
 	clear();
 	endwin();
 
@@ -413,7 +424,7 @@ int Game::ChooseSpaceship() {
 		}
 
 	}
-
+	//ScoreListInsert();
 	GameState = 0;
 	return 0;
 }
