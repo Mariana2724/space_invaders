@@ -1,7 +1,5 @@
 #include "Enemies.h"
 #include <curses.h> 
-#include <chrono>
-#include<thread>
 using namespace std;
 
 int EnemiesUI::direction = 0;
@@ -14,38 +12,38 @@ EnemiesUI::EnemiesUI(int x, int y, int speed, int enemyType):Enemies(x,y,speed,e
 }
 int a = 0;
 void EnemiesUI::movement(){
-    
     switch (enemyType) {
         case 1:
         case 2:
         case 3:
+        case 5:
             if (direction == 0) { // Movimento para a direita
                 moveRight();
                 if (x >= COLS - 10) { // Verifica se chegou ao limite direito
                     x = COLS - 10;
                     direction = 1;
-                    flagmudança = 1;// Muda a direção para baixo
+               //     flagmudança = 1;// Muda a direção para baixo
                 }
             }
             else if (direction == 1) { // Movimento para baixo
                 moveDown();
                 if (x == 0){
-                    direction = 0;
+                    direction=0;
                 }
-                else if(x==COLS-10) {
-                    direction = 2;
+                else if (x == COLS - 10) {
+                    direction=2;
                 }
-                flagmudança = 1;
+               // flagmudança = 1;
                 if (y >= LINES - 12) { // Verifica se chegou ao limite inferior
                     y = LINES - 12; // Ajusta para o limite inferior
                 }
             }
-            else if (direction == 2) { // Movimento para a esquerda
+            else if (direction==2) { // Movimento para a esquerda
                 moveLeft();
                 if (x <= 0) { // Verifica se chegou ao limite esquerdo
                     x = 0;
                     direction = 1; // Muda a direção para a direita
-                    flagmudança = 1;
+                   // flagmudança = 1;
                 }
             }
             break;
@@ -87,6 +85,9 @@ void EnemiesUI::draw(){
             mvprintw(Gety(), Getx(), "  ");
             mvprintw(Gety(), Getx(), " @ __ @ ");
             break;
+         case 5:
+             mvprintw(Gety(), Getx(), "  ");
+             break;
           default:
             break;
         }
@@ -100,11 +101,4 @@ Enemies::~Enemies() {
 }
 EnemiesUI::~EnemiesUI() {
 
-}
-int EnemiesUI::getdirection() {
-    return direction;
-}
-
-void EnemiesUI::setdirection(int direcion) {
-    direction = direcion;
 }

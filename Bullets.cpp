@@ -14,7 +14,7 @@ void Bullets::moveBullet(){
         break;
     }
 }
-Bullets::Bullets(float xbullet, float ybullet, int speed, int bulletType) :xbullet(xbullet), ybullet(ybullet),speed(speed), bulletType(bulletType) {}
+Bullets::Bullets(int xbullet, int ybullet, int speed, int bulletType) :xbullet(xbullet), ybullet(ybullet),speed(speed), bulletType(bulletType) {}
 
 int Bullets::getX(){
 	return xbullet;
@@ -52,8 +52,9 @@ int Bullets::checkCollisionEnemies(list<EnemiesUI*> enemies) {
 int Bullets::checkCollisionBarriers(list<BarrierUI*> barriers){
     for (BarrierUI* barrier : barriers) {
         if (xbullet <= barrier->getx() + 7 && xbullet >= barrier->getx()  && ybullet >= barrier->gety() && ybullet <= barrier->gety()) {
-            barrier->collidedB = true;
+            
             if (barrier->wasShot()) {
+                barrier->collidedB = true;
                 return 0;
             }
             return 1;
@@ -79,7 +80,7 @@ bool Bullets::checkCollisionNave(NavePlayerUI Nave) {
 //    }
 //    return false;
 //}
-BulletsUI::BulletsUI(float xbullet, float ybullet, int speed,int bulletType): Bullets(xbullet,ybullet,speed,bulletType){
+BulletsUI::BulletsUI(int xbullet, int ybullet, int speed,int bulletType): Bullets(xbullet,ybullet,speed,bulletType){
 }
 void BulletsUI::draw(){
 	mvprintw(getY(), getX(), "  ");
