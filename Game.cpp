@@ -6,7 +6,7 @@
 #include "Bullets.h"
 #include "Barrier.h"
 #include "GameStatus.h"
-#include "Strategy.h"
+
 
 #include <vector>
 #include <list>
