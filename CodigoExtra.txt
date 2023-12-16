@@ -266,4 +266,27 @@ _________________________________
 coidgo anterior para apagar 
 enemies.erase(remove_if(enemies.begin(), enemies.end(), [](EnemiesUI* enemy) { return enemy->collided; }), enemies.end());
 _____________________________________
-
+for (auto it = bulletsNave.begin(); it != bulletsNave.end(); ) {
+			keep = (*it)->checkCollisionBarriers(barriers);
+			if (keep==1) {
+				it = bulletsNave.erase(it);
+				for (auto barrierIt = barriers.begin(); barrierIt != barriers.end(); ) {
+					if ((*barrierIt)->wasShot()) {
+						barrierIt = barriers.erase(barrierIt);
+					}
+					else {
+						++barrierIt;
+					}
+					break;
+				}
+			}
+			else if(keep==2) {
+				++it;
+			}
+			//else if (keep == 0) {
+				
+			//}
+		/*	if ((*it)->checkCollisionBullets(bulletsEnemy)) {
+				bulletsNave.erase(it);
+			}*/
+		}	
