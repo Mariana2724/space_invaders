@@ -132,6 +132,7 @@
     <ClCompile Include="Bullets.cpp" />
     <ClCompile Include="Enemies.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameStatus.cpp" />
     <ClCompile Include="NavePlayer.cpp" />
     <ClCompile Include="Ship.cpp" />
     <ClCompile Include="space invaders.cpp" />
@@ -141,6 +142,7 @@
     <ClInclude Include="Bullets.h" />
     <ClInclude Include="Enemies.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameStatus.h" />
     <ClInclude Include="NavePlayer.h" />
     <ClInclude Include="Ship.h" />
   </ItemGroup>

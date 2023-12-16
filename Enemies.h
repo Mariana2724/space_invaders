@@ -3,20 +3,21 @@
 #include <list>
 
 class Enemies : public Ship {
+	static int direction;
 protected:
 	int enemyType;
 public:
 	Enemies(int x, int y, int speed, int enemyType);
-	//void movementEnemies(int key);
+	void movement();
 	int getEnemyType();
 	virtual ~Enemies();
 };
 
 class EnemiesUI : public Enemies {
-	static int direction;
+	
 public:
 	EnemiesUI(int x,int y,int speed, int enemyType);
-	void movement();
+	/*void movement();*/
 	void draw();
 	
 	bool collided=false;
