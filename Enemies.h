@@ -16,8 +16,6 @@ class EnemiesUI : public Enemies {
 	static int direction;
 public:
 	EnemiesUI(int x,int y,int speed, int enemyType);
-	int getdirection();
-	void setdirection(int direcion);
 	void movement();
 	void draw();
 	

@@ -11,13 +11,11 @@ using namespace std;
 
 class Bullets :public Game {
 	private:
-		float xbullet, ybullet, speed;
+		int xbullet, ybullet, speed;
 		int bulletType;
 		list <EnemiesUI*> enemies;
-		list <Bullets*> bulletNave; // fazer de inimigos e player
-		list<Bullets*> bulletsEnemy;
 	public:
-		Bullets(float xbullet, float ybullet, int speed, int bulletType);
+		Bullets(int xbullet, int ybullet, int speed, int bulletType);
 		int getX();
 		int getY();
 		bool checkCollisionNave(NavePlayerUI Nave);
@@ -30,6 +28,6 @@ class Bullets :public Game {
 class BulletsUI :public Bullets {
 public:
 	bool checkCollisionBullets(list<BulletsUI*>bulletsO);
-	BulletsUI(float xbullet, float ybullet, int speed,int bulletType);
+	BulletsUI(int xbullet, int ybullet, int speed,int bulletType);
 	void draw();
 };

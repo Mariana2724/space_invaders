@@ -209,15 +209,16 @@ int Game::run(void) {
 	for (int i = 0; i < 4; i++) {
 		barriers.emplace_back(new BarrierUI(10+i*30,21));
 	}
-	for (int i = 0; i < 5; i++) {
+	for (int i = 1; i < 6; i++) {
 		enemies.emplace_back(new EnemiesUI(i * 7, 5, 5, 2));
 	}
-	for (int i = 0; i < 5; i++) {
+	for (int i = 1; i < 6; i++) {
 		enemies.emplace_back(new EnemiesUI(i * 7, 7, 5, 1));
 	}
-	for (int i = 0; i < 6; i++) {
+	for (int i = 1; i < 7; i++) {
 		enemies.emplace_back(new EnemiesUI(i * 6, 9, 5, 3));
 	}
+	enemies.emplace_back(new EnemiesUI(0, 11, 5, 5));
 	enemies.emplace_back(new EnemiesUI(1, 3, 2, 4));
 
 	ch = getch();
@@ -247,13 +248,6 @@ while (run_Game && ch!='q') { //flag
 		for (EnemiesUI* enemy : enemies) {
 			enemy->draw();
 			enemy->movement();
-			/*if (flagmudança == 1) {
-				for (EnemiesUI* enemy1 : enemies) {
-					enemy1->setdirection(enemy->getdirection());
-				}
-				flagmudança = 0;
-			}*/
-			//if(enemy->Getx()>=120)
 			if (rand() % 300 < 0.5) {			
 				bulletsEnemy.emplace_back(new BulletsUI(enemy->Getx(), enemy->Gety(),2,2));
 			}
@@ -326,7 +320,9 @@ while (run_Game && ch!='q') { //flag
 			}
 
 		}
+		
 		ch = getch();
+		flushinp();
 		if (ch != ERR) {
 			nave.movementPlayer(ch);
 			if (ch == 32) {
@@ -346,7 +342,6 @@ while (run_Game && ch!='q') { //flag
 		refresh();
 		this_thread::sleep_for(chrono::milliseconds(40));
 	}
-	enemyActive == 0;
 	GameState = 0;
 	clear();
 	endwin();
