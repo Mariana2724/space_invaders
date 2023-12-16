@@ -8,6 +8,7 @@ protected:
 	
 	//static string PlayerName[20];
 public: 
+	static int SpaceShip;
 	static int GameState;
 	Game();
 	void start(void);
