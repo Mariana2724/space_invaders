@@ -206,11 +206,7 @@ int Game::run(void) {
 	
 	start_color();
 	init_pair(1, COLOR_RED, COLOR_BLACK);
-	
-	/*Strategy objects;
-	Shapes* nave = new NavePlayerUI(57, 25, 2);
-	objects.add(nave);
-*/
+
 	NavePlayerUI nave(57, 25,2);
 	list<EnemiesUI*> enemies;
 	list<BulletsUI*> bulletsNave;
@@ -225,8 +221,6 @@ int Game::run(void) {
 	}
 	for (int i = 1; i < 6; i++) {
 		enemies.emplace_back(new EnemiesUI(i * 7, 5, 5, 2));
-	}
-	for (int i = 1; i < 6; i++) {
 		enemies.emplace_back(new EnemiesUI(i * 7, 7, 5, 1));
 	}
 	for (int i = 1; i < 7; i++) {
@@ -250,14 +244,12 @@ while (run_Game ) { //flag
 			run_Game = false;
 		}
 		nave.draw();
-		//refresh();
 		for (BarrierUI* barrier : barriers) {
 			barrier->draw();
 		}
 		for (EnemiesUI* enemy : enemies) {
 			enemy->draw();
 			enemy->movement();
-			//enemy->shoot(bulletsEnemy);
 			if (rand() % 300 < 0.5) {			
 				bulletsEnemy.emplace_back(new BulletsUI(enemy->getX(), enemy->getY(),2,2));
 			}
@@ -267,12 +259,10 @@ while (run_Game ) { //flag
 			bulletNave->draw();
 			bulletNave->movement();
 		}
-		//refresh();
 		for (BulletsUI* bulletEnemy : bulletsEnemy) {
 			bulletEnemy->draw();
 			bulletEnemy->movement();
 		}
-		//refresh();
 		for (auto it = bulletsNave.begin(); it != bulletsNave.end(); ) {
 			keep = (*it)->checkCollisionEnemies(enemies);
 			if (keep==1) {
@@ -289,7 +279,6 @@ while (run_Game ) { //flag
 				}
 			}
 		}
-		//refresh();
 		for (auto it = bulletsNave.begin(); it != bulletsNave.end(); ) {
 			keep = (*it)->checkCollisionBarriers(barriers);
 			if (keep==1) {
@@ -309,7 +298,6 @@ while (run_Game ) { //flag
 				}
 			}
 		}	
-		//refresh();
 		for (auto it = bulletsEnemy.begin(); it != bulletsEnemy.end(); ) {
 			keep = (*it)->checkCollisionBarriers(barriers);
 			if (keep == 1|| (*it)->checkCollisionNave(nave)) {
@@ -329,7 +317,6 @@ while (run_Game ) { //flag
 			}
 
 		}
-		//refresh();
 		ch = getch();
 		flushinp();
 		if (ch != ERR) {
@@ -338,7 +325,6 @@ while (run_Game ) { //flag
 				bulletsNave.emplace_back(new BulletsUI(nave.getX()+1, nave.getY(), 2,1)); // Criar uma nova bala na posição da nave
 			}
 		}
-		//refresh();
 		if (ch == 'p') {
 			if (GameIsPaused()) {// se for 1
 				continue;
