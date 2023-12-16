@@ -1,46 +1,50 @@
 #include "Bullets.h"
-#include"Game.h"
+#include "Game.h"
+#include "GameStatus.h"
 #include <curses.h>
 #include "NavePlayer.h"
 #include <list>
 
-void Bullets::moveBullet(){
+void Bullets::movement(){
     switch (bulletType) {
     case 1:
-        ybullet--;
+        coord.ybullet--;
         break;
     case 2:
-        ybullet++;
+        coord.ybullet++;
         break;
     }
 }
-Bullets::Bullets(int xbullet, int ybullet, int speed, int bulletType) :xbullet(xbullet), ybullet(ybullet),speed(speed), bulletType(bulletType) {}
+Bullets::Bullets(int xbullet, int ybullet, int speed, int bulletType) :speed(speed), bulletType(bulletType) {
+    this->coord.xbullet = xbullet;
+    this->coord.ybullet = ybullet;
+}
 
 int Bullets::getX(){
-	return xbullet;
+	return coord.xbullet;
 }
 
 int Bullets::getY(){
-	return ybullet;
+	return coord.ybullet;
 }
 int Bullets::checkCollisionEnemies(list<EnemiesUI*> enemies) {
     for (EnemiesUI* enemy : enemies) {
-        if (!enemy->collided && xbullet <= enemy->Getx()+3 &&xbullet>= enemy->Getx() - 3 && ybullet >= enemy->Gety() && ybullet <= enemy->Gety()) {
+        if (!enemy->collided && coord.xbullet <= enemy->getX()+3 && coord.xbullet>= enemy->getX() - 3 && coord.ybullet >= enemy->getY() && coord.ybullet <= enemy->getY()) {
             switch (enemy->getEnemyType()) {
             case 1:
-                GameScore += 50;
+                GameStatus::GameScore += 50;
                 break;
             case 2:
-                GameScore += 20;
+                GameStatus::GameScore += 20;
                 break;
             case 3:
-                GameScore += 10;
+                GameStatus::GameScore += 10;
                 break;
             case 4:
-                GameScore += 100;
+                GameStatus::GameScore += 100;
                 break;
             default:
-                GameScore += 10;
+                GameStatus::GameScore += 10;
                 break;
             }
             enemy->collided = true;
@@ -51,7 +55,7 @@ int Bullets::checkCollisionEnemies(list<EnemiesUI*> enemies) {
 }
 int Bullets::checkCollisionBarriers(list<BarrierUI*> barriers){
     for (BarrierUI* barrier : barriers) {
-        if (xbullet <= barrier->getx() + 7 && xbullet >= barrier->getx()  && ybullet >= barrier->gety() && ybullet <= barrier->gety()) {
+        if (coord.xbullet <= barrier->getX() + 7 && coord.xbullet >= barrier->getX()  && coord.ybullet >= barrier->getY() && coord.ybullet <= barrier->getY()) {
             if (barrier->wasShot()) {
                 barrier->collidedB = true;
                 return 0;
@@ -63,8 +67,8 @@ int Bullets::checkCollisionBarriers(list<BarrierUI*> barriers){
 }
 
 bool Bullets::checkCollisionNave(NavePlayerUI Nave) {
-    if (xbullet <= Nave.Getx() + 5 && xbullet >= Nave.Getx() && ybullet >= Nave.Gety() && ybullet <= Nave.Gety()) {
-        LivesPlayer--;
+    if (coord.xbullet <= Nave.getX() + 5 && coord.xbullet >= Nave.getX() && coord.ybullet >= Nave.getY() && coord.ybullet <= Nave.getY()) {
+        GameStatus::LivesPlayer--;
         return true;
     }
     return false;

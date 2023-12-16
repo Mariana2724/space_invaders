@@ -1,6 +1,6 @@
 #pragma once
 #include<list>
-#include "Game.h"
+#include "Shapes.h"
 #include "Enemies.h"
 #include "Barrier.h"
 #include "NavePlayer.h"
@@ -8,10 +8,14 @@ using namespace std;
 
 //bulletType 1 = bala da Nave
 //bulletType 2 = bala do Enemy
+struct CoordBullets {
+	int xbullet, ybullet;
+};
 
-class Bullets :public Game {
+class Bullets :public Shapes {
 	private:
-		int xbullet, ybullet, speed;
+		CoordBullets coord;
+		int speed;
 		int bulletType;
 		list <EnemiesUI*> enemies;
 	public:
@@ -21,8 +25,7 @@ class Bullets :public Game {
 		bool checkCollisionNave(NavePlayerUI Nave);
 		int checkCollisionEnemies(list<EnemiesUI*> enemies);
 		int checkCollisionBarriers(list<BarrierUI*> barrier);
-		
-		void moveBullet(); 
+		void movement(); 
 		
 };
 class BulletsUI :public Bullets {

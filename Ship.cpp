@@ -3,42 +3,40 @@
 #include <list>
 using namespace std;
 
-Ship::Ship(){
-	//Ship* s;
-	//this->
-
+Ship::Ship(){}
+Ship::Ship(int x, int y){
+	this->pos.x = x;
+	this->pos.y = y;
 }
-Ship::Ship(int x, int y): x(x),y(y){
-
-}
-Ship::Ship(int x, int y, int speed) : x(x), y(y), speed(speed) {
-
+Ship::Ship(int x, int y, int speed) :speed(speed) {
+	this->pos.x = x;
+	this->pos.y = y;
 }
 void Ship::moveLeft(){
-	x--;
-	if (x < 0) { //para nao sair do ecra fica na mesma posição
-		x = 0;
+	pos.x--;
+	if (pos.x < 0) { //para nao sair do ecra fica na mesma posição
+		pos.x = 0;
 	}
 }
 
 void Ship::moveRight(){
-	x++;
-	if (x > 115) { //para não sair do ecrã do lado direito
-		x = 115 ;
+	pos.x++;
+	if (pos.x > 115) { //para não sair do ecrã do lado direito
+		pos.x = 115 ;
 	}
 }
 
 void Ship::moveDown(){
-	y++;
-	if (y > 100) { //para não sair do ecrã por baixo
-		y = 100;
+	pos.y;
+	if (pos.y > 100) { //para não sair do ecrã por baixo
+		pos.y = 100;
 	}
 }
 
 void Ship::moveUp(){
-	y--;
-	if (y < 0) {
-		y = 0;
+	pos.y--;
+	if (pos.y < 0) {
+		pos.y = 0;
 	}
 }
 
@@ -46,11 +44,11 @@ bool Ship::checkCollisionBullet(){
 	return false;
 }
 
-int Ship::Getx(){
-	return x;
+int Ship::getX(){
+	return pos.x;
 }
 
-int Ship::Gety(){
-	return y;
+int Ship::getY(){
+	return pos.y;
 }
 

@@ -5,7 +5,7 @@ class Game:public GameStatusUI{
 	
 	bool run_Game;
 protected:
-	static int SpaceShip;
+	
 	//static string PlayerName[20];
 public: 
 	static int GameState;

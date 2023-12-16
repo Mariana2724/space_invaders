@@ -1,19 +1,16 @@
 #pragma once
 #include <list>
-#include "Game.h"
+#include "Shapes.h"
 using namespace std; // também é preciso para a list
 struct Coordenates {
 	int x, y;
 };
  
-class Ship :public Game{
+class Ship :public Shapes {
 protected:
-	int x, y;
+	Coordenates pos;
 	int speed;
-//protected:
-	//static list<Ship*> ships;
 public:
-	
 	Ship();
 	Ship(int x, int y);
 	Ship(int x, int y, int speed);
@@ -22,7 +19,6 @@ public:
 	void moveDown();
 	void moveUp();
 	bool checkCollisionBullet();
-	//Coordenates position() const;
-	int Getx();
-	int Gety();
+	int getX();
+	int getY();
 };

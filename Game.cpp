@@ -6,6 +6,7 @@
 #include "Bullets.h"
 #include "Barrier.h"
 #include "GameStatus.h"
+#include "Strategy.h"
 
 #include <vector>
 #include <list>
@@ -206,6 +207,10 @@ int Game::run(void) {
 	start_color();
 	init_pair(1, COLOR_RED, COLOR_BLACK);
 	
+	/*Strategy objects;
+	Shapes* nave = new NavePlayerUI(57, 25, 2);
+	objects.add(nave);
+*/
 	NavePlayerUI nave(57, 25,2);
 	list<EnemiesUI*> enemies;
 	list<BulletsUI*> bulletsNave;
@@ -213,7 +218,6 @@ int Game::run(void) {
 	list<BarrierUI*> barriers;
 
 	int ch = 0;
-	int enemyActive = 0;
 	int keep = 0;
 
 	for (int i = 0; i < 4; i++) {
@@ -255,18 +259,18 @@ while (run_Game ) { //flag
 			enemy->movement();
 			//enemy->shoot(bulletsEnemy);
 			if (rand() % 300 < 0.5) {			
-				bulletsEnemy.emplace_back(new BulletsUI(enemy->Getx(), enemy->Gety(),2,2));
+				bulletsEnemy.emplace_back(new BulletsUI(enemy->getX(), enemy->getY(),2,2));
 			}
 		}
 		refresh();
 		for (BulletsUI* bulletNave : bulletsNave) {
 			bulletNave->draw();
-			bulletNave->moveBullet();
+			bulletNave->movement();
 		}
 		//refresh();
 		for (BulletsUI* bulletEnemy : bulletsEnemy) {
 			bulletEnemy->draw();
-			bulletEnemy->moveBullet();
+			bulletEnemy->movement();
 		}
 		//refresh();
 		for (auto it = bulletsNave.begin(); it != bulletsNave.end(); ) {
@@ -331,7 +335,7 @@ while (run_Game ) { //flag
 		if (ch != ERR) {
 			nave.movementPlayer(ch);
 			if (ch == 32) {
-				bulletsNave.emplace_back(new BulletsUI(nave.Getx()+1, nave.Gety(), 2,1)); // Criar uma nova bala na posição da nave
+				bulletsNave.emplace_back(new BulletsUI(nave.getX()+1, nave.getY(), 2,1)); // Criar uma nova bala na posição da nave
 			}
 		}
 		//refresh();
