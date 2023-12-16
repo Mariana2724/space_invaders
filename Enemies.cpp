@@ -54,7 +54,7 @@ void Enemies::movement(){
                 }
                 if (y <= 5) { // Verifica se chegou ao limite inferior
                     y = 5; // Ajusta para o limite inferior
-                    direction = 1;
+                    direction = 0;
                 }
             }
             else if (direction == 4) {
