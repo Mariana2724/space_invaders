@@ -11,7 +11,7 @@ int Enemies::getEnemyType() {
 EnemiesUI::EnemiesUI(int x, int y, int speed, int enemyType):Enemies(x,y,speed,enemyType) {
 }
 int a = 0;
-void EnemiesUI::movement(){
+void Enemies::movement(){
     switch (enemyType) {
         case 1:
         case 2:
@@ -93,8 +93,14 @@ void EnemiesUI::draw(){
         }
     refresh();
 }
-
-
+//
+//void EnemiesUI::shoot(list<BulletsUI*> bulletsEnemy) {
+//   
+//        if (rand() % 300 < 0.5) {
+//            bulletsEnemy.emplace_back(new BulletsUI(Getx(), Gety(), 2, 2));
+//        }
+//    
+//}
 
 Enemies::~Enemies() {
 

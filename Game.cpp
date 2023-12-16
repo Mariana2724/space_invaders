@@ -5,6 +5,8 @@
 #include "Enemies.h"
 #include "Bullets.h"
 #include "Barrier.h"
+#include "GameStatus.h"
+
 #include <list>
 #include<string>
 #include <chrono>
@@ -12,8 +14,7 @@
 
 using namespace std;
 
-int Game::GameScore = 0;
-int Game::LivesPlayer = 10;
+
 int Game::SpaceShip = 0;
 int Game::GameState = 0;
 int Game::flagmudança = 0;
@@ -51,97 +52,90 @@ void Game::start(void){
 	}
 	endwin();
 }
-
-int Game::menu(void) {
-	int xMax, yMax;
-	getmaxyx(stdscr, yMax, xMax);
+void Game::GameName(void) {
 	start_color();
 
-	init_pair(1,COLOR_RED, COLOR_BLACK );
-	init_pair(2, COLOR_YELLOW, COLOR_BLACK);
-//colocar isto porque senão quando as vida acabam elas não são repostas
-GameScore = 0;
-LivesPlayer = 10;
+	init_pair(1, COLOR_RED, COLOR_BLACK);
+	attron(COLOR_PAIR(1));
+	mvprintw(5, 15, "  _________                           .___                         .___                   ");
+	mvprintw(6, 15, " /   _____/__________    ____  ____   |   | _______  _______     __| _/___________  ______");
+	mvprintw(7, 15, " \\_____  \\____ \\__  \\ _/ ___\\/ __ \\   |   |/    \\  \\/ /\\__  \\   / __ |/ __ \\_  __ \\/  ___/");
+	mvprintw(8, 15, " /        \\  |_> > __ \\\\  \\__\\  ___/  |   |   |  \\   /  / __ \\_/ /_/ \\  ___/|  | \\/\\___ \\ ");
+	mvprintw(9, 15, "/_______  /   __(____  /\\___  >___  > |___|___|  /\\_/  (____  /\\____ |\\___  >__|  /____  >");
+	mvprintw(10, 15, "        \\/|__|       \\/     \\/    \\/           \\/           \\/      \\/    \\/           \\/ ");
+	attroff(COLOR_PAIR(1));
 
-// COLOCAR  attron(COLOR_PAIR(1)); NO INICIO E attroff(COLOR_PAIR(1)); NO FIM
-// PARA USAR A COR 1 NESSE INTERVALO
+}
+int Game::menu(void) {
+	GameWindow();
+	GameScore = 0;
+	LivesPlayer = 10;
+	GameName();
+	//WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x);
+	WINDOW* menu_win = newwin(yMax / 4, xMax / 4, yMax / 2, xMax / 2 - 15);
+	box(menu_win, 4, 0);
+	refresh();
+	wrefresh(menu_win);
+	keypad(menu_win, true);
 
-attron(COLOR_PAIR(1));
-mvprintw(5, 15, "  _________                           .___                         .___                   ");
-mvprintw(6, 15, " /   _____/__________    ____  ____   |   | _______  _______     __| _/___________  ______");
-mvprintw(7, 15, " \\_____  \\____ \\__  \\ _/ ___\\/ __ \\   |   |/    \\  \\/ /\\__  \\   / __ |/ __ \\_  __ \\/  ___/");
-mvprintw(8, 15, " /        \\  |_> > __ \\\\  \\__\\  ___/  |   |   |  \\   /  / __ \\_/ /_/ \\  ___/|  | \\/\\___ \\ ");
-mvprintw(9, 15, "/_______  /   __(____  /\\___  >___  > |___|___|  /\\_/  (____  /\\____ |\\___  >__|  /____  >");
-mvprintw(10, 15, "        \\/|__|       \\/     \\/    \\/           \\/           \\/      \\/    \\/           \\/ ");
-attroff(COLOR_PAIR(1));
+	string UserChoice[3] = { "PLAY", "CHOOSE SPACESHIP","EXIT" };
+	int choice;
+	int highlight = 0;
 
-//WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x);
-
-WINDOW* menu_win = newwin(yMax / 4, xMax / 4, yMax / 2, xMax / 2 - 15);
-box(menu_win, 4, 0);
-refresh();
-wrefresh(menu_win);
-keypad(menu_win, true);
-
-string UserChoice[3] = { "PLAY", "CHOOSE SPACESHIP","EXIT" };
-int choice;
-int highlight = 0;
-//Para as opções do menu
-while (run_Game) {
-	for (int i = 0; i < 3; i++) {
-		if (i == highlight) {
-			wattron(menu_win, A_REVERSE);
+	while (run_Game) {
+		for (int i = 0; i < 3; i++) {
+			if (i == highlight) {
+				wattron(menu_win, A_REVERSE);
+			}
+			if (i == 1) {
+				mvwprintw(menu_win, i + 2, 7, UserChoice[i].c_str());
+			}
+			else {
+				mvwprintw(menu_win, i + 2, 13, UserChoice[i].c_str());
+			}
+			wattroff(menu_win, A_REVERSE);
 		}
-		if (i == 1) {
-			mvwprintw(menu_win, i + 2, 7, UserChoice[i].c_str());
-		}
-		else {
-			mvwprintw(menu_win, i + 2, 13, UserChoice[i].c_str());
-		}
-		wattroff(menu_win, A_REVERSE);
-	}
 
-	choice = wgetch(menu_win);
+		choice = wgetch(menu_win);
 
-	switch (choice) {
-	case KEY_UP:
-		highlight--;
-		if (highlight == -1)
-			highlight = 0;
-		break;
-	case KEY_DOWN:
-		highlight++;
-		if (highlight == 3)
-			highlight = 2;
-		break;
-	case 10:
-		if (highlight == 0) {
-			refresh();
-			wrefresh(menu_win);
-			wclear(menu_win);
-			delwin(menu_win);
-			GameState = 4;
-			run_Game = false;
+		switch (choice) {
+		case KEY_UP:
+			highlight--;
+			if (highlight == -1)
+				highlight = 0;
+			break;
+		case KEY_DOWN:
+			highlight++;
+			if (highlight == 3)
+				highlight = 2;
+			break;
+		case 10:
+			if (highlight == 0) {
+				refresh();
+				wrefresh(menu_win);
+				wclear(menu_win);
+				delwin(menu_win);
+				GameState = 4;
+				run_Game = false;
+			}
+			else if (highlight == 1) {
+				GameState = 1;
+				run_Game = false;
+			}
+			else {
+				run_Game = false;
+				GameState = -1;
+			}
+		default:
+			break;
 		}
-		else if (highlight == 1) {
-			GameState = 1;
-			run_Game = false;
-		}
-		else {
-			run_Game = false;
-			GameState = -1;
-		}
-	default:
-		break;
-	}
 }
 run_Game = true;
 endwin();
 return 0;
 }
 int Game::InsertName() {
-	int xMax, yMax;
-	getmaxyx(stdscr, yMax, xMax);
+	GameWindow();
 	bool newW = true;
 
 	while (newW) {
@@ -159,6 +153,11 @@ int Game::InsertName() {
 		
 		char a;
 		int x = 0;
+
+		for (int i = 0; i < 20; i++) {
+			name[i] = ' ';
+		}
+
 		while (true) {
 			ch = wgetch(insert);
 			if ((ch >= 65 && ch <= 122) || ch == 10||ch==8){
@@ -183,9 +182,9 @@ int Game::InsertName() {
 		wrefresh(insert); // Atualiza a janela após o término do loop de entrada do nome
 		wclear(insert);
 		delwin(insert);
-		endwin();
-		GameState = 2;
     }
+	endwin();
+	GameState = 2;
 	
 	return 0;
 }
@@ -195,9 +194,7 @@ int Game::InsertName() {
 int Game::run(void) {
 	nodelay(stdscr, true);    // Configurar o terminal para o modo sem espera por entrada
 	keypad(stdscr, TRUE); // Enable special keys
-	int ch = 0;
-	int enemyActive = 0;
-	int keep = 0;
+	
 	start_color();
 	init_pair(1, COLOR_RED, COLOR_BLACK);
 	
@@ -206,6 +203,11 @@ int Game::run(void) {
 	list<BulletsUI*> bulletsNave;
 	list<BulletsUI*> bulletsEnemy;
 	list<BarrierUI*> barriers;
+
+	int ch = 0;
+	int enemyActive = 0;
+	int keep = 0;
+
 	for (int i = 0; i < 4; i++) {
 		barriers.emplace_back(new BarrierUI(10+i*30,21));
 	}
@@ -220,39 +222,33 @@ int Game::run(void) {
 	}
 	enemies.emplace_back(new EnemiesUI(0, 11, 5, 5));
 	enemies.emplace_back(new EnemiesUI(1, 3, 2, 4));
-
+	refresh();
 	ch = getch();
 
-while (run_Game && ch!='q') { //flag
+while (run_Game ) { //flag
 		clear();
-		
-		mvprintw(1, 1, "GAMESCORE: ");
-		mvprintw(1, 12, to_string(GameScore).c_str());
-		mvprintw(1, 18, "LIVES: ");
-		mvprintw(1, 25, to_string(LivesPlayer).c_str());
-		mvprintw(1, 30, "PLAYER: ");
+		UpdateInfoScreen();
 		for (int i = 0; i < 20; i++) {
 			mvprintw(1, 38+i, name[i].c_str());
 		}
-		//mvprintw(1, 30, "player: %c", name);
 		if (LivesPlayer == 9) {
 			GameState = 3;
-			clear();
-			endwin();
-			return 0;
+			run_Game = false;
 		}
 		nave.draw();
+		refresh();
 		for (BarrierUI* barrier : barriers) {
 			barrier->draw();
 		}
 		for (EnemiesUI* enemy : enemies) {
 			enemy->draw();
 			enemy->movement();
+			//enemy->shoot(bulletsEnemy);
 			if (rand() % 300 < 0.5) {			
 				bulletsEnemy.emplace_back(new BulletsUI(enemy->Getx(), enemy->Gety(),2,2));
 			}
-
 		}
+		
 		for (BulletsUI* bulletNave : bulletsNave) {
 			bulletNave->draw();
 			bulletNave->moveBullet();
@@ -261,7 +257,7 @@ while (run_Game && ch!='q') { //flag
 			bulletEnemy->draw();
 			bulletEnemy->moveBullet();
 		}
-		
+		refresh();
 		for (auto it = bulletsNave.begin(); it != bulletsNave.end(); ) {
 			keep = (*it)->checkCollisionEnemies(enemies);
 			if (keep==1) {
@@ -278,7 +274,7 @@ while (run_Game && ch!='q') { //flag
 				}
 			}
 		}
-		
+		refresh();
 		for (auto it = bulletsNave.begin(); it != bulletsNave.end(); ) {
 			keep = (*it)->checkCollisionBarriers(barriers);
 			if (keep==1) {
@@ -297,10 +293,8 @@ while (run_Game && ch!='q') { //flag
 					}
 				}
 			}
-		/*	if ((*it)->checkCollisionBullets(bulletsEnemy)) {
-				bulletsNave.erase(it);
-			}*/
 		}	
+		refresh();
 		for (auto it = bulletsEnemy.begin(); it != bulletsEnemy.end(); ) {
 			keep = (*it)->checkCollisionBarriers(barriers);
 			if (keep == 1|| (*it)->checkCollisionNave(nave)) {
@@ -320,7 +314,7 @@ while (run_Game && ch!='q') { //flag
 			}
 
 		}
-		
+		refresh();
 		ch = getch();
 		flushinp();
 		if (ch != ERR) {
@@ -329,11 +323,13 @@ while (run_Game && ch!='q') { //flag
 				bulletsNave.emplace_back(new BulletsUI(nave.Getx()+1, nave.Gety(), 2,1)); // Criar uma nova bala na posição da nave
 			}
 		}
+		refresh();
 		if (ch == 'p') {
 			if (!GameIsPaused()) {// se for 1
 				continue;
 			}
 			else {
+				GameState = 0;
 				break;
 			}
 		}
@@ -342,22 +338,15 @@ while (run_Game && ch!='q') { //flag
 		refresh();
 		this_thread::sleep_for(chrono::milliseconds(40));
 	}
-	GameState = 0;
+	//GameState = 0;
 	clear();
 	endwin();
 
 	return 0;
 }
 
-int Game::LivesP() {
-	return LivesPlayer;
-}
-int Game::Score() {
-	return GameScore;
-}
 int Game::ChooseSpaceship() {
-	int xMax, yMax;
-	getmaxyx(stdscr, yMax, xMax);
+	GameWindow();
 	bool newW = true;
 	while (newW) {
 		WINDOW* space = newwin(yMax / 4, xMax / 4, yMax / 2 + 6, xMax / 2 + 20);
@@ -429,8 +418,7 @@ int Game::ChooseSpaceship() {
 	return 0;
 }
 int Game::GameIsPaused() {
-	int xMax, yMax;
-	getmaxyx(stdscr, yMax, xMax);
+	GameWindow();
 	bool newW = true;
 	int PauseHighlight = 0;
 	while (newW) {
@@ -505,8 +493,7 @@ int Game::GameIsPaused() {
 
 }
 int Game::GameIsOver(void) {
-	int xMax, yMax;
-	getmaxyx(stdscr, yMax, xMax);
+	GameWindow();
 	bool newW = true;
 	int PauseHighlight = 0;
 	while (newW) {
