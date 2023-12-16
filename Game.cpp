@@ -326,7 +326,9 @@ while (run_Game && ch!='q') { //flag
 			}
 
 		}
+		
 		ch = getch();
+		flushinp();
 		if (ch != ERR) {
 			nave.movementPlayer(ch);
 			if (ch == 32) {
