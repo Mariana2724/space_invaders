@@ -27,6 +27,7 @@ void Game::start(void){
 	initscr(); // Initialize the curses library
 	noecho(); // Don't echo user input to the screen
 	cbreak(); // Disable line buffering
+
 	bool isRunning = true;
 	while (isRunning) {
 		switch (GameState) {
@@ -236,7 +237,7 @@ while (run_Game ) { //flag
 			run_Game = false;
 		}
 		nave.draw();
-		refresh();
+		//refresh();
 		for (BarrierUI* barrier : barriers) {
 			barrier->draw();
 		}
@@ -248,16 +249,17 @@ while (run_Game ) { //flag
 				bulletsEnemy.emplace_back(new BulletsUI(enemy->Getx(), enemy->Gety(),2,2));
 			}
 		}
-		
+		refresh();
 		for (BulletsUI* bulletNave : bulletsNave) {
 			bulletNave->draw();
 			bulletNave->moveBullet();
 		}
+		//refresh();
 		for (BulletsUI* bulletEnemy : bulletsEnemy) {
 			bulletEnemy->draw();
 			bulletEnemy->moveBullet();
 		}
-		refresh();
+		//refresh();
 		for (auto it = bulletsNave.begin(); it != bulletsNave.end(); ) {
 			keep = (*it)->checkCollisionEnemies(enemies);
 			if (keep==1) {
@@ -274,7 +276,7 @@ while (run_Game ) { //flag
 				}
 			}
 		}
-		refresh();
+		//refresh();
 		for (auto it = bulletsNave.begin(); it != bulletsNave.end(); ) {
 			keep = (*it)->checkCollisionBarriers(barriers);
 			if (keep==1) {
@@ -294,7 +296,7 @@ while (run_Game ) { //flag
 				}
 			}
 		}	
-		refresh();
+		//refresh();
 		for (auto it = bulletsEnemy.begin(); it != bulletsEnemy.end(); ) {
 			keep = (*it)->checkCollisionBarriers(barriers);
 			if (keep == 1|| (*it)->checkCollisionNave(nave)) {
@@ -314,7 +316,7 @@ while (run_Game ) { //flag
 			}
 
 		}
-		refresh();
+		//refresh();
 		ch = getch();
 		flushinp();
 		if (ch != ERR) {
@@ -323,9 +325,9 @@ while (run_Game ) { //flag
 				bulletsNave.emplace_back(new BulletsUI(nave.Getx()+1, nave.Gety(), 2,1)); // Criar uma nova bala na posição da nave
 			}
 		}
-		refresh();
+		//refresh();
 		if (ch == 'p') {
-			if (!GameIsPaused()) {// se for 1
+			if (GameIsPaused()) {// se for 1
 				continue;
 			}
 			else {
@@ -338,7 +340,6 @@ while (run_Game ) { //flag
 		refresh();
 		this_thread::sleep_for(chrono::milliseconds(40));
 	}
-	//GameState = 0;
 	clear();
 	endwin();
 
@@ -417,80 +418,79 @@ int Game::ChooseSpaceship() {
 	GameState = 0;
 	return 0;
 }
-int Game::GameIsPaused() {
-	GameWindow();
-	bool newW = true;
-	int PauseHighlight = 0;
-	while (newW) {
-		WINDOW* pause = newwin(yMax / 4-2, xMax / 4-3, yMax / 2-15 , xMax / 2-13 );
-		box(pause, 0, 0);
-		
-		wrefresh(pause);
-		keypad(pause, true);
-
-		string OptionPause[2] = { "RESUME", " QUIT " };
-		int ch;
-		
-
-		mvwprintw(pause, 1, 7, "GAME IS PAUSED");
-
-		while (true) {
-			for (int i = 0; i < 2; i++) {
-				if (i == PauseHighlight) {
-					wattron(pause, A_REVERSE);
-				}
-				mvwprintw(pause, i+2, 10, OptionPause[i].c_str());
-				wattroff(pause, A_REVERSE);
-			}
-
-			ch = wgetch(pause);
-			switch (ch) {
-			case KEY_UP:
-				PauseHighlight--;
-				if (PauseHighlight == -1) {
-					PauseHighlight = 0;
-				}
-				break;
-			case KEY_DOWN:
-				PauseHighlight++;
-				if (PauseHighlight == 2) {
-					PauseHighlight = 1;
-				}
-				break;
-			default:
-				break;
-			}
+bool Game::GameIsPaused() {
+	//if (ch == 'p') {
+		GameWindow();
+		bool newW = true;
+		int PauseHighlight = 0;
+		while (newW) {
+			WINDOW* pause = newwin(yMax / 4 - 2, xMax / 4 - 3, yMax / 2 - 15, xMax / 2 - 13);
+			box(pause, 0, 0);
 
 			wrefresh(pause);
-			if (ch == 10) {
-				if (PauseHighlight == 0) {
-					GameState = 2;
-					wborder(pause, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '); // Erase frame around the window
-					newW = false;
-					werase(pause);
-					wrefresh(pause);
-					delwin(pause);
-					endwin();
-					return 0;
+			keypad(pause, true);
+
+			string OptionPause[2] = { "RESUME", " QUIT " };
+			int ch;
+
+
+			mvwprintw(pause, 1, 7, "GAME IS PAUSED");
+
+			while (true) {
+				for (int i = 0; i < 2; i++) {
+					if (i == PauseHighlight) {
+						wattron(pause, A_REVERSE);
+					}
+					mvwprintw(pause, i + 2, 10, OptionPause[i].c_str());
+					wattroff(pause, A_REVERSE);
+				}
+
+				ch = wgetch(pause);
+				switch (ch) {
+				case KEY_UP:
+					PauseHighlight--;
+					if (PauseHighlight == -1) {
+						PauseHighlight = 0;
+					}
+					break;
+				case KEY_DOWN:
+					PauseHighlight++;
+					if (PauseHighlight == 2) {
+						PauseHighlight = 1;
+					}
+					break;
+				default:
 					break;
 				}
-				else if (PauseHighlight == 1) {
-					GameState = 0;
-					wborder(pause, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '); // Erase frame around the window
-					newW = false;
-					clear();
-					werase(pause);
-					wrefresh(pause);
-					delwin(pause);
-					endwin();
-					return 1;
+
+				wrefresh(pause);
+				if (ch == 10) {
+					if (PauseHighlight == 0) {
+						wborder(pause, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '); // Erase frame around the window
+						newW = false;
+						werase(pause);
+						wrefresh(pause);
+						delwin(pause);
+						endwin();
+						return 1;
+						break;
+					}
+					else if (PauseHighlight == 1) {
+						wborder(pause, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '); // Erase frame around the window
+						newW = false;
+						clear();
+						werase(pause);
+						wrefresh(pause);
+						delwin(pause);
+						endwin();
+						return 0;
+					}
+
 				}
-				
 			}
+
 		}
-
-	}
-
+	//}
 }
 int Game::GameIsOver(void) {
 	GameWindow();
