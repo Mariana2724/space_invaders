@@ -9,3 +9,4 @@ ronaldo	170
 olaf	70
 LOL	60
 L	0
+hola	70

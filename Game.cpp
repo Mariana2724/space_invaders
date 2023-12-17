@@ -477,25 +477,17 @@ bool Game::GameIsPaused() {
 
 				wrefresh(pause);
 				if (ch == 10) {
-					if (PauseHighlight == 0) {
-						wborder(pause, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '); // Erase frame around the window
-						newW = false;
-						werase(pause);
-						wrefresh(pause);
-						delwin(pause);
-						endwin();
+					wborder(pause, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '); // Erase frame around the window
+					newW = false;
+					werase(pause);
+					wrefresh(pause);
+					delwin(pause);
+					endwin();
+					if (PauseHighlight == 0)
 						return 1;
-						break;
-					}
 					else if (PauseHighlight == 1) {
-						wborder(pause, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '); // Erase frame around the window
-						newW = false;
 						ScoreListInsert();
 						clear();
-						werase(pause);
-						wrefresh(pause);
-						delwin(pause);
-						endwin();
 						return 0;
 					}
 
