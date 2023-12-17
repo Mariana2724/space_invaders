@@ -2,11 +2,7 @@
 #include "GameStatus.h"
 
 class Game:public GameStatusUI{
-	
 	bool run_Game;
-protected:
-	
-	//static string PlayerName[20];
 public: 
 	static int SpaceShip;
 	static int GameState;
@@ -20,6 +16,4 @@ public:
 	int WinGame(void);
 	int InsertName(void);
 	int run(void);
-	
-
 };

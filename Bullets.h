@@ -8,6 +8,7 @@ using namespace std;
 
 //bulletType 1 = bala da Nave
 //bulletType 2 = bala do Enemy
+
 struct CoordBullets {
 	int xbullet, ybullet;
 };
@@ -15,11 +16,10 @@ struct CoordBullets {
 class Bullets :public Shapes {
 	private:
 		CoordBullets coord;
-		int speed;
 		int bulletType;
 		list <EnemiesUI*> enemies;
 	public:
-		Bullets(int xbullet, int ybullet, int speed, int bulletType);
+		Bullets(int xbullet, int ybullet, int bulletType);
 		int getX();
 		int getY();
 		bool checkCollisionNave(NavePlayerUI Nave);
@@ -30,6 +30,6 @@ class Bullets :public Shapes {
 };
 class BulletsUI :public Bullets {
 public:
-	BulletsUI(int xbullet, int ybullet, int speed,int bulletType);
+	BulletsUI(int xbullet, int ybullet, int bulletType);
 	void draw();
 };

@@ -4,22 +4,19 @@
 #include <curses.h>
 using namespace std;
 
-NavePlayer::NavePlayer(): Ship(){}
 NavePlayer::NavePlayer(int x, int y) : Ship(x, y) {}
-NavePlayer::NavePlayer(int x, int y, int speed) : Ship(x, y, speed) {}
 void NavePlayer::movementPlayer(int key) {
     switch (key) {
     case KEY_LEFT:
-        moveLeft(); // movimento para a esquerda
+        moveLeft(); 
         break;
     case KEY_RIGHT:
-        moveRight(); // movimento para a direita
+        moveRight();
         break;
-        // Adiciona mais casos conforme necessário para outras teclas
     }
 }
-NavePlayerUI::NavePlayerUI(int x, int y, int speed) :NavePlayer(x, y, speed) {}
-void NavePlayerUI::draw()  { //override??
+NavePlayerUI::NavePlayerUI(int x, int y) :NavePlayer(x, y) {}
+void NavePlayerUI::draw()  {
     start_color();
     init_pair(1, COLOR_CYAN, COLOR_BLACK);
     init_pair(2, COLOR_YELLOW, COLOR_BLACK);
@@ -49,7 +46,5 @@ void NavePlayerUI::draw()  { //override??
         mvprintw(getY() + 2, getX(), "  \\/  ");
         break;
     }
-   
-
-    refresh(); // Atualiza o ecrã
+    refresh(); 
 }

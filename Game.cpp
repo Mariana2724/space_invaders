@@ -84,7 +84,6 @@ int Game::menu(void) {
 	LivesPlayer = 3;
 	GameStatus::Level = 1;
 	GameName();
-	//WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x);
 	WINDOW* menu_win = newwin(yMax / 4+1, xMax / 4, yMax / 2, xMax / 2 - 15);
 	box(menu_win, 4, 0);
 	refresh();
@@ -206,10 +205,7 @@ int Game::InsertName() {
 		wclear(insert);
 		delwin(insert);
     }
-	
-	
 	endwin();
-	
 	return 0;
 }
 
@@ -220,7 +216,7 @@ int Game::run() {
 	start_color();
 	init_pair(1, COLOR_RED, COLOR_BLACK);
 	LivesPlayer = 3;
-	NavePlayerUI nave(57, 25,2);
+	NavePlayerUI nave(57, 25);
 	list<EnemiesUI*> enemies;
 	list<BulletsUI*> bulletsNave;
 	list<BulletsUI*> bulletsEnemy;
@@ -233,18 +229,18 @@ int Game::run() {
 		barriers.emplace_back(new BarrierUI(10+i*30,21));
 	}
 	for (int i = 1; i < (5 + GameStatus::Level); i++) {
-		enemies.emplace_back(new EnemiesUI(i * 7, 5, 5, 2));
-		enemies.emplace_back(new EnemiesUI(i * 7, 7, 5, 1));
+		enemies.emplace_back(new EnemiesUI(i * 7, 5, 2));
+		enemies.emplace_back(new EnemiesUI(i * 7, 7, 1));
 	}
 	for (int i = 1; i < (6 + GameStatus::Level); i++) {
-		enemies.emplace_back(new EnemiesUI(i * 6, 9, 5, 3));
+		enemies.emplace_back(new EnemiesUI(i * 6, 9, 3));
 	}
-	enemies.emplace_back(new EnemiesUI(0, 11, 5, 5));
-	enemies.emplace_back(new EnemiesUI(1, 3, 2, 4));
+	enemies.emplace_back(new EnemiesUI(0, 11, 5));
+	enemies.emplace_back(new EnemiesUI(1, 3, 4));
 	refresh();
 	ch = getch();
 	run_Game = true;
-while (run_Game) { //flag
+while (run_Game) {
 		clear();
 		UpdateInfoScreen();
 
@@ -260,10 +256,9 @@ while (run_Game) { //flag
 			enemy->draw();
 			enemy->movement();
 			if (rand() % 300 < GameStatus::Level+0.1) {			
-				bulletsEnemy.emplace_back(new BulletsUI(enemy->getX(), enemy->getY(),2,2));
+				bulletsEnemy.emplace_back(new BulletsUI(enemy->getX(), enemy->getY(),2));
 			}
 		}
-		refresh();
 		for (BulletsUI* bulletNave : bulletsNave) {
 			bulletNave->draw();
 			bulletNave->movement();
@@ -331,7 +326,7 @@ while (run_Game) { //flag
 		if (ch != ERR) {
 			nave.movementPlayer(ch);
 			if (ch == 32) {
-				bulletsNave.emplace_back(new BulletsUI(nave.getX()+1, nave.getY(), 2,1)); // Criar uma nova bala na posição da nave
+				bulletsNave.emplace_back(new BulletsUI(nave.getX()+1, nave.getY(),1)); // Criar uma nova bala na posição da nave
 			}
 		}
 		if (ch == 'p') {
@@ -351,10 +346,8 @@ while (run_Game) { //flag
 		refresh();
 		this_thread::sleep_for(chrono::milliseconds(40));
 	}
-	//ScoreListInsert();
   	clear();
 	endwin();
-
 	return 0;
 }
 
@@ -382,8 +375,8 @@ int Game::ChooseSpaceship() {
 		int ch;
 		int SpaceHighlight = 0;
 		int a = 1;
-
-		while (true) {
+		bool choose = true;
+		while (choose) {
 			for (int i = 0; i < 3; i++) {
 				if (i == SpaceHighlight) {
 					wattron(space, A_REVERSE);
@@ -421,7 +414,7 @@ int Game::ChooseSpaceship() {
 				wrefresh(space);
 				delwin(space);
 				endwin();
-				break;
+				choose = false;
 			}
 		}
 
@@ -430,72 +423,62 @@ int Game::ChooseSpaceship() {
 	return 0;
 }
 bool Game::GameIsPaused() {
-	//if (ch == 'p') {
-		GameWindow();
-		curs_set(0);
-		bool newW = true;
-		int PauseHighlight = 0;
-		while (newW) {
-			WINDOW* pause = newwin(yMax / 4 - 2, xMax / 4 - 3, yMax / 2 - 15, xMax / 2 - 13);
-			box(pause, 0, 0);
-
+	GameWindow();
+	curs_set(0);
+	bool newW = true;
+	int PauseHighlight = 0;
+	while (newW) {
+		WINDOW* pause = newwin(yMax / 4 - 2, xMax / 4 - 3, yMax / 2 - 15, xMax / 2 - 13);
+		box(pause, 0, 0);
+		wrefresh(pause);
+		keypad(pause, true);
+		string OptionPause[2] = { "RESUME", " QUIT " };
+		int ch;
+		mvwprintw(pause, 1, 7, "GAME IS PAUSED");
+		bool isPaused = true;
+		while (isPaused) {
+			for (int i = 0; i < 2; i++) {
+				if (i == PauseHighlight) {
+					wattron(pause, A_REVERSE);
+				}
+				mvwprintw(pause, i + 2, 10, OptionPause[i].c_str());
+				wattroff(pause, A_REVERSE);
+			}
+			ch = wgetch(pause);
+			switch (ch) {
+			case KEY_UP:
+				PauseHighlight--;
+				if (PauseHighlight == -1) {
+					PauseHighlight = 0;
+				}
+				break;
+			case KEY_DOWN:
+				PauseHighlight++;
+				if (PauseHighlight == 2) {
+					PauseHighlight = 1;
+				}
+				break;
+			default:
+				break;
+			}
 			wrefresh(pause);
-			keypad(pause, true);
-
-			string OptionPause[2] = { "RESUME", " QUIT " };
-			int ch;
-
-
-			mvwprintw(pause, 1, 7, "GAME IS PAUSED");
-
-			while (true) {
-				for (int i = 0; i < 2; i++) {
-					if (i == PauseHighlight) {
-						wattron(pause, A_REVERSE);
-					}
-					mvwprintw(pause, i + 2, 10, OptionPause[i].c_str());
-					wattroff(pause, A_REVERSE);
-				}
-
-				ch = wgetch(pause);
-				switch (ch) {
-				case KEY_UP:
-					PauseHighlight--;
-					if (PauseHighlight == -1) {
-						PauseHighlight = 0;
-					}
-					break;
-				case KEY_DOWN:
-					PauseHighlight++;
-					if (PauseHighlight == 2) {
-						PauseHighlight = 1;
-					}
-					break;
-				default:
-					break;
-				}
-
+			if (ch == 10) {
+				wborder(pause, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '); 
+				newW = false;
+				werase(pause);
 				wrefresh(pause);
-				if (ch == 10) {
-					wborder(pause, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '); // Erase frame around the window
-					newW = false;
-					werase(pause);
-					wrefresh(pause);
-					delwin(pause);
-					endwin();
-					if (PauseHighlight == 0)
-						return 1;
-					else if (PauseHighlight == 1) {
-						ScoreListInsert();
-						clear();
-						return 0;
-					}
-
+				delwin(pause);
+				endwin();
+				if (PauseHighlight == 0)
+					return 1;
+				else if (PauseHighlight == 1) {
+					ScoreListInsert();
+					clear();
+					return 0;
 				}
 			}
-
 		}
-	//}
+	}
 }
 int Game::GameIsOver(void) {
 	GameWindow();
@@ -512,10 +495,9 @@ int Game::GameIsOver(void) {
 		string OptionOver[2] = { "  MENU  ", "EXIT GAME" };
 		int ch;
 
-
 		mvwprintw(over, 1, 7, "YOU HAVE DIED !!!");
-
-		while (true) {
+		bool gameOver = true;
+		while (gameOver) {
 			for (int i = 0; i < 2; i++) {
 				if (i == OverHighlight) {
 					wattron(over, A_REVERSE);
@@ -544,28 +526,19 @@ int Game::GameIsOver(void) {
 
 			wrefresh(over);
 			if (ch == 10) {
+				wborder(over, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ');
+				newW = false;
+				clear();
+				werase(over);
+				wrefresh(over);
+				delwin(over);
+				endwin();
+				gameOver = false;
 				if (OverHighlight == 0) {
 					GameState = 0;
-					wborder(over, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '); // Erase frame around the window
-					newW = false;
-					clear();
-					werase(over);
-					wrefresh(over);
-					delwin(over);
-					endwin();
-					
-					break;
 				}
 				else if (OverHighlight == 1) {
 					GameState = -1;
-					wborder(over, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '); // Erase frame around the window
-					newW = false;
-					clear();
-					werase(over);
-					wrefresh(over);
-					delwin(over);
-					endwin();
-					break;
 				}
 
 			}
@@ -598,7 +571,8 @@ int Game::WinGame(void) {
 			mvwprintw(win, 1, 5, "YOU WON THE GAME!!!");
 			WinHighlight = 1;
 		}
-		while (true) {
+		bool flag = true;
+		while (flag) {
 			int i = 0;;
 
 			if (GameStatus::Level < 3)
@@ -640,44 +614,27 @@ int Game::WinGame(void) {
 
 			wrefresh(win);
 			if (ch == 10) {
+				newW = false;
+				wborder(win, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ');
+				clear();
+				werase(win);
+				wrefresh(win);
+				delwin(win);
+				endwin();
+				flag = false;
 				if (WinHighlight == 0) {
 					GameState = 2;
 					if(GameStatus::Level<3)
 						GameStatus::Level++;
-					newW = false;
-					wborder(win, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ');
-					clear();
-					werase(win);
-					wrefresh(win);
-					delwin(win);
-					endwin();
-					return 0;
 				}
 				else if (WinHighlight == 1) {
 					GameState = 0;
-					newW = false;
 					ScoreListInsert();
-					wborder(win, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ');
-					clear();
-					werase(win);
-					wrefresh(win);
-					delwin(win);
-					endwin();
-					return 0;
 				}
 				else if (WinHighlight == 2) {
 					GameState = -1;
-					newW = false;
 					ScoreListInsert();
-					wborder(win, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ');
-					clear();
-					werase(win);
-					wrefresh(win);
-					delwin(win);
-					endwin();
-					return 0;
 				}
-				
 			}
 		}
 	}
@@ -685,6 +642,3 @@ int Game::WinGame(void) {
 	endwin();
 	return 0;
 }
-
-
-

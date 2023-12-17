@@ -7,7 +7,7 @@ class Enemies : public Ship {
 protected:
 	int enemyType;
 public:
-	Enemies(int x, int y, int speed, int enemyType);
+	Enemies(int x, int y, int enemyType);
 	void movement();
 	int getEnemyType();
 	virtual ~Enemies();
@@ -16,7 +16,7 @@ public:
 class EnemiesUI : public Enemies {
 	
 public:
-	EnemiesUI(int x,int y,int speed, int enemyType);
+	EnemiesUI(int x,int y, int enemyType);
 	void draw();
 	bool collided=false;
 	~EnemiesUI();

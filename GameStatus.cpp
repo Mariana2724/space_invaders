@@ -19,14 +19,6 @@ int GameStatus::Level = 1;
 char GameStatus::name[20] = {};
 GameStatus::GameStatus() {}
 
-//int GameStatus::Score() {	
-//	return GameScore;
-//}
-//
-//int GameStatus::LivesP() {
-//	return LivesPlayer;
-//}
-
 void GameStatus::ScoreListInsert() {
 	
 	size_t originalSize = sizeof(name) / sizeof(name[0]);
@@ -90,14 +82,13 @@ int GameStatusUI::ScoreListShow() {
 				i++;
 			}
 		}
-
 		IScoreTable.close();
 		ch = wgetch(show);
 		wrefresh(show);
 		keypad(show, true);
 
 		if (ch == 10) {
-			wborder(show, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '); // Erase frame around the window
+			wborder(show, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ');
 			newW = false;
 			werase(show);
 			wrefresh(show);
@@ -136,9 +127,7 @@ void GameStatus::OrganizeScore() {
 	sort(dados.begin(), dados.end(), compararEmOrdemDecrescente);
 
 	ofstream OScoreTable("Score.txt", ios::trunc);
-	/*arquivo.close();
-	
-	ofstream OScoreTable("Score.txt", ios::app);*/
+
 	if (!OScoreTable.is_open()) {
 		throw runtime_error("not open");
 	}

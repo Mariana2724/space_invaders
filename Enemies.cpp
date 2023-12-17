@@ -3,12 +3,12 @@
 using namespace std;
 
 int EnemiesUI::direction = 0;
-Enemies::Enemies(int x, int y, int speed, int enemyType):Ship(x,y,speed),enemyType(enemyType){
+Enemies::Enemies(int x, int y, int enemyType):Ship(x,y),enemyType(enemyType){
 }
 int Enemies::getEnemyType() {
     return enemyType;
 }
-EnemiesUI::EnemiesUI(int x, int y, int speed, int enemyType):Enemies(x,y,speed,enemyType) {
+EnemiesUI::EnemiesUI(int x, int y, int enemyType):Enemies(x,y,enemyType) {
 }
 int a = 0;
 void Enemies::movement() {
@@ -19,7 +19,7 @@ void Enemies::movement() {
     case 5:
         if (direction == 0) { // Movimento para a direita
             moveRight();
-            if (pos.x >= COLS - 10) { // Verifica se chegou ao limite direito
+            if (pos.x >= COLS - 10) { 
                 pos.x = COLS - 10;
                 direction = 1;
             }
@@ -33,18 +33,17 @@ void Enemies::movement() {
                 direction = 2;
             }
             if (pos.y >= LINES - 10) { // Verifica se chegou ao limite inferior
-                pos.y = LINES - 10; // Ajusta para o limite inferior
+                pos.y = LINES - 10; 
                 direction = 3;
             }
         }
         else if (direction == 2) { // Movimento para a esquerda
             moveLeft();
-            if (pos.x == 0) { // Verifica se chegou ao limite esquerdo
-                //pos.x = 0;
-                direction = 1; // Muda a direção para a direita
+            if (pos.x == 0) { 
+                direction = 1; 
             }
         }
-        else if (direction == 3) {
+        else if (direction == 3) { //Movimento para cima
             moveUp();
             if (pos.x == 0) {
                 direction = 5;
@@ -52,32 +51,32 @@ void Enemies::movement() {
             else if (pos.x == COLS - 10) {
                 direction = 4;
             }
-            if (pos.y <= 5) { // Verifica se chegou ao limite inferior
+            if (pos.y <= 5) { // Verifica se chegou ao limite superior
                 moveDown();
-                moveRight();// Ajusta para o limite inferior
+                moveRight();
                 direction = 0;
             }
         }
         else if (direction == 4) {
             moveLeft();
-            if (pos.x <= 0) { // Verifica se chegou ao limite esquerdo
+            if (pos.x <= 0) { 
                 pos.x = 0;
-                direction = 3; // Muda a direção para cima
+                direction = 3; 
             }
         }
         else if (direction == 5) {
             moveRight();
-            if (pos.x >= COLS - 10) { // Verifica se chegou ao limite esquerdo
+            if (pos.x >= COLS - 10) { 
                 pos.x = COLS - 10;
-                direction = 3; // Muda a direção para cima
+                direction = 3; 
             }
         }
         break;
     case 4:
         if (a == 0) {
             moveRight();
-            if (pos.x >= COLS - 10) { // Chegou ao lado direito
-                pos.x = COLS - 10; // Ajusta a posição para não sair do limite
+            if (pos.x >= COLS - 10) { 
+                pos.x = COLS - 10;
                 a = 1;
             }
         }
@@ -119,14 +118,6 @@ void EnemiesUI::draw(){
         }
     refresh();
 }
-//
-//void EnemiesUI::shoot(list<BulletsUI*> bulletsEnemy) {
-//   
-//        if (rand() % 300 < 0.5) {
-//            bulletsEnemy.emplace_back(new BulletsUI(Getx(), Gety(), 2, 2));
-//        }
-//    
-//}
 
 Enemies::~Enemies() {}
 EnemiesUI::~EnemiesUI() {}

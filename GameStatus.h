@@ -19,8 +19,6 @@ public:
 	static int yMax;
 	static int Level;
 	static char name[];
-	//static int LivesP();
-	//static int Score();
 	void ScoreListInsert();
 	void OrganizeScore(void);
 	bool isOver(void);

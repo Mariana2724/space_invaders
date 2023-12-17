@@ -15,7 +15,7 @@ void Bullets::movement(){
         break;
     }
 }
-Bullets::Bullets(int xbullet, int ybullet, int speed, int bulletType) :speed(speed), bulletType(bulletType) {
+Bullets::Bullets(int xbullet, int ybullet, int bulletType) :bulletType(bulletType) {
     this->coord.xbullet = xbullet;
     this->coord.ybullet = ybullet;
 }
@@ -73,14 +73,12 @@ bool Bullets::checkCollisionNave(NavePlayerUI Nave) {
     return false;
 
 }
-BulletsUI::BulletsUI(int xbullet, int ybullet, int speed,int bulletType): Bullets(xbullet,ybullet,speed,bulletType){
+BulletsUI::BulletsUI(int xbullet, int ybullet,int bulletType): Bullets(xbullet,ybullet,bulletType){
 }
 void BulletsUI::draw(){
     if (getY() > 2) {
         mvprintw(getY(), getX(), "  ");
         mvprintw(getY(), getX(), " | ");
     }
-	
-
-	refresh(); // Atualiza o ecrã
+	refresh(); 
 }
