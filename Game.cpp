@@ -363,7 +363,7 @@ while (run_Game ) { //flag
 				break;
 			}
 		}
-		if (!isOver()) {
+		if (isOver()) {
 			GameState = 6;
 			break;
 		}
@@ -528,69 +528,69 @@ int Game::GameIsOver(void) {
 	GameWindow();
 	curs_set(0);
 	bool newW = true;
-	int PauseHighlight = 0;
+	int OverHighlight = 0;
 	while (newW) {
-		WINDOW* pause = newwin(yMax / 4 - 2, xMax / 4 - 3, yMax / 2 -5, xMax / 2 - 13);
-		box(pause, 0, 0);
+		WINDOW* over = newwin(yMax / 4 - 2, xMax / 4 - 3, yMax / 2 -5, xMax / 2 - 13);
+		box(over, 0, 0);
 
-		wrefresh(pause);
-		keypad(pause, true);
+		wrefresh(over);
+		keypad(over, true);
 
-		string OptionPause[2] = { "  MENU  ", "EXIT GAME" };
+		string OptionOver[2] = { "  MENU  ", "EXIT GAME" };
 		int ch;
 
 
-		mvwprintw(pause, 1, 7, "YOU HAVE DIED !!!");
+		mvwprintw(over, 1, 7, "YOU HAVE DIED !!!");
 
 		while (true) {
 			for (int i = 0; i < 2; i++) {
-				if (i == PauseHighlight) {
-					wattron(pause, A_REVERSE);
+				if (i == OverHighlight) {
+					wattron(over, A_REVERSE);
 				}
-				mvwprintw(pause, i + 2, 10-i, OptionPause[i].c_str());
-				wattroff(pause, A_REVERSE);
+				mvwprintw(over, i + 2, 10-i, OptionOver[i].c_str());
+				wattroff(over, A_REVERSE);
 			}
 
-			ch = wgetch(pause);
+			ch = wgetch(over);
 			switch (ch) {
 			case KEY_UP:
-				PauseHighlight--;
-				if (PauseHighlight == -1) {
-					PauseHighlight = 0;
+				OverHighlight--;
+				if (OverHighlight == -1) {
+					OverHighlight = 0;
 				}
 				break;
 			case KEY_DOWN:
-				PauseHighlight++;
-				if (PauseHighlight == 2) {
-					PauseHighlight = 1;
+				OverHighlight++;
+				if (OverHighlight == 2) {
+					OverHighlight = 1;
 				}
 				break;
 			default:
 				break;
 			}
 
-			wrefresh(pause);
+			wrefresh(over);
 			if (ch == 10) {
-				if (PauseHighlight == 0) {
+				if (OverHighlight == 0) {
 					GameState = 0;
-					wborder(pause, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '); // Erase frame around the window
+					wborder(over, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '); // Erase frame around the window
 					newW = false;
 					clear();
-					werase(pause);
-					wrefresh(pause);
-					delwin(pause);
+					werase(over);
+					wrefresh(over);
+					delwin(over);
 					endwin();
 					return 0;
 					break;
 				}
-				else if (PauseHighlight == 1) {
+				else if (OverHighlight == 1) {
 					GameState = -1;
-					wborder(pause, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '); // Erase frame around the window
+					wborder(over, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '); // Erase frame around the window
 					newW = false;
 					clear();
-					werase(pause);
-					wrefresh(pause);
-					delwin(pause);
+					werase(over);
+					wrefresh(over);
+					delwin(over);
 					endwin();
 					return 0;
 				}
@@ -600,7 +600,6 @@ int Game::GameIsOver(void) {
 
 	}
 }
-
 int Game::WinGame(void) {
 	GameWindow();
 	curs_set(0);
