@@ -244,7 +244,7 @@ int Game::run() {
 	refresh();
 	ch = getch();
 	run_Game = true;
-while (run_Game ) { //flag
+while (run_Game) { //flag
 		clear();
 		UpdateInfoScreen();
 
@@ -340,12 +340,12 @@ while (run_Game ) { //flag
 			}
 			else {
 				GameState = 0;
-				break;
+				run_Game = false;
 			}
 		}
 		if (isOver()) {
 			GameState = 6;
-			break;
+			run_Game = false;
 		}
 		noecho();
 		refresh();

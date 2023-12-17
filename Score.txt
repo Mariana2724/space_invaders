@@ -1,9 +1,11 @@
 KINGKONA	1770
 Andre	1530
 adios	1530
+Kris	590
 Lalala	560
 KINGKONG	510
 lol	370
 ronaldo	170
+olaf	70
 LOL	60
 L	0
