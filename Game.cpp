@@ -253,7 +253,7 @@ while (run_Game ) { //flag
 		for (EnemiesUI* enemy : enemies) {
 			enemy->draw();
 			enemy->movement();
-			if (rand() % 300 < GameStatus::Level-0.1) {			
+			if (rand() % 300 < GameStatus::Level+0.1) {			
 				bulletsEnemy.emplace_back(new BulletsUI(enemy->getX(), enemy->getY(),2,2));
 			}
 		}
