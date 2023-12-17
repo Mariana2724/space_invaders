@@ -44,7 +44,6 @@ int Bullets::checkCollisionEnemies(list<EnemiesUI*> enemies) {
                 GameStatus::GameScore += 100;
                 break;
             default:
-                GameStatus::GameScore += 10;
                 break;
             }
             enemy->collided = true;

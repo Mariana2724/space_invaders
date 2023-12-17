@@ -53,6 +53,9 @@ void Game::start(void){
 		case 5:
 			ScoreListShow();
 			break;
+		case 6:
+			WinGame();
+			break;
 		default:
 			isRunning = false;
 			break;
@@ -77,7 +80,7 @@ void Game::GameName(void) {
 int Game::menu(void) {
 	GameWindow();
 	GameScore = 0;
-	LivesPlayer = 10;
+	LivesPlayer = 3;
 	GameName();
 	//WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x);
 	WINDOW* menu_win = newwin(yMax / 4+1, xMax / 4, yMax / 2, xMax / 2 - 15);
@@ -244,7 +247,7 @@ while (run_Game ) { //flag
 			if(name[i]!=' ')
 				mvprintw(1, 38+i,"%c", name[i]);
 		}
-		if (LivesPlayer == 9) {
+		if (LivesPlayer == 0) {
 			GameState = 3;
 			run_Game = false;
 		}
@@ -321,6 +324,10 @@ while (run_Game ) { //flag
 				}
 			}
 
+		}
+		if (GameScore == 510) {// se for 1
+			GameState = 6;
+			break;
 		}
 		ch = getch();
 		flushinp();
@@ -572,4 +579,82 @@ int Game::GameIsOver(void) {
 
 	}
 }
+
+int Game::WinGame(void) {
+	GameWindow();
+	bool newW = true;
+	int PauseHighlight = 0;
+	while (newW) {
+		WINDOW* pause = newwin(yMax / 4 - 2, xMax / 4 - 3, yMax / 2 - 5, xMax / 2 - 13);
+		box(pause, 0, 0);
+
+		wrefresh(pause);
+		keypad(pause, true);
+
+		string OptionPause[2] = { "  MENU  ", "EXIT GAME" };
+		int ch;
+
+
+		mvwprintw(pause, 1, 7, "    YOU WON !!!");
+
+		while (true) {
+			for (int i = 0; i < 2; i++) {
+				if (i == PauseHighlight) {
+					wattron(pause, A_REVERSE);
+				}
+				mvwprintw(pause, i + 2, 10 - i, OptionPause[i].c_str());
+				wattroff(pause, A_REVERSE);
+			}
+
+			ch = wgetch(pause);
+			switch (ch) {
+			case KEY_UP:
+				PauseHighlight--;
+				if (PauseHighlight == -1) {
+					PauseHighlight = 0;
+				}
+				break;
+			case KEY_DOWN:
+				PauseHighlight++;
+				if (PauseHighlight == 2) {
+					PauseHighlight = 1;
+				}
+				break;
+			default:
+				break;
+			}
+
+			wrefresh(pause);
+			if (ch == 10) {
+				if (PauseHighlight == 0) {
+					GameState = 0;
+					wborder(pause, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '); // Erase frame around the window
+					newW = false;
+					clear();
+					werase(pause);
+					wrefresh(pause);
+					delwin(pause);
+					endwin();
+					return 0;
+					break;
+				}
+				else if (PauseHighlight == 1) {
+					GameState = -1;
+					wborder(pause, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '); // Erase frame around the window
+					newW = false;
+					clear();
+					werase(pause);
+					wrefresh(pause);
+					delwin(pause);
+					endwin();
+					return 0;
+				}
+
+			}
+		}
+
+	}
+}
+
+
 

@@ -12,7 +12,7 @@
 using namespace std;
 
 int GameStatus::GameScore = 0;
-int GameStatus::LivesPlayer = 10;
+int GameStatus::LivesPlayer = 3;
 int GameStatus::xMax = 0;
 int GameStatus::yMax = 0;
 char GameStatus::name[20] = {};
