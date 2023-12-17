@@ -146,7 +146,6 @@
     <ClInclude Include="NavePlayer.h" />
     <ClInclude Include="Shapes.h" />
     <ClInclude Include="Ship.h" />
-    <ClInclude Include="Strategy.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="CodigoExtra.txt" />
