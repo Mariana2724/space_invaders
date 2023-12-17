@@ -18,8 +18,8 @@ public:
 	static int xMax;
 	static int yMax;
 	static char name[];
-	static int LivesP();
-	static int Score();
+	//static int LivesP();
+	//static int Score();
 	void ScoreListInsert();
 	void OrganizeScore(void);
 };

@@ -28,9 +28,9 @@ Game::Game() {
 }
 
 void Game::start(void){
-	initscr(); // Initialize the curses library
-	noecho(); // Don't echo user input to the screen
-	cbreak(); // Disable line buffering
+	initscr(); 
+	noecho(); 
+	cbreak(); 
 
 	bool isRunning = true;
 	while (isRunning) {
@@ -204,7 +204,26 @@ int Game::InsertName() {
 	return 0;
 }
 
-
+//void initStars(int numStars, int maxX, int maxY, char stars[][2]) {
+//	for (int i = 0; i < numStars; ++i) {
+//		stars[i][0] =  rand()%maxX;
+//		stars[i][1] = rand()%maxY;
+//	}
+//}
+//
+//void drawStars(int numStars, char stars[][2]) {
+//	start_color();
+//	init_pair(2, COLOR_YELLOW, COLOR_BLACK);
+//	attron( A_BOLD); // Use negrito para as estrelas
+//	attron(COLOR_PAIR(2)); // Use a cor branca para as estrelas
+//
+//	for (int i = 0; i < numStars; ++i) {
+//		mvaddch(stars[i][1], stars[i][0], '*');
+//	}
+//
+//	attroff(COLOR_PAIR(2));
+//	attroff(A_BOLD);
+//}
 
 int Game::run(void) {
 	nodelay(stdscr, true); 
@@ -212,7 +231,7 @@ int Game::run(void) {
 	curs_set(0);
 	start_color();
 	init_pair(1, COLOR_RED, COLOR_BLACK);
-
+	
 	NavePlayerUI nave(57, 25,2);
 	list<EnemiesUI*> enemies;
 	list<BulletsUI*> bulletsNave;
@@ -221,6 +240,11 @@ int Game::run(void) {
 
 	int ch = 0;
 	int keep = 0;
+
+	/*const int numStars = 100;
+	char stars[numStars][2];
+
+	initStars(numStars, COLS, LINES, stars);*/
 
 	for (int i = 0; i < 4; i++) {
 		barriers.emplace_back(new BarrierUI(10+i*30,21));
@@ -240,11 +264,7 @@ int Game::run(void) {
 while (run_Game ) { //flag
 		clear();
 		UpdateInfoScreen();
-		
-		for (int i = 0; i < 20; i++) {
-			if(name[i]!=' ')
-				mvprintw(1, 38+i,"%c", name[i]);
-		}
+		//drawStars(numStars, stars);
 		if (LivesPlayer == 9) {
 			GameState = 3;
 			run_Game = false;
@@ -421,7 +441,6 @@ int Game::ChooseSpaceship() {
 		}
 
 	}
-	//ScoreListInsert();
 	GameState = 0;
 	return 0;
 }

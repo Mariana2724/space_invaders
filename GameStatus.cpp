@@ -18,13 +18,13 @@ int GameStatus::yMax = 0;
 char GameStatus::name[20] = {};
 GameStatus::GameStatus() {}
 
-int GameStatus::Score() {	
-	return GameScore;
-}
-
-int GameStatus::LivesP() {
-	return LivesPlayer;
-}
+//int GameStatus::Score() {	
+//	return GameScore;
+//}
+//
+//int GameStatus::LivesP() {
+//	return LivesPlayer;
+//}
 
 void GameStatus::ScoreListInsert() {
 	
@@ -163,4 +163,8 @@ void GameStatusUI::UpdateInfoScreen(){
 	mvprintw(1, 18, "LIVES: ");
 	mvprintw(1, 25, to_string(LivesPlayer).c_str());
 	mvprintw(1, 30, "PLAYER: ");
+	for (int i = 0; i < 20; i++) {
+		if (name[i] != ' ')
+			mvprintw(1, 38 + i, "%c", name[i]);
+	}
 }
