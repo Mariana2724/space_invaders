@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 using namespace std;
+
 struct PlayerData {
 	string UserName;
 	int UserScore;
@@ -20,7 +21,7 @@ public:
 	static int LivesP();
 	static int Score();
 	void ScoreListInsert();
-
+	void OrganizeScore(void);
 };
 
 class GameStatusUI : public GameStatus {
@@ -29,6 +30,6 @@ public:
 	void GameWindow();
 	void UpdateInfoScreen(); //vai escrever a informação no ecrã
 	int ScoreListShow(void);
-	void OrganizeScore(void);
+	
 };
 

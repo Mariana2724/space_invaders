@@ -195,6 +195,8 @@ int Game::InsertName() {
 		wclear(insert);
 		delwin(insert);
     }
+	
+	
 	endwin();
 	GameState = 2;
 	
@@ -343,7 +345,7 @@ while (run_Game ) { //flag
 		this_thread::sleep_for(chrono::milliseconds(40));
 	}
 	ScoreListInsert();
-	clear();
+  	clear();
 	endwin();
 
 	return 0;
