@@ -19,4 +19,6 @@ public:
 	int GameIsOver(void);
 	int InsertName(void);
 	int run(void);
+	
+
 };

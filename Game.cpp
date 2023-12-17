@@ -10,6 +10,9 @@
 
 #include <vector>
 #include <list>
+#include <exception>
+#include <stdexcept>
+#include <fstream>
 #include<string>
 #include <chrono>
 #include<thread>
@@ -581,3 +584,4 @@ int Game::GameIsOver(void) {
 
 	}
 }
+

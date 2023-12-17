@@ -1,5 +1,15 @@
 #pragma once
+#include <vector>
+#include <string>
+using namespace std;
+struct PlayerData {
+	string UserName;
+	int UserScore;
+};
+
 class GameStatus {
+protected:
+	vector<PlayerData>dados;
 public:
 	GameStatus();
 	static int GameScore;
@@ -7,12 +17,10 @@ public:
 	static int xMax;
 	static int yMax;
 	static char name[];
-	//static string name;
 	static int LivesP();
 	static int Score();
 	void ScoreListInsert();
-	
-	
+
 };
 
 class GameStatusUI : public GameStatus {
@@ -20,5 +28,7 @@ public:
 	GameStatusUI();
 	void GameWindow();
 	void UpdateInfoScreen(); //vai escrever a informação no ecrã
-	void ScoreListShow();
+	int ScoreListShow(void);
+	void OrganizeScore(void);
 };
+
