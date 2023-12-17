@@ -1,10 +1,11 @@
 #include "Barrier.h"
+#include "GameStatus.h"
 #include <iostream>
 #include <curses.h>
 #include <string>
 using namespace std;
 Barrier::Barrier(int x, int y, int score=20) {
-   this-> score = 20;
+   this-> score = 20/GameStatus::Level;
    this->position.x = x;
    this->position.y = y;
 }

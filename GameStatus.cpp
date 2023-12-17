@@ -15,6 +15,7 @@ int GameStatus::GameScore = 0;
 int GameStatus::LivesPlayer = 3;
 int GameStatus::xMax = 0;
 int GameStatus::yMax = 0;
+int GameStatus::Level = 1;
 char GameStatus::name[20] = {};
 GameStatus::GameStatus() {}
 
@@ -29,9 +30,7 @@ GameStatus::GameStatus() {}
 void GameStatus::ScoreListInsert() {
 	
 	size_t originalSize = sizeof(name) / sizeof(name[0]);
-	// Inicializa um índice para o novo array
 	size_t newIndex = 0;
-	// Modifica o array removendo espaços em branco
 	for (size_t i = 0; i < originalSize; ++i) {
 		if (!isspace(name[i])) {
 			name[newIndex++] = name[i];
@@ -151,7 +150,12 @@ void GameStatus::OrganizeScore() {
 	OScoreTable.close();
 }
 bool GameStatus::isOver(void) {
-	return GameScore == 510;
+	if (Level == 1)
+		return GameScore == 510;
+	else if (Level == 2)
+		return GameScore == 1020;
+	else if (Level == 3)
+		return GameScore == 1530;
 }
 GameStatusUI::GameStatusUI():GameStatus(){}
 
@@ -169,4 +173,6 @@ void GameStatusUI::UpdateInfoScreen(){
 		if (name[i] != ' ')
 			mvprintw(1, 38 + i, "%c", name[i]);
 	}
+	mvprintw(1, 55, "LEVEL: ");
+	mvprintw(1, 63, to_string(Level).c_str());
 }
