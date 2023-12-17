@@ -4,8 +4,11 @@
 #include <exception>
 #include <stdexcept>
 #include <fstream>
+#include <algorithm>
+
 #include <curses.h>
 #include <string>
+#include<cstdio>
 using namespace std;
 
 int GameStatus::GameScore = 0;
@@ -50,14 +53,69 @@ void GameStatus::ScoreListInsert() {
 
 }
 
-void GameStatusUI::ScoreListShow() {
+int GameStatusUI::ScoreListShow() {
 	GameWindow();
+	OrganizeScore();
 	bool newW = true;
-
+	int ch;
+	
 	while (newW) {
-		WINDOW* insert = newwin(yMax / 4, xMax / 4 - 3, yMax / 2 - 5, xMax / 2 - 13);
-		box(insert, 4, 0);
+		
+		int i = 2;
+		WINDOW* show = newwin(yMax / 4 + 4, xMax / 4+2, yMax / 2-2, xMax / 2 - 16);
+		mvwprintw(show, 1, 1, "POS.	     PLAYER      SCORE");
+		box(show, 0, 0);
+		for (int a = 2; a < 9; a++) {
+			mvwprintw(show, a+1, 2, to_string(a-1).c_str());
+		}
+		
+		
+		ifstream IScoreTable("Score.txt", ios::in);
+		if (!IScoreTable.is_open()) {
+			throw runtime_error("not open");
+		}
+		else {
+			int score;
+			string nom;
+			while (!IScoreTable.eof() && i <= 6) {
+				
+				IScoreTable >> nom >> score;
 
+				mvwprintw(show, i+1, 12, nom.c_str());
+				mvwprintw(show, i + 1, 24,  to_string(score).c_str());
+				i++;
+			}
+		}
+		IScoreTable.close();
+		ch = wgetch(show);
+		/*for (PlayerData& p :dados) {
+			mvwprintw(show, i + 2, 12, p.UserName.c_str());
+			i++;
+		}*/
+		wrefresh(show);
+		keypad(show, true);
+
+		if (ch == 10) {
+			wborder(show, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '); // Erase frame around the window
+			newW = false;
+			werase(show);
+			wrefresh(show);
+			delwin(show);
+			break;
+		}
+
+		wrefresh(show);
+		keypad(show, true);
+	}
+	
+	endwin();
+	Game::GameState = 0;
+	return 0;
+}
+bool compararEmOrdemDecrescente(const PlayerData& a, const PlayerData& b) {
+	return a.UserScore > b.UserScore;
+}
+void GameStatusUI::OrganizeScore() {
 	ifstream IScoreTable("Score.txt", ios::in);
 	if (!IScoreTable.is_open()) {
 		throw runtime_error("not open");
@@ -66,15 +124,32 @@ void GameStatusUI::ScoreListShow() {
 		int score;
 		string nom;
 		while (!IScoreTable.eof()) {
+
 			IScoreTable >> nom >> score;
-			//cout << nom << score<<endl;
+			
+			PlayerData player;
+			player.UserScore = score;
+			player.UserName = nom;
+			dados.push_back(player);
 		}
 	}
 	IScoreTable.close();
-	//newW = false;
+
+	sort(dados.begin(), dados.end(), compararEmOrdemDecrescente);
+
+	ofstream arquivo("Score.txt");
+
+	arquivo.close();
+	
+	ofstream OScoreTable("Score.txt", ios::app);
+	if (!OScoreTable.is_open()) {
+		throw runtime_error("not open");
 	}
-	endwin();
-	Game::GameState = 0;
+	else {
+		for (const auto& dado : dados)
+			OScoreTable << dado.UserName << "\t" << dado.UserScore;
+	}
+	OScoreTable.close();
 }
 
 GameStatusUI::GameStatusUI():GameStatus(){}

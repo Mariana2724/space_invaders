@@ -18,7 +18,6 @@ class EnemiesUI : public Enemies {
 public:
 	EnemiesUI(int x,int y,int speed, int enemyType);
 	void draw();
-	
 	bool collided=false;
 	~EnemiesUI();
 };
