@@ -28,6 +28,7 @@ int Barrier::wasShot() {
 }
 
 BarrierUI::BarrierUI(int x, int y):Barrier(x,y){
+    destroyed = false;
 }
 
 void BarrierUI::draw() {

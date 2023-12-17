@@ -56,7 +56,7 @@ int Bullets::checkCollisionBarriers(list<BarrierUI*> barriers){
     for (BarrierUI* barrier : barriers) {
         if (coord.xbullet <= barrier->getX() + 7 && coord.xbullet >= barrier->getX()  && coord.ybullet >= barrier->getY() && coord.ybullet <= barrier->getY()) {
             if (barrier->wasShot()) {
-                barrier->collidedB = true;
+                barrier->destroyed = true;
                 return 0;
             }
             return 1;
