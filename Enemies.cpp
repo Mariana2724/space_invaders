@@ -39,21 +39,22 @@ void Enemies::movement(){
             }
             else if (direction==2) { // Movimento para a esquerda
                 moveLeft();
-                if (pos.x <= 0) { // Verifica se chegou ao limite esquerdo
-                    pos.x = 0;
+                if (pos.x == 0) { // Verifica se chegou ao limite esquerdo
+                    //pos.x = 0;
                     direction = 1; // Muda a direção para a direita
                 }
             }
             else if (direction == 3) {
                 moveUp();
                 if (pos.x == 0) {
-                    direction = 0;
+                    direction = 5;
                 }
                 else if (pos.x == COLS - 10) {
                     direction = 4;
                 }
                 if (pos.y <= 5) { // Verifica se chegou ao limite inferior
-                    pos.y = 5; // Ajusta para o limite inferior
+                    moveDown();
+                    moveRight();// Ajusta para o limite inferior
                     direction = 0;
                 }
             }
@@ -61,7 +62,14 @@ void Enemies::movement(){
                 moveLeft();
                 if (pos.x <= 0) { // Verifica se chegou ao limite esquerdo
                     pos.x = 0;
-                    direction = 3; // Muda a direção para a direita
+                    direction = 3; // Muda a direção para cima
+                }
+            }
+            else if (direction == 5) {
+                moveRight();
+                if (pos.x>= COLS-10) { // Verifica se chegou ao limite esquerdo
+                    pos.x =COLS-10;
+                    direction = 3; // Muda a direção para cima
                 }
             }
             break;
