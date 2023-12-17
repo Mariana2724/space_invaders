@@ -27,7 +27,7 @@ void Ship::moveRight(){
 }
 
 void Ship::moveDown(){
-	pos.y ++;
+	pos.y;
 	if (pos.y > 100) { //para não sair do ecrã por baixo
 		pos.y = 100;
 	}
