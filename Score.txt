@@ -1,4 +1,6 @@
 mariana	510
+mariana	490
 andre	300
 tiago	20
 gabri	20
+	0

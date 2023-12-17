@@ -268,7 +268,7 @@ while (run_Game ) { //flag
 		clear();
 		UpdateInfoScreen();
 		//drawStars(numStars, stars);
-		if (LivesPlayer == 2) {
+		if (LivesPlayer == 0) {
 			GameState = 3;
 			run_Game = false;
 		}
