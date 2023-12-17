@@ -169,7 +169,7 @@ int Game::InsertName() {
 		int ch, x = 0;;
 	
 		mvwprintw(insert, 2, 7, "YOUR NAME: ");
-		mvwprintw(insert, 3, 3, "->");
+		mvwprintw(insert, 3, 2, "-> ");
 
 		for (int i = 0; i < 20; i++) {
 			name[i] = ' ';
@@ -177,7 +177,7 @@ int Game::InsertName() {
 
 		while (true) {
 			ch = wgetch(insert);
-			if ((ch >= 65 && ch <= 122) || ch == 10||ch==8){
+			if ((ch >= 65 && ch <= 122) || ch == 10||ch==8||ch==27){
 				wattron(insert, A_REVERSE);
 				waddch(insert, ch);
 				name[x]=ch;
@@ -190,12 +190,18 @@ int Game::InsertName() {
 				
 				wattroff(insert, A_REVERSE);
 				if (ch == 10) {
+					GameState = 2;
+					break;
+				}
+				if (ch == 27) {
+					GameState = 0;
 					break;
 				}
 				x++;
 			}
         }
 		newW = false;
+		werase(insert);
 		wrefresh(insert); 
 		wclear(insert);
 		delwin(insert);
@@ -203,7 +209,7 @@ int Game::InsertName() {
 	
 	
 	endwin();
-	GameState = 2;
+	
 	return 0;
 }
 
@@ -226,11 +232,11 @@ int Game::run() {
 	for (int i = 0; i < 4; i++) {
 		barriers.emplace_back(new BarrierUI(10+i*30,21));
 	}
-	for (int i = 1; i < 6; i++) {
+	for (int i = 1; i < (5 + GameStatus::Level); i++) {
 		enemies.emplace_back(new EnemiesUI(i * 7, 5, 5, 2));
 		enemies.emplace_back(new EnemiesUI(i * 7, 7, 5, 1));
 	}
-	for (int i = 1; i < 7; i++) {
+	for (int i = 1; i < (6 + GameStatus::Level); i++) {
 		enemies.emplace_back(new EnemiesUI(i * 6, 9, 5, 3));
 	}
 	enemies.emplace_back(new EnemiesUI(0, 11, 5, 5));

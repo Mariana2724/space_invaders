@@ -153,9 +153,9 @@ bool GameStatus::isOver(void) {
 	if (Level == 1)
 		return GameScore == 510;
 	else if (Level == 2)
-		return GameScore == 1020;
+		return GameScore == 1100;
 	else if (Level == 3)
-		return GameScore == 1530;
+		return GameScore == 1770 ;
 }
 GameStatusUI::GameStatusUI():GameStatus(){}
 

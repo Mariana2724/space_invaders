@@ -1,6 +1,9 @@
-mariana	510
-mariana	490
-andre	300
-tiago	20
-gabri	20
-	0
+KINGKONA	1770
+Andre	1530
+adios	1530
+Lalala	560
+KINGKONG	510
+lol	370
+ronaldo	170
+LOL	60
+L	0
