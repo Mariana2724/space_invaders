@@ -82,6 +82,7 @@ int Game::menu(void) {
 	curs_set(0);
 	GameScore = 0;
 	LivesPlayer = 3;
+	GameStatus::Level = 1;
 	GameName();
 	//WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x);
 	WINDOW* menu_win = newwin(yMax / 4+1, xMax / 4, yMax / 2, xMax / 2 - 15);
@@ -148,10 +149,10 @@ int Game::menu(void) {
 		default:
 			break;
 		}
-}
-run_Game = true;
-endwin();
-return 0;
+	}
+	run_Game = true;
+	endwin();
+	return 0;
 }
 int Game::InsertName() {
 	GameWindow();
@@ -203,38 +204,16 @@ int Game::InsertName() {
 	
 	endwin();
 	GameState = 2;
-	
 	return 0;
 }
 
-//void initStars(int numStars, int maxX, int maxY, char stars[][2]) {
-//	for (int i = 0; i < numStars; ++i) {
-//		stars[i][0] =  rand()%maxX;
-//		stars[i][1] = rand()%maxY;
-//	}
-//}
-//
-//void drawStars(int numStars, char stars[][2]) {
-//	start_color();
-//	init_pair(2, COLOR_YELLOW, COLOR_BLACK);
-//	attron( A_BOLD); // Use negrito para as estrelas
-//	attron(COLOR_PAIR(2)); // Use a cor branca para as estrelas
-//
-//	for (int i = 0; i < numStars; ++i) {
-//		mvaddch(stars[i][1], stars[i][0], '*');
-//	}
-//
-//	attroff(COLOR_PAIR(2));
-//	attroff(A_BOLD);
-//}
-
-int Game::run(void) {
+int Game::run() {
 	nodelay(stdscr, true); 
 	keypad(stdscr, TRUE); 
 	curs_set(0);
 	start_color();
 	init_pair(1, COLOR_RED, COLOR_BLACK);
-	
+	LivesPlayer = 3;
 	NavePlayerUI nave(57, 25,2);
 	list<EnemiesUI*> enemies;
 	list<BulletsUI*> bulletsNave;
@@ -243,11 +222,6 @@ int Game::run(void) {
 
 	int ch = 0;
 	int keep = 0;
-
-	/*const int numStars = 100;
-	char stars[numStars][2];
-
-	initStars(numStars, COLS, LINES, stars);*/
 
 	for (int i = 0; i < 4; i++) {
 		barriers.emplace_back(new BarrierUI(10+i*30,21));
@@ -263,12 +237,12 @@ int Game::run(void) {
 	enemies.emplace_back(new EnemiesUI(1, 3, 2, 4));
 	refresh();
 	ch = getch();
-
+	run_Game = true;
 while (run_Game ) { //flag
 		clear();
 		UpdateInfoScreen();
-		//drawStars(numStars, stars);
-		if (LivesPlayer == 2) {
+
+		if (LivesPlayer == 0) {
 			GameState = 3;
 			run_Game = false;
 		}
@@ -279,7 +253,7 @@ while (run_Game ) { //flag
 		for (EnemiesUI* enemy : enemies) {
 			enemy->draw();
 			enemy->movement();
-			if (rand() % 300 < 0.5) {			
+			if (rand() % 300 < GameStatus::Level-0.1) {			
 				bulletsEnemy.emplace_back(new BulletsUI(enemy->getX(), enemy->getY(),2,2));
 			}
 		}
@@ -371,7 +345,7 @@ while (run_Game ) { //flag
 		refresh();
 		this_thread::sleep_for(chrono::milliseconds(40));
 	}
-	ScoreListInsert();
+	//ScoreListInsert();
   	clear();
 	endwin();
 
@@ -510,6 +484,7 @@ bool Game::GameIsPaused() {
 					else if (PauseHighlight == 1) {
 						wborder(pause, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '); // Erase frame around the window
 						newW = false;
+						ScoreListInsert();
 						clear();
 						werase(pause);
 						wrefresh(pause);
@@ -580,7 +555,7 @@ int Game::GameIsOver(void) {
 					wrefresh(over);
 					delwin(over);
 					endwin();
-					return 0;
+					
 					break;
 				}
 				else if (OverHighlight == 1) {
@@ -592,13 +567,15 @@ int Game::GameIsOver(void) {
 					wrefresh(over);
 					delwin(over);
 					endwin();
-					return 0;
+					break;
 				}
 
 			}
 		}
 
 	}
+	ScoreListInsert();
+	return 0;
 }
 int Game::WinGame(void) {
 	GameWindow();
@@ -612,18 +589,29 @@ int Game::WinGame(void) {
 		wrefresh(win);
 		keypad(win, true);
 
-		string OptionWin[3] = { "LEVEL 2 ", "  MENU  ", "EXIT GAME" };
+		string OptionWin[3] = { " NEXT LEVEL ? ","    MENU  ", " EXIT GAME  " };
 		int ch;
 
-
-		mvwprintw(win, 1, 5, "YOU WON LEVEL 1 !!!");
-
+		if (GameStatus::Level < 3) {
+			mvwprintw(win, 1, 5, "YOU WON LEVEL %d !!!", GameStatus::Level);
+			WinHighlight = 0;
+		}
+		else {
+			mvwprintw(win, 1, 5, "YOU WON THE GAME!!!");
+			WinHighlight = 1;
+		}
 		while (true) {
-			for (int i = 0; i < 3; i++) {
+			int i = 0;;
+
+			if (GameStatus::Level < 3)
+				i = 0;
+			else 
+				i = 1;
+			for (i ; i < 3; i++) {
 				if (i == WinHighlight) {
 					wattron(win, A_REVERSE);
 				}
-				mvwprintw(win, i + 3, 10 - i, OptionWin[i].c_str());
+				mvwprintw(win, i + 3, 8, OptionWin[i].c_str());
 				wattroff(win, A_REVERSE);
 			}
 
@@ -631,8 +619,15 @@ int Game::WinGame(void) {
 			switch (ch) {
 			case KEY_UP:
 				WinHighlight--;
-				if (WinHighlight == -1) {
-					WinHighlight = 0;
+				if (GameStatus::Level < 3) {
+					if (WinHighlight == -1) {
+						WinHighlight = 0;
+					}
+				}
+				else {
+					if (WinHighlight == 0) {
+						WinHighlight = 1;
+					}
 				}
 				break;
 			case KEY_DOWN:
@@ -648,27 +643,41 @@ int Game::WinGame(void) {
 			wrefresh(win);
 			if (ch == 10) {
 				if (WinHighlight == 0) {
-
-
+					GameState = 2;
+					if(GameStatus::Level<3)
+						GameStatus::Level++;
+					newW = false;
+					wborder(win, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ');
+					clear();
+					werase(win);
+					wrefresh(win);
+					delwin(win);
+					endwin();
+					return 0;
 				}
 				else if (WinHighlight == 1) {
 					GameState = 0;
 					newW = false;
+					ScoreListInsert();
 					wborder(win, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ');
 					clear();
 					werase(win);
 					wrefresh(win);
 					delwin(win);
-					break;
+					endwin();
+					return 0;
 				}
 				else if (WinHighlight == 2) {
 					GameState = -1;
 					newW = false;
+					ScoreListInsert();
 					wborder(win, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ');
 					clear();
 					werase(win);
 					wrefresh(win);
 					delwin(win);
+					endwin();
+					return 0;
 				}
 				
 			}

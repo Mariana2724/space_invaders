@@ -1,4 +1,4 @@
-mariana	510
-andre	300
-tiago	20
-gabri	20
+Andre	1530
+Ronaldo	630
+mariana	80
+Messi	10

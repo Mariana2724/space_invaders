@@ -17,6 +17,7 @@ public:
 	static int LivesPlayer;
 	static int xMax;
 	static int yMax;
+	static int Level;
 	static char name[];
 	//static int LivesP();
 	//static int Score();
