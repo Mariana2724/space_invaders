@@ -17,6 +17,7 @@ public:
 	int ChooseSpaceship(void);
 	bool GameIsPaused();
 	int GameIsOver(void);
+	int WinGame(void);
 	int InsertName(void);
 	int run(void);
 	

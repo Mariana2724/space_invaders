@@ -28,9 +28,9 @@ Game::Game() {
 }
 
 void Game::start(void){
-	initscr(); // Initialize the curses library
-	noecho(); // Don't echo user input to the screen
-	cbreak(); // Disable line buffering
+	initscr(); 
+	noecho(); 
+	cbreak(); 
 
 	bool isRunning = true;
 	while (isRunning) {
@@ -52,6 +52,9 @@ void Game::start(void){
 			break;
 		case 5:
 			ScoreListShow();
+			break;
+		case 6:
+			WinGame();
 			break;
 		default:
 			isRunning = false;
@@ -76,8 +79,9 @@ void Game::GameName(void) {
 }
 int Game::menu(void) {
 	GameWindow();
+	curs_set(0);
 	GameScore = 0;
-	LivesPlayer = 10;
+	LivesPlayer = 3;
 	GameName();
 	//WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x);
 	WINDOW* menu_win = newwin(yMax / 4+1, xMax / 4, yMax / 2, xMax / 2 - 15);
@@ -195,21 +199,42 @@ int Game::InsertName() {
 		wclear(insert);
 		delwin(insert);
     }
+	
+	
 	endwin();
 	GameState = 2;
 	
 	return 0;
 }
 
-
+//void initStars(int numStars, int maxX, int maxY, char stars[][2]) {
+//	for (int i = 0; i < numStars; ++i) {
+//		stars[i][0] =  rand()%maxX;
+//		stars[i][1] = rand()%maxY;
+//	}
+//}
+//
+//void drawStars(int numStars, char stars[][2]) {
+//	start_color();
+//	init_pair(2, COLOR_YELLOW, COLOR_BLACK);
+//	attron( A_BOLD); // Use negrito para as estrelas
+//	attron(COLOR_PAIR(2)); // Use a cor branca para as estrelas
+//
+//	for (int i = 0; i < numStars; ++i) {
+//		mvaddch(stars[i][1], stars[i][0], '*');
+//	}
+//
+//	attroff(COLOR_PAIR(2));
+//	attroff(A_BOLD);
+//}
 
 int Game::run(void) {
 	nodelay(stdscr, true); 
 	keypad(stdscr, TRUE); 
-	
+	curs_set(0);
 	start_color();
 	init_pair(1, COLOR_RED, COLOR_BLACK);
-
+	
 	NavePlayerUI nave(57, 25,2);
 	list<EnemiesUI*> enemies;
 	list<BulletsUI*> bulletsNave;
@@ -218,6 +243,11 @@ int Game::run(void) {
 
 	int ch = 0;
 	int keep = 0;
+
+	/*const int numStars = 100;
+	char stars[numStars][2];
+
+	initStars(numStars, COLS, LINES, stars);*/
 
 	for (int i = 0; i < 4; i++) {
 		barriers.emplace_back(new BarrierUI(10+i*30,21));
@@ -237,11 +267,7 @@ int Game::run(void) {
 while (run_Game ) { //flag
 		clear();
 		UpdateInfoScreen();
-		
-		for (int i = 0; i < 20; i++) {
-			if(name[i]!=' ')
-				mvprintw(1, 38+i,"%c", name[i]);
-		}
+		//drawStars(numStars, stars);
 		if (LivesPlayer == 9) {
 			GameState = 3;
 			run_Game = false;
@@ -320,6 +346,10 @@ while (run_Game ) { //flag
 			}
 
 		}
+		if (GameScore == 510) {// se for 1
+			GameState = 6;
+			break;
+		}
 		ch = getch();
 		flushinp();
 		if (ch != ERR) {
@@ -343,7 +373,7 @@ while (run_Game ) { //flag
 		this_thread::sleep_for(chrono::milliseconds(40));
 	}
 	ScoreListInsert();
-	clear();
+  	clear();
 	endwin();
 
 	return 0;
@@ -351,6 +381,7 @@ while (run_Game ) { //flag
 
 int Game::ChooseSpaceship() {
 	GameWindow();
+	curs_set(0);
 	bool newW = true;
 	while (newW) {
 		WINDOW* space = newwin(yMax / 4, xMax / 4, yMax / 2 + 6, xMax / 2 + 20);
@@ -417,13 +448,13 @@ int Game::ChooseSpaceship() {
 		}
 
 	}
-	//ScoreListInsert();
 	GameState = 0;
 	return 0;
 }
 bool Game::GameIsPaused() {
 	//if (ch == 'p') {
 		GameWindow();
+		curs_set(0);
 		bool newW = true;
 		int PauseHighlight = 0;
 		while (newW) {
@@ -497,6 +528,7 @@ bool Game::GameIsPaused() {
 }
 int Game::GameIsOver(void) {
 	GameWindow();
+	curs_set(0);
 	bool newW = true;
 	int PauseHighlight = 0;
 	while (newW) {
@@ -570,4 +602,86 @@ int Game::GameIsOver(void) {
 
 	}
 }
+
+int Game::WinGame(void) {
+	GameWindow();
+	bool newW = true;
+	int WinHighlight = 0;
+	while (newW) {
+		WINDOW* win = newwin(yMax / 4 , xMax / 4, yMax / 2 - 5, xMax / 2 - 15);
+		box(win, 0, 0);
+
+		wrefresh(win);
+		keypad(win, true);
+
+		string Win[3] = { "MENU  ", "EXIT GAME", "LEVEL 2"};
+		int ch;
+
+
+		mvwprintw(win, 1, 7, " YOU WON !!!");
+
+		while (true) {
+			for (int i = 0; i < 3; i++) {
+				if (i == WinHighlight) {
+					wattron(win, A_REVERSE);
+				}
+				if (i == 1) {
+					mvwprintw(win, i + 2, 10, Win[i].c_str());
+				}
+				else if (i == 2) {
+					mvwprintw(win, i + 2, 12, Win[i].c_str());
+				}
+				wattroff(win, A_REVERSE);
+			}
+			ch = wgetch(win);
+			switch (ch) {
+			case KEY_UP:
+				WinHighlight--;
+				if (WinHighlight == -1) {
+					WinHighlight = 0;
+				}
+				break;
+			case KEY_DOWN:
+				WinHighlight++;
+				if (WinHighlight == 2) {
+					WinHighlight = 1;
+				}
+				break;
+			default:
+				break;
+			}
+
+			wrefresh(win);
+			if (ch == 10) {
+				if (WinHighlight == 0) {
+					GameState = 0;
+					wborder(win, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '); // Erase frame around the window
+					newW = false;
+					clear();
+					werase(win);
+					wrefresh(win);
+					delwin(win);
+					endwin();
+					return 0;
+					break;
+				}
+				else if (WinHighlight == 1) {
+					GameState = -1;
+					wborder(win, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '); // Erase frame around the window
+					newW = false;
+					clear();
+					werase(win);
+					wrefresh(win);
+					delwin(win);
+					endwin();
+					return 0;
+				}
+
+			}
+		}
+
+	}
+}
+
+
 

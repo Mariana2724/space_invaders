@@ -12,27 +12,25 @@
 using namespace std;
 
 int GameStatus::GameScore = 0;
-int GameStatus::LivesPlayer = 10;
+int GameStatus::LivesPlayer = 3;
 int GameStatus::xMax = 0;
 int GameStatus::yMax = 0;
 char GameStatus::name[20] = {};
 GameStatus::GameStatus() {}
 
-int GameStatus::Score() {	
-	return GameScore;
-}
-
-int GameStatus::LivesP() {
-	return LivesPlayer;
-}
+//int GameStatus::Score() {	
+//	return GameScore;
+//}
+//
+//int GameStatus::LivesP() {
+//	return LivesPlayer;
+//}
 
 void GameStatus::ScoreListInsert() {
 	
 	size_t originalSize = sizeof(name) / sizeof(name[0]);
-
 	// Inicializa um índice para o novo array
 	size_t newIndex = 0;
-
 	// Modifica o array removendo espaços em branco
 	for (size_t i = 0; i < originalSize; ++i) {
 		if (!isspace(name[i])) {
@@ -50,26 +48,33 @@ void GameStatus::ScoreListInsert() {
 		OScoreTable << nome <<"\t"<<GameScore << endl;
 	}
 	OScoreTable.close();
-
+	
 }
 
 int GameStatusUI::ScoreListShow() {
 	GameWindow();
+	curs_set(0);
 	OrganizeScore();
 	bool newW = true;
 	int ch;
-	
+	start_color();
+	init_pair(1, COLOR_RED, COLOR_BLACK);
 	while (newW) {
 		
 		int i = 2;
-		WINDOW* show = newwin(yMax / 4 + 4, xMax / 4+2, yMax / 2-2, xMax / 2 - 16);
+		WINDOW* show = newwin(yMax / 4 + 6, xMax / 4+2, yMax / 2-2, xMax / 2 - 16);
+		wattron(show,COLOR_PAIR(1));
+		wmove(show, 2, 2);
 		mvwprintw(show, 1, 1, "POS.	     PLAYER      SCORE");
+		mvwprintw(show, 11, 7, "PRESS ENTER TO LEAVE");
+		wattroff(show,COLOR_PAIR(1));
 		box(show, 0, 0);
 		for (int a = 2; a < 9; a++) {
 			mvwprintw(show, a+1, 2, to_string(a-1).c_str());
+			mvwprintw(show, a + 1, 14, "---");
+			mvwprintw(show, a + 1, 26, "---");
 		}
-		
-		
+
 		ifstream IScoreTable("Score.txt", ios::in);
 		if (!IScoreTable.is_open()) {
 			throw runtime_error("not open");
@@ -77,21 +82,18 @@ int GameStatusUI::ScoreListShow() {
 		else {
 			int score;
 			string nom;
-			while (!IScoreTable.eof() && i <= 6) {
-				
-				IScoreTable >> nom >> score;
+			while (IScoreTable >> nom >> score && i < 9) {
+				mvwprintw(show, i + 1, 14, "    ");
+				mvwprintw(show, i + 1, 26, "    ");
+				mvwprintw(show, i + 1, 14, nom.c_str());
+				mvwprintw(show, i + 1, 26, to_string(score).c_str());
 
-				mvwprintw(show, i+1, 12, nom.c_str());
-				mvwprintw(show, i + 1, 24,  to_string(score).c_str());
 				i++;
 			}
 		}
+
 		IScoreTable.close();
 		ch = wgetch(show);
-		/*for (PlayerData& p :dados) {
-			mvwprintw(show, i + 2, 12, p.UserName.c_str());
-			i++;
-		}*/
 		wrefresh(show);
 		keypad(show, true);
 
@@ -107,7 +109,7 @@ int GameStatusUI::ScoreListShow() {
 		wrefresh(show);
 		keypad(show, true);
 	}
-	
+	dados.clear();
 	endwin();
 	Game::GameState = 0;
 	return 0;
@@ -115,7 +117,7 @@ int GameStatusUI::ScoreListShow() {
 bool compararEmOrdemDecrescente(const PlayerData& a, const PlayerData& b) {
 	return a.UserScore > b.UserScore;
 }
-void GameStatusUI::OrganizeScore() {
+void GameStatus::OrganizeScore() {
 	ifstream IScoreTable("Score.txt", ios::in);
 	if (!IScoreTable.is_open()) {
 		throw runtime_error("not open");
@@ -123,10 +125,7 @@ void GameStatusUI::OrganizeScore() {
 	else {
 		int score;
 		string nom;
-		while (!IScoreTable.eof()) {
-
-			IScoreTable >> nom >> score;
-			
+		while (IScoreTable >> nom >> score) {
 			PlayerData player;
 			player.UserScore = score;
 			player.UserName = nom;
@@ -137,18 +136,18 @@ void GameStatusUI::OrganizeScore() {
 
 	sort(dados.begin(), dados.end(), compararEmOrdemDecrescente);
 
-	ofstream arquivo("Score.txt");
-
-	arquivo.close();
+	ofstream OScoreTable("Score.txt", ios::trunc);
+	/*arquivo.close();
 	
-	ofstream OScoreTable("Score.txt", ios::app);
+	ofstream OScoreTable("Score.txt", ios::app);*/
 	if (!OScoreTable.is_open()) {
 		throw runtime_error("not open");
 	}
 	else {
 		for (const auto& dado : dados)
-			OScoreTable << dado.UserName << "\t" << dado.UserScore;
+			OScoreTable << dado.UserName << "\t" << dado.UserScore<<endl;
 	}
+	dados.clear();
 	OScoreTable.close();
 }
 
@@ -164,4 +163,8 @@ void GameStatusUI::UpdateInfoScreen(){
 	mvprintw(1, 18, "LIVES: ");
 	mvprintw(1, 25, to_string(LivesPlayer).c_str());
 	mvprintw(1, 30, "PLAYER: ");
+	for (int i = 0; i < 20; i++) {
+		if (name[i] != ' ')
+			mvprintw(1, 38 + i, "%c", name[i]);
+	}
 }

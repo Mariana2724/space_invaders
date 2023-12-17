@@ -44,7 +44,6 @@ int Bullets::checkCollisionEnemies(list<EnemiesUI*> enemies) {
                 GameStatus::GameScore += 100;
                 break;
             default:
-                GameStatus::GameScore += 10;
                 break;
             }
             enemy->collided = true;
@@ -74,20 +73,14 @@ bool Bullets::checkCollisionNave(NavePlayerUI Nave) {
     return false;
 
 }
-//bool BulletsUI::checkCollisionBullets(list<BulletsUI*>bulletsO) {
-//    for (BulletsUI* bulletO : bulletsO) {
-//        if (getX() <= bulletO->getX() && getX() >= bulletO->getX() && getY() >= bulletO->getY() && getY() <= bulletO->getY()) {
-//            // bulletsO.erase(bulletO);
-//            return true;
-//        }
-//    }
-//    return false;
-//}
 BulletsUI::BulletsUI(int xbullet, int ybullet, int speed,int bulletType): Bullets(xbullet,ybullet,speed,bulletType){
 }
 void BulletsUI::draw(){
-	mvprintw(getY(), getX(), "  ");
-	mvprintw(getY(), getX(), " | ");
+    if (getY() > 2) {
+        mvprintw(getY(), getX(), "  ");
+        mvprintw(getY(), getX(), " | ");
+    }
+	
 
 	refresh(); // Atualiza o ecrã
 }

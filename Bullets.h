@@ -30,7 +30,6 @@ class Bullets :public Shapes {
 };
 class BulletsUI :public Bullets {
 public:
-	bool checkCollisionBullets(list<BulletsUI*>bulletsO);
 	BulletsUI(int xbullet, int ybullet, int speed,int bulletType);
 	void draw();
 };
