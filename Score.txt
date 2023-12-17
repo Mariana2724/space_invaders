@@ -9,3 +9,6 @@ S	60
 Andre	20
 tt	10
 mem	0
+andre	10
+	0
+	0

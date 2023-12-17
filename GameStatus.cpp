@@ -53,6 +53,7 @@ void GameStatus::ScoreListInsert() {
 
 int GameStatusUI::ScoreListShow() {
 	GameWindow();
+	curs_set(0);
 	OrganizeScore();
 	bool newW = true;
 	int ch;

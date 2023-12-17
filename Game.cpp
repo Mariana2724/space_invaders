@@ -76,6 +76,7 @@ void Game::GameName(void) {
 }
 int Game::menu(void) {
 	GameWindow();
+	curs_set(0);
 	GameScore = 0;
 	LivesPlayer = 10;
 	GameName();
@@ -208,7 +209,7 @@ int Game::InsertName() {
 int Game::run(void) {
 	nodelay(stdscr, true); 
 	keypad(stdscr, TRUE); 
-	
+	curs_set(0);
 	start_color();
 	init_pair(1, COLOR_RED, COLOR_BLACK);
 
@@ -353,6 +354,7 @@ while (run_Game ) { //flag
 
 int Game::ChooseSpaceship() {
 	GameWindow();
+	curs_set(0);
 	bool newW = true;
 	while (newW) {
 		WINDOW* space = newwin(yMax / 4, xMax / 4, yMax / 2 + 6, xMax / 2 + 20);
@@ -426,6 +428,7 @@ int Game::ChooseSpaceship() {
 bool Game::GameIsPaused() {
 	//if (ch == 'p') {
 		GameWindow();
+		curs_set(0);
 		bool newW = true;
 		int PauseHighlight = 0;
 		while (newW) {
@@ -499,6 +502,7 @@ bool Game::GameIsPaused() {
 }
 int Game::GameIsOver(void) {
 	GameWindow();
+	curs_set(0);
 	bool newW = true;
 	int PauseHighlight = 0;
 	while (newW) {
