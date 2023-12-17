@@ -363,7 +363,7 @@ while (run_Game ) { //flag
 				break;
 			}
 		}
-		if (isOver()) {
+		if (!isOver()) {
 			GameState = 6;
 			break;
 		}
@@ -603,34 +603,31 @@ int Game::GameIsOver(void) {
 
 int Game::WinGame(void) {
 	GameWindow();
+	curs_set(0);
 	bool newW = true;
 	int WinHighlight = 0;
 	while (newW) {
-		WINDOW* win = newwin(yMax / 4 , xMax / 4, yMax / 2 - 5, xMax / 2 - 15);
+		WINDOW* win = newwin(yMax / 4 , xMax / 4 - 3, yMax / 2 - 5, xMax / 2 - 13);
 		box(win, 0, 0);
 
 		wrefresh(win);
 		keypad(win, true);
 
-		string Win[3] = { "MENU  ", "EXIT GAME", "LEVEL 2"};
+		string OptionWin[3] = { "LEVEL 2 ", "  MENU  ", "EXIT GAME" };
 		int ch;
 
 
-		mvwprintw(win, 1, 7, " YOU WON !!!");
+		mvwprintw(win, 1, 5, "YOU WON LEVEL 1 !!!");
 
 		while (true) {
 			for (int i = 0; i < 3; i++) {
 				if (i == WinHighlight) {
 					wattron(win, A_REVERSE);
 				}
-				if (i == 1) {
-					mvwprintw(win, i + 2, 10, Win[i].c_str());
-				}
-				else if (i == 2) {
-					mvwprintw(win, i + 2, 12, Win[i].c_str());
-				}
+				mvwprintw(win, i + 3, 10 - i, OptionWin[i].c_str());
 				wattroff(win, A_REVERSE);
 			}
+
 			ch = wgetch(win);
 			switch (ch) {
 			case KEY_UP:
@@ -641,8 +638,8 @@ int Game::WinGame(void) {
 				break;
 			case KEY_DOWN:
 				WinHighlight++;
-				if (WinHighlight == 2) {
-					WinHighlight = 1;
+				if (WinHighlight == 3) {
+					WinHighlight = 2;
 				}
 				break;
 			default:
@@ -652,32 +649,35 @@ int Game::WinGame(void) {
 			wrefresh(win);
 			if (ch == 10) {
 				if (WinHighlight == 0) {
-					GameState = 0;
-					wborder(win, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '); // Erase frame around the window
-					newW = false;
-					clear();
-					werase(win);
-					wrefresh(win);
-					delwin(win);
-					endwin();
-					return 0;
-					break;
+
+
 				}
 				else if (WinHighlight == 1) {
-					GameState = -1;
-					wborder(win, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '); // Erase frame around the window
+					GameState = 0;
 					newW = false;
+					wborder(win, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ');
 					clear();
 					werase(win);
 					wrefresh(win);
 					delwin(win);
-					endwin();
-					return 0;
+					break;
 				}
-
+				else if (WinHighlight == 2) {
+					GameState = -1;
+					newW = false;
+					wborder(win, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ');
+					clear();
+					werase(win);
+					wrefresh(win);
+					delwin(win);
+				}
+				
 			}
 		}
 	}
+	
+	endwin();
+	return 0;
 }
 
 
