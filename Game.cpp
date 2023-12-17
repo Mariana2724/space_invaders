@@ -268,7 +268,7 @@ while (run_Game ) { //flag
 		clear();
 		UpdateInfoScreen();
 		//drawStars(numStars, stars);
-		if (LivesPlayer == 9) {
+		if (LivesPlayer == 2) {
 			GameState = 3;
 			run_Game = false;
 		}
@@ -346,10 +346,6 @@ while (run_Game ) { //flag
 			}
 
 		}
-		if (GameScore == 510) {// se for 1
-			GameState = 6;
-			break;
-		}
 		ch = getch();
 		flushinp();
 		if (ch != ERR) {
@@ -359,7 +355,7 @@ while (run_Game ) { //flag
 			}
 		}
 		if (ch == 'p') {
-			if (GameIsPaused()) {// se for 1
+			if (GameIsPaused()) {
 				continue;
 			}
 			else {
@@ -367,7 +363,10 @@ while (run_Game ) { //flag
 				break;
 			}
 		}
-		
+		if (isOver()) {
+			GameState = 6;
+			break;
+		}
 		noecho();
 		refresh();
 		this_thread::sleep_for(chrono::milliseconds(40));
@@ -396,7 +395,6 @@ int Game::ChooseSpaceship() {
 		mvwprintw(space, 1, 21, "  \\|/  ");
 		mvwprintw(space, 2, 21, "  ||| ");
 		mvwprintw(space, 3, 21, "  /|\\  ");
-
 		wrefresh(space);
 		keypad(space, true);
 
@@ -675,7 +673,6 @@ int Game::WinGame(void) {
 
 			}
 		}
-
 	}
 }
 

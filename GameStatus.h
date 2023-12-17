@@ -22,6 +22,7 @@ public:
 	//static int Score();
 	void ScoreListInsert();
 	void OrganizeScore(void);
+	bool isOver(void);
 };
 
 class GameStatusUI : public GameStatus {

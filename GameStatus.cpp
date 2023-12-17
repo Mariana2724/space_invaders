@@ -150,7 +150,9 @@ void GameStatus::OrganizeScore() {
 	dados.clear();
 	OScoreTable.close();
 }
-
+bool GameStatus::isOver(void) {
+	return GameScore == 510;
+}
 GameStatusUI::GameStatusUI():GameStatus(){}
 
 void GameStatusUI::GameWindow() {
