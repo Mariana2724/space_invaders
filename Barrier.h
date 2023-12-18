@@ -19,6 +19,6 @@ public:
 class BarrierUI:public Barrier {
 public:
 	BarrierUI(int x, int y);
-	bool collidedB = false;
+	bool destroyed;
 	void draw();
 };

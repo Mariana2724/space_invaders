@@ -17,3 +17,4 @@ LOL	60
 L	0
 ss	0
 ssd	0
+uhlala	20
