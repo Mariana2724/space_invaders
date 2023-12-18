@@ -2,15 +2,13 @@
 #include <curses.h> 
 using namespace std;
 
-int EnemiesUI::direction = 1;
+int EnemiesUI::direction = 0;
 Enemies::Enemies(int x, int y, int enemyType):Ship(x,y),enemyType(enemyType){
 }
 int Enemies::getEnemyType() {
     return enemyType;
 }
-EnemiesUI::EnemiesUI(int x, int y, int enemyType):Enemies(x,y,enemyType) {
-   direction = 0;
-}
+EnemiesUI::EnemiesUI(int x, int y, int enemyType):Enemies(x,y,enemyType) {}
 int a = 0;
 void Enemies::movement() {
     switch (enemyType) {
