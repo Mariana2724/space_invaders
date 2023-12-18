@@ -7,9 +7,9 @@ using namespace std;
 /*
 André Martins A104944
 Mariana Martins A104961
-Tiago Oliveira
-Gabriela Oliveira
-*/
+Tiago Oliveira A104956
+Gabriela Oliveira A105048
+*/ 
 
 int main() {
 	Game myGame;

@@ -66,9 +66,4 @@
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
   </ItemGroup>
-  <ItemGroup>
-    <Text Include="Dificuldades.txt" />
-    <Text Include="CodigoExtra.txt" />
-    <Text Include="ParaFazerDoQueSeEstaAFazer.txt" />
-  </ItemGroup>
 </Project>
