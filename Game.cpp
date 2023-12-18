@@ -235,7 +235,7 @@ int Game::run() {
 	for (int i = 0; i < (5 + GameStatus::Level); i++) {
 		enemies.emplace_back(new EnemiesUI(i * 6, 9, 3));
 	}
-	//enemies.emplace_back(new EnemiesUI(0, 11, 5));
+	enemies.emplace_back(new EnemiesUI(0, 11, 5));
 	enemies.emplace_back(new EnemiesUI(1, 3, 4));
 	refresh();
 	ch = getch();
