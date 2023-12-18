@@ -3,9 +3,10 @@
 #include <list>
 
 class Enemies : public Ship {
-	static int direction;
+	
 protected:
 	int enemyType;
+	static int direction;
 public:
 	Enemies(int x, int y, int enemyType);
 	void movement();

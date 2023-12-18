@@ -2,13 +2,14 @@
 #include <curses.h> 
 using namespace std;
 
-int EnemiesUI::direction = 0;
+int EnemiesUI::direction = 1;
 Enemies::Enemies(int x, int y, int enemyType):Ship(x,y),enemyType(enemyType){
 }
 int Enemies::getEnemyType() {
     return enemyType;
 }
 EnemiesUI::EnemiesUI(int x, int y, int enemyType):Enemies(x,y,enemyType) {
+   direction = 0;
 }
 int a = 0;
 void Enemies::movement() {
@@ -95,23 +96,23 @@ void Enemies::movement() {
 void EnemiesUI::draw(){
      switch (enemyType){
          case 1:
-            mvprintw(getY(), getX(), "  ");
-            mvprintw(getY(), getX(), "\\ __ / ");
+            //mvprintw(getY(), getX(), "  ");
+            mvprintw(getY(), getX(), "\\ __ /");
             break;
          case 2:
-            mvprintw(getY(), getX(), "  ");
-            mvprintw(getY(), getX(), "/__\\  ");
+           // mvprintw(getY(), getX(), "  ");
+            mvprintw(getY(), getX(), "/__\\");
             break;
          case 3:
-            mvprintw(getY(), getX(), "  ");
+            //mvprintw(getY(), getX(), "  ");
             mvprintw(getY(), getX(), "-__-");
             break;
          case 4:
-            mvprintw(getY(), getX(), "  ");
+           // mvprintw(getY(), getX(), "  ");
             mvprintw(getY(), getX(), " @ __ @ ");
             break;
          case 5:
-             mvprintw(getY(), getX(), "  ");
+             mvprintw(getY(), getX(), " ");
              break;
           default:
             break;

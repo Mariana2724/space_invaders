@@ -228,11 +228,11 @@ int Game::run() {
 	for (int i = 0; i < 4; i++) {
 		barriers.emplace_back(new BarrierUI(10+i*30,21));
 	}
-	for (int i = 1; i < (5 + GameStatus::Level); i++) {
+	for (int i = 0; i < (4 + GameStatus::Level); i++) {
 		enemies.emplace_back(new EnemiesUI(i * 7, 5, 2));
 		enemies.emplace_back(new EnemiesUI(i * 7, 7, 1));
 	}
-	for (int i = 1; i < (6 + GameStatus::Level); i++) {
+	for (int i = 0; i < (5 + GameStatus::Level); i++) {
 		enemies.emplace_back(new EnemiesUI(i * 6, 9, 3));
 	}
 	enemies.emplace_back(new EnemiesUI(0, 11, 5));
